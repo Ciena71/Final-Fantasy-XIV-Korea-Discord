@@ -2120,6 +2120,7 @@ client.on("interactionCreate", async (interaction) =>
 										console.log("나이트");
 										for(i in skills.PaladinSkill)
 										{
+											console.log(i);
 											const Embed = new Discord.MessageEmbed()
 											.setTitle(skills.PaladinSkill[i].name)
 											.setDescription(skills.PaladinSkill[i].description.replace(/`/gi,"\n"))
