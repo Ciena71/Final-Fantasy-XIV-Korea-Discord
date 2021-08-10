@@ -1,0 +1,56 @@
+[
+    {
+        "name" : "방어 숙련 [ タンクマスタリー , Tank Mastery ]",
+        "description" : "자신이 받는 피해량이 20% 감소합니다.`활력 및 힘 능력치에 따른 최대 HP 및 주는 피해량 수치에 방어 역할 고유의 증가치가 붙습니다.",
+        "icon" : "https://img.finalfantasyxiv.com/lds/d/b6414caac03c831ec90c34e501e444031d44003c.png",
+        "level" : "1"
+    },
+    {
+        "name" : "충의 숙련 [ 忠義マスタリー , Oath Mastery ]",
+        "description" : "자동 공격이 명중할 때 마다 충의 [ オウス , Oath ]가 5씩 증가합니다.",
+        "icon" : "https://img.finalfantasyxiv.com/lds/d/c97161e572623646278dfd6fa020475e13fe529a.png",
+        "level" : "35"
+    },
+    {
+        "name" : "기사도 [ シバルリー , Chivalry ]",
+        "description" : "폭도의 검격 [ ライオットソード , Riot Blade ]과 내면의 기개 [ スピリッツウィズイン , Spirits Within ]에 mp 회복 효과가 추가 됩니다.",
+        "icon" : "https://img.finalfantasyxiv.com/lds/d/4b7555b6cbdbf6b07c617b5b509f7429f0f4ef93.png",
+        "level" : "58"
+    },
+    {
+        "name" : "할로네의 분노 숙련 [ レイジ・オブ・ハルオーネマスタリー , Rage of Halone Mastery ]",
+        "description" : "할로네의 분노 [ レイジ・オブ・ハルオーネ , Rage of Halone ]가 제왕의 권위 [ ロイヤルアソリティ , Royal Authority ]로 변화합니다.",
+        "icon" : "https://img.finalfantasyxiv.com/lds/d/39b5861722dd63bcf20bebf2abefc74c5356d387.png",
+        "level" : "60"
+    },
+    {
+        "name" : "신성 마법 숙련 [ 神聖魔法マスタリー , Divine Magic Mastery ]",
+        "description" : "마법의 소비 mp가 50% 감소하고, 공격받아도 시전이 중단되지 않습니다.",
+        "icon" : "https://img.finalfantasyxiv.com/lds/d/815a1f0594a8f931d556eb9a8b7d96e100e26c02.png",
+        "level" : "64"
+    },
+    {
+        "name" : "홍염 효과 향상 [ プロミネンス効果アップ , Enhanced Prominence ]",
+        "description" : "홍염 [ プロミネンス , Prominence ]에 mp 회복 효과가 추가됩니다.",
+        "icon" : "https://img.finalfantasyxiv.com/lds/d/a9ede15173bae76cc4d80dea6b4561e7124767c6.png",
+        "level" : "66"
+    },
+    {
+        "name" : "방벽 효과 향상 [ シェルトロン効果アップ , Enhanced Sheltron ]",
+        "description" : "방벽 [ シェルトロン , Sheltron ]의 지속시간이 6초로 늘어납니다.",
+        "icon" : "https://img.finalfantasyxiv.com/lds/d/3e996f1f8ad2754a92af246efd96067a0dd4b836.png",
+        "level" : "74"
+    },
+    {
+        "name" : "충의의 검 [ 忠義の剣 , Sword Oath ]",
+        "description" : "제왕의 권위 [ ロイヤルアソリティ , Royal Authority ] 콤보 성공 시 충의의 검 [ 忠義の剣 , Sword Oath ]이 3단계가 부여됩니다.",
+        "icon" : "https://img.finalfantasyxiv.com/lds/d/8db9eaad2592dd6df49ff21328773d0b428caeb1.png",
+        "level" : "76"
+    },
+    {
+        "name" : "안식 기도 효과 향상 [ レクイエスカット効果アップ , Enhanced Requiescat ]",
+        "description" : "안식 기도 [ レクイエスカット , Requiescat ] 지속 중에는 시전 시간 없이 마법을 사용할 수 있습니다.",
+        "icon" : "https://img.finalfantasyxiv.com/lds/d/a21087cafe218d0e03e3f4e86e23985f7ad04ce2.png",
+        "level" : "78"
+    }
+]
