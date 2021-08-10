@@ -2117,6 +2117,8 @@ client.on("interactionCreate", async (interaction) =>
 								{
 									case 0:
 									{
+										console.log("나이트");
+										console.log(skills.PaladinSkill.length);
 										for(var i = 0; i<skills.PaladinSkill.length; i++)
 										{
 											const Embed = new Discord.MessageEmbed()
