@@ -432,6 +432,74 @@ client.on("ready", async () =>
 						{
 							name: '암흑기사',
 							value: 'DRK',
+						},
+						{
+							name: '건브레이커',
+							value: 'GNB',
+						},
+						{
+							name: '백마도사',
+							value: 'WHM',
+						},
+						{
+							name: '학자',
+							value: 'SCH',
+						},
+						{
+							name: '점성술사',
+							value: 'AST',
+						},
+						{
+							name: '현자',
+							value: 'SAG',
+						},
+						{
+							name: '몽크',
+							value: 'MNK',
+						},
+						{
+							name: '용기사',
+							value: 'DRG',
+						},
+						{
+							name: '닌자',
+							value: 'NIN',
+						},
+						{
+							name: '사무라이',
+							value: 'SAM',
+						},
+						{
+							name: '리퍼',
+							value: 'REP',
+						},
+						{
+							name: '음유시인',
+							value: 'BRD',
+						},
+						{
+							name: '기공사',
+							value: 'MCH',
+						},
+						{
+							name: '무희',
+							value: 'DNC',
+						},
+						{
+							name: '흑마도사',
+							value: 'BLM',
+						},
+						{
+							name: '소환사',
+							value: 'SMN',
+						},
+						{
+							name: '적마도사',
+							value: 'RDM',
+						},
+						{
+							name: '청마도사',
+							value: 'BLU',
 						}
 					]
 				}
@@ -2052,7 +2120,6 @@ client.on("interactionCreate", async (interaction) =>
 										Embed.addField("요구 레벨", jobSkill[i].level);
 									interaction.channel.send({ embeds: [Embed] });
 								}
-								console.log(emoji_role[job].slotname);
 								const roleSkill = require('./Skills/' + emoji_role[job].slotname + 'Skill.json');
 								for(var i=0; i<roleSkill.length; i++)
 								{
