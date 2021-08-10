@@ -13,7 +13,7 @@ const TankSkill =
         level : "8"
     },
     {
-        name : "비열한 기습 [ ロウブロウ , 	Low Blow ]",
+        name : "비열한 기습 [ ロウブロウ , Low Blow ]",
         description : "대상을 기절시킵니다.`효과시간 : 5초",
         icon : "https://img.finalfantasyxiv.com/lds/d/af837b3dd467ee9cdf865a06eb2b1633dd2b492a.png",
         type : "어빌리티",
