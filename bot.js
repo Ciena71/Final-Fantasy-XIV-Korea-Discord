@@ -2017,7 +2017,7 @@ client.on("interactionCreate", async (interaction) =>
 							{
 								await interaction.deferReply({ ephemeral: true });
 								const job = interaction.options.get("직업").value;
-								const jobSkill = JSON.parse(require('./Skills/' + job + 'Skill.json'));
+								const jobSkill = require('./Skills/' + job + 'Skill.json');
 								for(var i = 0; i<jobSkill.length; i++)
 								{
 									const Embed = new Discord.MessageEmbed()
@@ -2052,7 +2052,7 @@ client.on("interactionCreate", async (interaction) =>
 										Embed.addField("요구 레벨", jobSkill[i].level);
 									interaction.channel.send({ embeds: [Embed] });
 								}
-								const roleSkill = JSON.parse(require('./Skills/' + emoji_role[job].slotname + 'Skill.json'));
+								const roleSkill = require('./Skills/' + emoji_role[job].slotname + 'Skill.json');
 								for(var i=0; i<roleSkill.length; i++)
 								{
 									const Embed = new Discord.MessageEmbed()
@@ -2087,7 +2087,7 @@ client.on("interactionCreate", async (interaction) =>
 										Embed.addField("요구 레벨", roleSkill[i].level);
 									interaction.channel.send({ embeds: [Embed] });
 								}
-								const jobTrait = JSON.parse(require('./Skills/' + job + 'Trait.json'));
+								const jobTrait = require('./Skills/' + job + 'Trait.json');
 								for(var i=0; i<jobTrait.length; i++)
 								{
 									const Embed = new Discord.MessageEmbed()
