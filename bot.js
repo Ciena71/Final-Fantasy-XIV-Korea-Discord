@@ -2112,7 +2112,7 @@ client.on("interactionCreate", async (interaction) =>
 								if(level != null)
 									Embed.addField("요구 레벨", level.value);
 								interaction.channel.send({ embeds: [Embed] });*/
-								const skills = new require('skills.js');
+								const skills = new require('./Skills/skills.js');
 								switch(interaction.options.get("직업").value)
 								{
 									case 0:
