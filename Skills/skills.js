@@ -86,8 +86,7 @@ const TankSkill =
     }
 ];
 
-const PaladinSkill =
-[
+const PaladinSkill = [
     {
         name : "재빠른 검격 [ ファストブレード , Fast Blade ]",
         description : "대상에게 물리 공격을 가합니다.`위력: 200",
