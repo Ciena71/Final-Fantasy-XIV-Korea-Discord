@@ -2020,7 +2020,6 @@ client.on("interactionCreate", async (interaction) =>
 								const jobSkill = require('./Skills/' + job + 'Skill.json');
 								for(var i = 0; i<jobSkill.length; i++)
 								{
-									console.log(i);
 									const Embed = new Discord.MessageEmbed()
 									.setTitle(jobSkill[i].name)
 									.setDescription(jobSkill[i].description.replace(/`/gi,"\n"))
@@ -2052,7 +2051,8 @@ client.on("interactionCreate", async (interaction) =>
 									if(jobSkill[i].level != null)
 										Embed.addField("요구 레벨", jobSkill[i].level);
 									interaction.channel.send({ embeds: [Embed] });
-								}/*
+								}
+								console.log(emoji_role[job].slotname);
 								const roleSkill = require('./Skills/' + emoji_role[job].slotname + 'Skill.json');
 								for(var i=0; i<roleSkill.length; i++)
 								{
@@ -2097,7 +2097,7 @@ client.on("interactionCreate", async (interaction) =>
 									.setThumbnail(jobTrait[i].icon)
 									.addField("요구 레벨", jobTrait[i].level);
 									interaction.channel.send({ embeds: [Embed] });
-								}*/
+								}
 								interaction.editReply({ content: "정상적으로 생성되었습니다." });
 							}
 						}
