@@ -2152,7 +2152,7 @@ client.on("interactionCreate", async (interaction) =>
 												Embed.addField("요구 레벨", skills.PaladinSkill[i].level);
 											interaction.channel.send({ embeds: [Embed] });
 										}
-										for(var i = 0; i<skills.TankSkill.length; i++)
+										for(i in skills.TankSkill)
 										{
 											const Embed = new Discord.MessageEmbed()
 											.setTitle(skills.TankSkill[i].name)
@@ -2186,7 +2186,7 @@ client.on("interactionCreate", async (interaction) =>
 												Embed.addField("요구 레벨", skills.TankSkill[i].level);
 											interaction.channel.send({ embeds: [Embed] });
 										}
-										for(var i = 0; i<skills.PaladinTrait.length; i++)
+										for(i in skills.PaladinTrait)
 										{
 											const Embed = new Discord.MessageEmbed()
 											.setTitle(skills.PaladinTrait[i].name)
