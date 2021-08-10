@@ -70,29 +70,29 @@ const config = {
 	private: 1 << 0};
 
 const emoji_role = {
-	"TANK" : { name : "탱커" , slot : 0, fflogs : null },
-	"PLD" : { name : "나이트" , slot : 0, fflogs : 9 },
-	"WAR" : { name : "전사" , slot : 0, fflogs : 12 },
-	"DRK" : { name : "암흑기사" , slot : 0, fflogs : 4 },
-	"GNB" : { name : "건브레이커" , slot : 0, fflogs : 17 },
-	"HEALER" : { name : "힐러" , slot : 1, fflogs : null },
-	"WHM" : { name : "백마도사" , slot : 1, fflogs : 13 },
-	"SCH" : { name : "학자" , slot : 1, fflogs : 10 },
-	"AST" : { name : "점성술사" , slot : 1, fflogs : 1 },
-	"MeleeDPS" : { name : "근거리 딜러" , slot : 2, fflogs : null },
-	"MNK" : { name : "몽크" , slot : 2, fflogs : 7 },
-	"DRG" : { name : "용기사" , slot : 2, fflogs : 5 },
-	"NIN" : { name : "닌자" , slot : 2, fflogs : 8 },
-	"SAM" : { name : "사무라이" , slot : 2, fflogs : 15 },
-	"RangeDPS" : { name : "원거리 물리 딜러" , slot : 3, fflogs : null },
-	"BRD" : { name : "음유시인" , slot : 3, fflogs : 2 },
-	"MCH" : { name : "기공사" , slot : 3, fflogs : 6 },
-	"DNC" : { name : "무희" , slot : 3, fflogs : 16 },
-	"MagicDPS" : { name : "캐스터" , slot : 4, fflogs : null },
-	"BLM" : { name : "흑마도사" , slot : 4, fflogs : 3 },
-	"SMN" : { name : "소환사" , slot : 4, fflogs : 11 },
-	"RDM" : { name : "적마도사" , slot : 4, fflogs : 14 },
-	"BLU" : { name : "청마도사" , slot : 4, fflogs : null }
+	"TANK" : { name : "탱커" , slot : 0, slotname : "Tank", fflogs : null },
+	"PLD" : { name : "나이트" , slot : 0, slotname : "Tank", fflogs : 9 },
+	"WAR" : { name : "전사" , slot : 0, slotname : "Tank", fflogs : 12 },
+	"DRK" : { name : "암흑기사" , slot : 0, slotname : "Tank", fflogs : 4 },
+	"GNB" : { name : "건브레이커" , slot : 0, slotname : "Tank", fflogs : 17 },
+	"HEALER" : { name : "힐러" , slot : 1, slotname : "Healer", fflogs : null },
+	"WHM" : { name : "백마도사" , slot : 1, slotname : "Healer", fflogs : 13 },
+	"SCH" : { name : "학자" , slot : 1, slotname : "Healer", fflogs : 10 },
+	"AST" : { name : "점성술사" , slot : 1, slotname : "Healer", fflogs : 1 },
+	"MeleeDPS" : { name : "근거리 딜러" , slot : 2, slotname : "Melee", fflogs : null },
+	"MNK" : { name : "몽크" , slot : 2, slotname : "Melee", fflogs : 7 },
+	"DRG" : { name : "용기사" , slot : 2, slotname : "Melee", fflogs : 5 },
+	"NIN" : { name : "닌자" , slot : 2, slotname : "Melee", fflogs : 8 },
+	"SAM" : { name : "사무라이" , slot : 2, slotname : "Melee", fflogs : 15 },
+	"RangeDPS" : { name : "원거리 물리 딜러" , slot : 3, slotname : "Range", fflogs : null },
+	"BRD" : { name : "음유시인" , slot : 3, slotname : "Range", fflogs : 2 },
+	"MCH" : { name : "기공사" , slot : 3, slotname : "Range", fflogs : 6 },
+	"DNC" : { name : "무희" , slot : 3, slotname : "Range", fflogs : 16 },
+	"MagicDPS" : { name : "캐스터" , slot : 4, slotname : "Caster", fflogs : null },
+	"BLM" : { name : "흑마도사" , slot : 4, slotname : "Caster", fflogs : 3 },
+	"SMN" : { name : "소환사" , slot : 4, slotname : "Caster", fflogs : 11 },
+	"RDM" : { name : "적마도사" , slot : 4, slotname : "Caster", fflogs : 14 },
+	"BLU" : { name : "청마도사" , slot : 4, slotname : "Caster", fflogs : null }
 };
 
 const jobs_convert = {
@@ -416,22 +416,22 @@ client.on("ready", async () =>
 			[
 				{
 					name: '직업',
-					type: 'INTEGER',
+					type: 'STRING',
 					description: '직업을 설정합니다.',
 					required: true,
 					choices:
 					[
 						{
 							name: '나이트',
-							value: 0,
+							value: 'PLD',
 						},
 						{
 							name: '전사',
-							value: 1,
+							value: 'WAR',
 						},
 						{
 							name: '암흑기사',
-							value: 2,
+							value: 'DRK',
 						}
 					]
 				}
@@ -2016,90 +2016,87 @@ client.on("interactionCreate", async (interaction) =>
 							if (interaction.channel.name == "PVE 스킬 툴팁")
 							{
 								await interaction.deferReply({ ephemeral: true });
-								switch(interaction.options.get("직업").value)
+								const job = interaction.options.get("직업").value;
+								const jobSkill = require('./Skills/' + job + 'Skill.json');
+								for(var i = 0; i<jobSkill.length; i++)
 								{
-									case 0:
-									{/*
-										for(var i = 0; i<PaladinSkill.length; i++)
-										{
-											console.log(i);
-											const Embed = new Discord.MessageEmbed()
-											.setTitle(PaladinSkill[i].name)
-											.setDescription(PaladinSkill[i].description.replace(/`/gi,"\n"))
-											.setThumbnail(PaladinSkill[i].icon);
-											if(PaladinSkill[i].type != null)
-												Embed.addField("종류", PaladinSkill[i].type, true)
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(PaladinSkill[i].cast != null)
-												Embed.addField("시전 시간", PaladinSkill[i].cast, true);
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(PaladinSkill[i].recast != null)
-												Embed.addField("재사용 시간", PaladinSkill[i].recast, true);
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(PaladinSkill[i].range != null)
-												Embed.addField("거리", PaladinSkill[i].range, true);
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(PaladinSkill[i].radius != null)
-												Embed.addField("범위", PaladinSkill[i].radius, true);
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(PaladinSkill[i].mp != null)
-												Embed.addField("MP", PaladinSkill[i].mp, true);
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(PaladinSkill[i].level != null)
-												Embed.addField("요구 레벨", PaladinSkill[i].level);
-											interaction.channel.send({ embeds: [Embed] });
-										}
-										for(var i=0; i<TankSkill.length; i++)
-										{
-											const Embed = new Discord.MessageEmbed()
-											.setTitle(TankSkill[i].name)
-											.setDescription(TankSkill[i].description.replace(/`/gi,"\n"))
-											.setThumbnail(TankSkill[i].icon);
-											if(TankSkill[i].type != null)
-												Embed.addField("종류", TankSkill[i].type, true)
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(TankSkill[i].cast != null)
-												Embed.addField("시전 시간", TankSkill[i].cast, true);
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(TankSkill[i].recast != null)
-												Embed.addField("재사용 시간", TankSkill[i].recast, true);
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(TankSkill[i].range != null)
-												Embed.addField("거리", TankSkill[i].range, true);
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(TankSkill[i].radius != null)
-												Embed.addField("범위", TankSkill[i].radius, true);
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(TankSkill[i].mp != null)
-												Embed.addField("MP", TankSkill[i].mp, true);
-											else
-												Embed.addField('\u200b', '\u200b', true);
-											if(TankSkill[i].level != null)
-												Embed.addField("요구 레벨", TankSkill[i].level);
-											interaction.channel.send({ embeds: [Embed] });
-										}
-										for(var i=0; i<PaladinTrait.length; i++)
-										{
-											const Embed = new Discord.MessageEmbed()
-											.setTitle(PaladinTrait[i].name)
-											.setDescription(PaladinTrait[i].description.replace(/`/gi,"\n"))
-											.setThumbnail(PaladinTrait[i].icon)
-											.addField("요구 레벨", PaladinTrait[i].level);
-											interaction.channel.send({ embeds: [Embed] });
-										}*/
-										break;
-									}
+									console.log(i);
+									const Embed = new Discord.MessageEmbed()
+									.setTitle(jobSkill[i].name)
+									.setDescription(jobSkill[i].description.replace(/`/gi,"\n"))
+									.setThumbnail(jobSkill[i].icon);
+									if(jobSkill[i].type != null)
+										Embed.addField("종류", jobSkill[i].type, true)
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(jobSkill[i].cast != null)
+										Embed.addField("시전 시간", jobSkill[i].cast, true);
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(jobSkill[i].recast != null)
+										Embed.addField("재사용 시간", jobSkill[i].recast, true);
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(jobSkill[i].range != null)
+										Embed.addField("거리", jobSkill[i].range, true);
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(jobSkill[i].radius != null)
+										Embed.addField("범위", jobSkill[i].radius, true);
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(jobSkill[i].mp != null)
+										Embed.addField("MP", jobSkill[i].mp, true);
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(jobSkill[i].level != null)
+										Embed.addField("요구 레벨", jobSkill[i].level);
+									interaction.channel.send({ embeds: [Embed] });
+								}
+								const roleSkill = require('./Skills/' + emoji_role[job].slotname + 'Skill.json');
+								for(var i=0; i<roleSkill.length; i++)
+								{
+									const Embed = new Discord.MessageEmbed()
+									.setTitle(roleSkill[i].name)
+									.setDescription(roleSkill[i].description.replace(/`/gi,"\n"))
+									.setThumbnail(roleSkill[i].icon);
+									if(roleSkill[i].type != null)
+										Embed.addField("종류", roleSkill[i].type, true)
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(roleSkill[i].cast != null)
+										Embed.addField("시전 시간", roleSkill[i].cast, true);
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(roleSkill[i].recast != null)
+										Embed.addField("재사용 시간", roleSkill[i].recast, true);
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(roleSkill[i].range != null)
+										Embed.addField("거리", roleSkill[i].range, true);
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(roleSkill[i].radius != null)
+										Embed.addField("범위", roleSkill[i].radius, true);
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(roleSkill[i].mp != null)
+										Embed.addField("MP", roleSkill[i].mp, true);
+									else
+										Embed.addField('\u200b', '\u200b', true);
+									if(roleSkill[i].level != null)
+										Embed.addField("요구 레벨", roleSkill[i].level);
+									interaction.channel.send({ embeds: [Embed] });
+								}
+								const jobTrait = require('./Skills/' + job + 'Trait.json');
+								for(var i=0; i<jobTrait.length; i++)
+								{
+									const Embed = new Discord.MessageEmbed()
+									.setTitle(jobTrait[i].name)
+									.setDescription(jobTrait[i].description.replace(/`/gi,"\n"))
+									.setThumbnail(jobTrait[i].icon)
+									.addField("요구 레벨", jobTrait[i].level);
+									interaction.channel.send({ embeds: [Embed] });
 								}
 								interaction.editReply({ content: "정상적으로 생성되었습니다." });
 							}
