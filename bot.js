@@ -2096,7 +2096,7 @@ client.on("interactionCreate", async (interaction) =>
 										.setTitle(jobSkill[i].name.replace(/`/gi,"\n"))
 										.setDescription(jobSkill[i].description.replace(/`/gi,"\n"))
 										.setThumbnail(jobSkill[i].icon)
-										.setFooter("\u3000".repeat(10)+"|");
+										.setFooter("|\u3000".repeat(10)+"|");
 										if(jobSkill[i].type != null)
 											Embed.addField("종류", jobSkill[i].type, true)
 										else
@@ -2134,7 +2134,7 @@ client.on("interactionCreate", async (interaction) =>
 										.setTitle(roleSkill[i].name.replace(/`/gi,"\n"))
 										.setDescription(roleSkill[i].description.replace(/`/gi,"\n"))
 										.setThumbnail(roleSkill[i].icon)
-										.setFooter("\u3000".repeat(10)+"|");
+										.setFooter("|\u3000".repeat(10)+"|");
 										if(roleSkill[i].type != null)
 											Embed.addField("종류", roleSkill[i].type, true)
 										else
@@ -2173,7 +2173,7 @@ client.on("interactionCreate", async (interaction) =>
 										.setDescription(jobTrait[i].description.replace(/`/gi,"\n"))
 										.setThumbnail(jobTrait[i].icon)
 										.addField("요구 레벨", jobTrait[i].level)
-										.setFooter("\u3000".repeat(10)+"|");
+										.setFooter("|\u3000".repeat(10)+"|");
 										interaction.channel.send({ embeds: [Embed] });
 									}
 									interaction.editReply({ content: "정상적으로 생성되었습니다." });
