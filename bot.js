@@ -2085,13 +2085,13 @@ client.on("interactionCreate", async (interaction) =>
 							{
 								await interaction.deferReply({ ephemeral: true });
 								const job = interaction.options.get("직업").value;
-								interaction.channel.send("```전용 기술```");
+								interaction.channel.send("```전용 스킬```");
 								const jobSkill = require('./Skills/' + job + 'Skill.json');
 								for(var i = 0; i<jobSkill.length; i++)
 								{
 									const Embed = new Discord.MessageEmbed()
 									.setColor('#ff0000')
-									.setTitle(jobSkill[i].name)
+									.setTitle(jobSkill[i].name.replace(/`/gi,"\n"))
 									.setDescription(jobSkill[i].description.replace(/`/gi,"\n"))
 									.setThumbnail(jobSkill[i].icon);
 									if(jobSkill[i].type != null)
@@ -2128,7 +2128,7 @@ client.on("interactionCreate", async (interaction) =>
 								{
 									const Embed = new Discord.MessageEmbed()
 									.setColor('#ff00ff')
-									.setTitle(roleSkill[i].name)
+									.setTitle(roleSkill[i].name.replace(/`/gi,"\n"))
 									.setDescription(roleSkill[i].description.replace(/`/gi,"\n"))
 									.setThumbnail(roleSkill[i].icon);
 									if(roleSkill[i].type != null)
@@ -2165,7 +2165,7 @@ client.on("interactionCreate", async (interaction) =>
 								{
 									const Embed = new Discord.MessageEmbed()
 									.setColor('#00ffff')
-									.setTitle(jobTrait[i].name)
+									.setTitle(jobTrait[i].name.replace(/`/gi,"\n"))
 									.setDescription(jobTrait[i].description.replace(/`/gi,"\n"))
 									.setThumbnail(jobTrait[i].icon)
 									.addField("요구 레벨", jobTrait[i].level);
