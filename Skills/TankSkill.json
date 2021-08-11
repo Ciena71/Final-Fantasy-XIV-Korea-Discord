@@ -1,6 +1,6 @@
 [
     {
-        "name" : "철벽 방어 [ ランパート , Rampart ]",
+        "name" : "철벽 방어`[ ランパート , Rampart ]",
         "description" : "일정시간 동안 자신이 받는 피해량이 20% 감소합니다.`효과시간: 20초",
         "icon" : "https://img.finalfantasyxiv.com/lds/d/37546679ae5e431c0903b20fa2c91a88c5a8e001.png",
         "type" : "어빌리티",
@@ -11,7 +11,7 @@
         "level" : "8"
     },
     {
-        "name" : "비열한 기습 [ ロウブロウ , Low Blow ]",
+        "name" : "비열한 기습`[ ロウブロウ , Low Blow ]",
         "description" : "대상을 기절시킵니다.`효과시간 : 5초",
         "icon" : "https://img.finalfantasyxiv.com/lds/d/af837b3dd467ee9cdf865a06eb2b1633dd2b492a.png",
         "type" : "어빌리티",
@@ -22,7 +22,7 @@
         "level" : "12"
     },
     {
-        "name" : "도발 [ 挑発 , Provoke ]",
+        "name" : "도발`[ 挑発 , Provoke ]",
         "description" : "대상을 도발하고, 자신에 대한 적개심을 최고위로 한 다음, 한층 더 자신에 대한 적개심을 상승시킨다.",
         "icon" : "https://img.finalfantasyxiv.com/lds/d/2b45fea903bcf1edd9e08110cf95e8bba9a73c0d.png",
         "type" : "어빌리티",
@@ -33,7 +33,7 @@
         "level" : "15"
     },
     {
-        "name" : "말참견 [ インタージェクト , Interject ]",
+        "name" : "말참견`[ インタージェクト , Interject ]",
         "description" : "대상의 기술 시전을 중단시킵니다.",
         "icon" : "https://img.finalfantasyxiv.com/lds/d/8442bcce1ec21a449546af9afb79ae9ea8c226cb.png",
         "type" : "어빌리티",
@@ -44,7 +44,7 @@
         "level" : "18"
     },
     {
-        "name" : "앙갚음 [ リプライザル , Reprisal ]",
+        "name" : "앙갚음`[ リプライザル , Reprisal ]",
         "description" : "자신 주위의 적이 주는 피해량을 10% 감소시킨다.`효과시간: 10초",
         "icon" : "https://img.finalfantasyxiv.com/lds/d/6b83d9368623d5cd20a426d26916021b59a14963.png",
         "type" : "어빌리티",
@@ -55,7 +55,7 @@
         "level" : "22"
     },
     {
-        "name" : "거리 유지 [ アームズレングス , Arm's Length ]",
+        "name" : "거리 유지`[ アームズレングス , Arm's Length ]",
         "description" : "자신에게 장벽을 치고 효과시간 중에는 일부를 제외한 모든 밀쳐내기와 끌어당기기를 무효화한다.`효과시간: 6초`장벽 추가효과(물리 공격시 발동확률 100%): 공격자에게 20%슬로우를 부여한다.`효과시간: 15초",
         "icon" : "https://img.finalfantasyxiv.com/lds/d/00ff21ad3e1fb26d7b292a9d912931e7ea64daa4.png",
         "type" : "어빌리티",
@@ -66,7 +66,7 @@
         "level" : "32"
     },
     {
-        "name" : "기피 [ シャーク , Shirk ]",
+        "name" : "기피`[ シャーク , Shirk ]",
         "description" : "자신을 향한 적개심의 25%를 대상 파티원에게 이동시킵니다.",
         "icon" : "https://img.finalfantasyxiv.com/lds/d/4abd24800cb0999fff8ea79ed1085a7b5f8b14cb.png",
         "type" : "어빌리티",
