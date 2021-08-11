@@ -2085,10 +2085,12 @@ client.on("interactionCreate", async (interaction) =>
 							{
 								await interaction.deferReply({ ephemeral: true });
 								const job = interaction.options.get("직업").value;
+								interaction.channel.send("```전용 기술```");
 								const jobSkill = require('./Skills/' + job + 'Skill.json');
 								for(var i = 0; i<jobSkill.length; i++)
 								{
 									const Embed = new Discord.MessageEmbed()
+									.setColor('#ff0000')
 									.setTitle(jobSkill[i].name)
 									.setDescription(jobSkill[i].description.replace(/`/gi,"\n"))
 									.setThumbnail(jobSkill[i].icon);
@@ -2120,10 +2122,12 @@ client.on("interactionCreate", async (interaction) =>
 										Embed.addField("요구 레벨", jobSkill[i].level);
 									interaction.channel.send({ embeds: [Embed] });
 								}
+								interaction.channel.send("```공용 스킬```");
 								const roleSkill = require('./Skills/' + emoji_role[job].slotname + 'Skill.json');
 								for(var i=0; i<roleSkill.length; i++)
 								{
 									const Embed = new Discord.MessageEmbed()
+									.setColor('#ff00ff')
 									.setTitle(roleSkill[i].name)
 									.setDescription(roleSkill[i].description.replace(/`/gi,"\n"))
 									.setThumbnail(roleSkill[i].icon);
@@ -2155,10 +2159,12 @@ client.on("interactionCreate", async (interaction) =>
 										Embed.addField("요구 레벨", roleSkill[i].level);
 									interaction.channel.send({ embeds: [Embed] });
 								}
+								interaction.channel.send("```특성```");
 								const jobTrait = require('./Skills/' + job + 'Trait.json');
 								for(var i=0; i<jobTrait.length; i++)
 								{
 									const Embed = new Discord.MessageEmbed()
+									.setColor('#00ffff')
 									.setTitle(jobTrait[i].name)
 									.setDescription(jobTrait[i].description.replace(/`/gi,"\n"))
 									.setThumbnail(jobTrait[i].icon)
