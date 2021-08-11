@@ -2084,94 +2084,97 @@ client.on("interactionCreate", async (interaction) =>
 							if (interaction.channel.name == "PVE 스킬 툴팁")
 							{
 								await interaction.deferReply({ ephemeral: true });
-								const job = interaction.options.get("직업").value;
-								interaction.channel.send("```전용 스킬```");
-								const jobSkill = require('./Skills/' + job + 'Skill.json');
-								for(var i = 0; i<jobSkill.length; i++)
+								interaction.channel.bulkDelete(99).then(() => 
 								{
-									const Embed = new Discord.MessageEmbed()
-									.setColor('#ff0000')
-									.setTitle(jobSkill[i].name.replace(/`/gi,"\n"))
-									.setDescription(jobSkill[i].description.replace(/`/gi,"\n"))
-									.setThumbnail(jobSkill[i].icon);
-									if(jobSkill[i].type != null)
-										Embed.addField("종류", jobSkill[i].type, true)
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(jobSkill[i].cast != null)
-										Embed.addField("시전 시간", jobSkill[i].cast, true);
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(jobSkill[i].recast != null)
-										Embed.addField("재사용 시간", jobSkill[i].recast, true);
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(jobSkill[i].range != null)
-										Embed.addField("거리", jobSkill[i].range, true);
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(jobSkill[i].radius != null)
-										Embed.addField("범위", jobSkill[i].radius, true);
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(jobSkill[i].mp != null)
-										Embed.addField("MP", jobSkill[i].mp, true);
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(jobSkill[i].level != null)
-										Embed.addField("요구 레벨", jobSkill[i].level);
-									interaction.channel.send({ embeds: [Embed] });
-								}
-								interaction.channel.send("```공용 스킬```");
-								const roleSkill = require('./Skills/' + emoji_role[job].slotname + 'Skill.json');
-								for(var i=0; i<roleSkill.length; i++)
-								{
-									const Embed = new Discord.MessageEmbed()
-									.setColor('#ff00ff')
-									.setTitle(roleSkill[i].name.replace(/`/gi,"\n"))
-									.setDescription(roleSkill[i].description.replace(/`/gi,"\n"))
-									.setThumbnail(roleSkill[i].icon);
-									if(roleSkill[i].type != null)
-										Embed.addField("종류", roleSkill[i].type, true)
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(roleSkill[i].cast != null)
-										Embed.addField("시전 시간", roleSkill[i].cast, true);
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(roleSkill[i].recast != null)
-										Embed.addField("재사용 시간", roleSkill[i].recast, true);
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(roleSkill[i].range != null)
-										Embed.addField("거리", roleSkill[i].range, true);
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(roleSkill[i].radius != null)
-										Embed.addField("범위", roleSkill[i].radius, true);
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(roleSkill[i].mp != null)
-										Embed.addField("MP", roleSkill[i].mp, true);
-									else
-										Embed.addField('\u200b', '\u200b', true);
-									if(roleSkill[i].level != null)
-										Embed.addField("요구 레벨", roleSkill[i].level);
-									interaction.channel.send({ embeds: [Embed] });
-								}
-								interaction.channel.send("```특성```");
-								const jobTrait = require('./Skills/' + job + 'Trait.json');
-								for(var i=0; i<jobTrait.length; i++)
-								{
-									const Embed = new Discord.MessageEmbed()
-									.setColor('#00ffff')
-									.setTitle(jobTrait[i].name.replace(/`/gi,"\n"))
-									.setDescription(jobTrait[i].description.replace(/`/gi,"\n"))
-									.setThumbnail(jobTrait[i].icon)
-									.addField("요구 레벨", jobTrait[i].level);
-									interaction.channel.send({ embeds: [Embed] });
-								}
-								interaction.editReply({ content: "정상적으로 생성되었습니다." });
+									const job = interaction.options.get("직업").value;
+									interaction.channel.send("```전용 스킬```");
+									const jobSkill = require('./Skills/' + job + 'Skill.json');
+									for(var i = 0; i<jobSkill.length; i++)
+									{
+										const Embed = new Discord.MessageEmbed()
+										.setColor('#ff0000')
+										.setTitle(jobSkill[i].name.replace(/`/gi,"\n"))
+										.setDescription(jobSkill[i].description.replace(/`/gi,"\n"))
+										.setThumbnail(jobSkill[i].icon);
+										if(jobSkill[i].type != null)
+											Embed.addField("종류", jobSkill[i].type, true)
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(jobSkill[i].cast != null)
+											Embed.addField("시전 시간", jobSkill[i].cast, true);
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(jobSkill[i].recast != null)
+											Embed.addField("재사용 시간", jobSkill[i].recast, true);
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(jobSkill[i].range != null)
+											Embed.addField("거리", jobSkill[i].range, true);
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(jobSkill[i].radius != null)
+											Embed.addField("범위", jobSkill[i].radius, true);
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(jobSkill[i].mp != null)
+											Embed.addField("MP", jobSkill[i].mp, true);
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(jobSkill[i].level != null)
+											Embed.addField("요구 레벨", jobSkill[i].level);
+										interaction.channel.send({ embeds: [Embed] });
+									}
+									interaction.channel.send("```공용 스킬```");
+									const roleSkill = require('./Skills/' + emoji_role[job].slotname + 'Skill.json');
+									for(var i=0; i<roleSkill.length; i++)
+									{
+										const Embed = new Discord.MessageEmbed()
+										.setColor('#ff00ff')
+										.setTitle(roleSkill[i].name.replace(/`/gi,"\n"))
+										.setDescription(roleSkill[i].description.replace(/`/gi,"\n"))
+										.setThumbnail(roleSkill[i].icon);
+										if(roleSkill[i].type != null)
+											Embed.addField("종류", roleSkill[i].type, true)
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(roleSkill[i].cast != null)
+											Embed.addField("시전 시간", roleSkill[i].cast, true);
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(roleSkill[i].recast != null)
+											Embed.addField("재사용 시간", roleSkill[i].recast, true);
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(roleSkill[i].range != null)
+											Embed.addField("거리", roleSkill[i].range, true);
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(roleSkill[i].radius != null)
+											Embed.addField("범위", roleSkill[i].radius, true);
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(roleSkill[i].mp != null)
+											Embed.addField("MP", roleSkill[i].mp, true);
+										else
+											Embed.addField('\u200b', '\u200b', true);
+										if(roleSkill[i].level != null)
+											Embed.addField("요구 레벨", roleSkill[i].level);
+										interaction.channel.send({ embeds: [Embed] });
+									}
+									interaction.channel.send("```특성```");
+									const jobTrait = require('./Skills/' + job + 'Trait.json');
+									for(var i=0; i<jobTrait.length; i++)
+									{
+										const Embed = new Discord.MessageEmbed()
+										.setColor('#00ffff')
+										.setTitle(jobTrait[i].name.replace(/`/gi,"\n"))
+										.setDescription(jobTrait[i].description.replace(/`/gi,"\n"))
+										.setThumbnail(jobTrait[i].icon)
+										.addField("요구 레벨", jobTrait[i].level);
+										interaction.channel.send({ embeds: [Embed] });
+									}
+									interaction.editReply({ content: "정상적으로 생성되었습니다." });
+								});
 							}
 						}
 					}
