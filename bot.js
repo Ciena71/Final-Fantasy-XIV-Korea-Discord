@@ -3697,9 +3697,8 @@ client.on('raw', async (packet) =>
 			(packet.d.channel_id != channelsId.linkshell && channelId.parent == categorysId.linkshell) ||
 			channelId.parentId == categorysId.job_battle ||
 			channelId.parent.parentId == categorysId.job_battle) return;
-			try
+			channelId.messages.fetch(packet.d.id).then(messageId =>
 			{
-				const messageId = await channelId.messages.fetch(packet.d.id);
 				if(channelId.parent != categorysId.dialog)
 				{
 					if (channelId.parent != categorysId.inquire && channelId.parent != categorysId.negotiation && channelId.parent != categorysId.troubleshooting)
@@ -3725,8 +3724,8 @@ client.on('raw', async (packet) =>
 						client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
 					}
 				}
-			}
-			catch(error)
+			})
+			.catch(error)
 			{
 				console.log(error);
 			}
