@@ -3408,7 +3408,6 @@ client.on("messageCreate", async (msg) =>
 								})
 								.catch(err)
 								{
-									console.log(err);
 									msg.reply("없는 파티입니다.").then(message => { setTimeout(() => message.delete(), 10000); });
 								}
 							}
@@ -3724,11 +3723,10 @@ client.on('raw', async (packet) =>
 						client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
 					}
 				}
-			})
+			})/*
 			.catch(error)
 			{
-				console.log(error);
-			}
+			}*/
 			break;
 		}
 		case 'MESSAGE_REACTION_ADD':
