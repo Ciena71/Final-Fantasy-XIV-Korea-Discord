@@ -3288,7 +3288,6 @@ client.on("messageCreate", async (msg) =>
 									}
 									catch(error)
 									{
-										console.log(error);
 										msg.reply("!fc호출벨 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
 									}
 								}
@@ -3355,7 +3354,6 @@ client.on("messageCreate", async (msg) =>
 									}
 									catch(error)
 									{
-										console.log(error);
 										msg.reply("!링크쉘설명 [메시지ID] [설명]").then(message => { message.delete({ timeout: 10000 }) });
 									}
 								}
@@ -3420,7 +3418,6 @@ client.on("messageCreate", async (msg) =>
 									}
 									catch(error)
 									{
-										console.log(error);
 										msg.reply("!링크쉘호출벨 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
 									}
 								}
@@ -3460,35 +3457,37 @@ client.on("messageCreate", async (msg) =>
 								cmd = msg.content.slice(prefix.length).split(" ", 2);
 								if(cmd.length == 2)
 								{
-									channelId.messages.fetch(res.rows[0].dialog_message_id)
-									.then(messageId =>
+									try
 									{
-										var editEmbed = messageId.embeds[0];
-										if(editEmbed.author.name == msg.member.displayName)
+										channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
 										{
-											var oldtext = editEmbed.description;
-											if (oldtext == null)
-												oldtext = "null";
-											const text = msg.content.slice(prefix.length + cmd[0].length + 1);
-											editEmbed.description = text;
-											const Embed = new Discord.MessageEmbed()
-											.setColor('#00ffff')
-											.setTitle(channelId.name)
-											.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-											.setDescription("<@" + msg.member.id + ">님이 [해당파티](" + messageId.url + ")의 설명 부분을 수정하셨습니다.")
-											.addField("수정 전", oldtext)
-											.addField("수정 후", text)
-											.setTimestamp()
-											.setFooter("메시지 ID : " + messageId.id);
-											client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-											messageId.edit({ embeds: [editEmbed] });
-											msg.channel.send({ embeds: [editEmbed] });
-											msg.channel.send("```!파티설명 [설명]```");
-										}
-										else
-											msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
-									})
-									.catch(err)
+											var editEmbed = messageId.embeds[0];
+											if(editEmbed.author.name == msg.member.displayName)
+											{
+												var oldtext = editEmbed.description;
+												if (oldtext == null)
+													oldtext = "null";
+												const text = msg.content.slice(prefix.length + cmd[0].length + 1);
+												editEmbed.description = text;
+												const Embed = new Discord.MessageEmbed()
+												.setColor('#00ffff')
+												.setTitle(channelId.name)
+												.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+												.setDescription("<@" + msg.member.id + ">님이 [해당파티](" + messageId.url + ")의 설명 부분을 수정하셨습니다.")
+												.addField("수정 전", oldtext)
+												.addField("수정 후", text)
+												.setTimestamp()
+												.setFooter("메시지 ID : " + messageId.id);
+												client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+												messageId.edit({ embeds: [editEmbed] });
+												msg.channel.send({ embeds: [editEmbed] });
+												msg.channel.send("```!파티설명 [설명]```");
+											}
+											else
+												msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+										});
+									}
+									catch(err)
 									{
 										msg.reply("없는 파티입니다.").then(message => { setTimeout(() => message.delete(), 10000); });
 									}
@@ -4918,6 +4917,7 @@ async function loadFile(msg, url)
 					.setTimestamp()
 					.setFooter("유저 ID : " + msg.member.id);
 					client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+					/*
 					dataBase.query("SELECT Warning_Reason FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
 					{
 						if (err)
@@ -4932,7 +4932,7 @@ async function loadFile(msg, url)
 								msg.member.roles.add(warningrole);
 							}
 						}
-					});
+					});*/
 				}
 				else
 					msg.editReply({ content: "이미 인증하셨습니다.", ephemeral: true });
