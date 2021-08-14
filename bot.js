@@ -532,7 +532,7 @@ client.on('guildMemberAdd', async (member) =>
 			{
 				if (res.rows[0].warning_reason != null)
 				{
-					const warningrole = msg.guild.roles.cache.find(r => r.name === "경고");
+					const warningrole = member.guild.roles.cache.find(r => r.name === "경고");
 					member.roles.add(warningrole);
 				}
 			}
