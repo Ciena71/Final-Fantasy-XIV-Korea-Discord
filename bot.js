@@ -4871,17 +4871,26 @@ async function loadFile(msg, url)
 							dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
 						}
 						msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
+						var checker = false;
 						for(var i = 0; i < dataCenterNames.length; i++)
 						{
 							if(msg.member.roles.cache.has(dataCenterNames[i].id))
-								msg.member.roles.remove(dataCenterNames[i].id);
-						}
-						for(var i = 0; i < dataCenterNames.length; i++)
-						{
-							if(data.Character.DC === dataCenterNames[i].eng)
 							{
-								msg.member.roles.add(dataCenterNames[i].id);
-								break;
+								if(data.Character.DC !== dataCenterNames[i].eng)
+									msg.member.roles.remove(dataCenterNames[i].id);
+								else
+									checker = true;
+							}
+						}
+						if(!checker)
+						{
+							for(var i = 0; i < dataCenterNames.length; i++)
+							{
+								if(data.Character.DC === dataCenterNames[i].eng)
+								{
+									msg.member.roles.add(dataCenterNames[i].id);
+									break;
+								}
 							}
 						}
 						msg.editReply({ content: "성공적으로 인증되었습니다", ephemeral: true });
