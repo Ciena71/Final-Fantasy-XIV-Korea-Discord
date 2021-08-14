@@ -3122,7 +3122,7 @@ client.on("messageCreate", async (msg) =>
 						.setTimestamp();
 						client.channels.cache.get(msg.channel.topic).send({ embeds: [logEmbed] });
 						msg.channel.setParent(categorysId.inquire_close);
-						msg.channel.overwritePermissions(
+						msg.channel.permissionOverwrites.set(
 						[
 							{
 								id: msg.guild.roles.everyone,
@@ -3153,7 +3153,7 @@ client.on("messageCreate", async (msg) =>
 						.setTimestamp();
 						client.channels.cache.get(msg.channel.topic).send({ embeds: [logEmbed] });
 						msg.channel.setParent(categorysId.troubleshooting_close);
-						msg.channel.overwritePermissions(
+						msg.channel.permissionOverwrites.set(
 						[
 							{
 								id: msg.guild.roles.everyone,
@@ -3605,7 +3605,7 @@ client.on("messageCreate", async (msg) =>
 				.setTimestamp();
 				client.channels.cache.get(logChannelId[0]).send({ embeds: [logEmbed] });
 				msg.channel.setParent(categorysId.negotiation_close);
-				msg.channel.overwritePermissions(
+				msg.channel.permissionOverwrites.set(
 				[
 					{
 						id: msg.guild.roles.everyone,
@@ -3616,7 +3616,7 @@ client.on("messageCreate", async (msg) =>
 						allow: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY']
 					}
 				], '종료된 거래함');
-				client.channels.cache.get(logChannelId[0]).overwritePermissions(
+				client.channels.cache.get(logChannelId[0]).permissionOverwrites.set(
 				[
 					{
 						id: msg.guild.roles.everyone,
@@ -4795,19 +4795,6 @@ async function changeNick(msg, user, name)
 	}
 }
 
-async function setRole(msg, user, role)
-{
-	try
-	{
-		await user.roles.add(role);
-	}
-	catch(err)
-	{
-		console.log(err);
-		msg.editReply({ content: "역할 지정에 실패하셨습니다.\n관리자에게 보고하십시오.", ephemeral: true });
-	}
-}
-
 async function removeRole(msg, user, role)
 {
 	try
@@ -4818,24 +4805,6 @@ async function removeRole(msg, user, role)
 	{
 		console.log(err);
 		msg.editReply({ content: "역할 제거에 실패하셨습니다.\n관리자에게 보고하십시오.", ephemeral: true });
-	}
-}
-
-async function resetRole(msg, user)
-{
-	try
-	{
-		for(var i = 0; i < dataCenterNames.length; i++)
-		{
-			const role = msg.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor);
-			if(user.roles.cache.has(role.id))
-				await user.roles.remove(role);
-		}
-	}
-	catch(err)
-	{
-		console.log(err);
-		msg.editReply({ content: "역할 초기화에 실패하셨습니다.\n관리자에게 보고하십시오.", ephemeral: true });
 	}
 }
 
@@ -4899,12 +4868,17 @@ async function loadFile(msg, url)
 					else
 						dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
 					changeNick(msg, msg.member, data.Character.Name+"@"+data.Character.Server);
-					resetRole(msg, msg.member);
+					for(var i = 0; i < dataCenterNames.length; i++)
+					{
+						const role = msg.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor);
+						if(user.roles.cache.has(role.id))
+							await user.roles.remove(role);
+					}
 					for(var i = 0; i < dataCenterNames.length; i++)
 					{
 						if(data.Character.DC === dataCenterNames[i].eng)
 						{
-							setRole(msg, msg.member, msg.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor));
+							msg.member.roles.add(msg.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor));
 							break;
 						}
 					}
