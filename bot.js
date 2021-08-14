@@ -3377,52 +3377,55 @@ client.on("messageCreate", async (msg) =>
 					else
 					{
 						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
-						if (channelId.channelId == channelsId.jp_static_pve || channelId.channelId == channelsId.jp_party_pve || channelId.channelId == channelsId.jp_party_pvp ||
-							channelId.channelId == channelsId.na_static_pve || channelId.channelId == channelsId.na_party_pve || channelId.channelId == channelsId.na_party_pvp ||
-							channelId.channelId == channelsId.eu_static_pve || channelId.channelId == channelsId.eu_party_pve || channelId.channelId == channelsId.eu_party_pvp ||
-							(channelId.isThread() &&
-							(channelId.parentId == channelsId.jp_static_pve || channelId.parentId == channelsId.jp_party_pve || channelId.parentId == channelsId.jp_party_pvp ||
-							channelId.parentId == channelsId.na_static_pve || channelId.parentId == channelsId.na_party_pve || channelId.parentId == channelsId.na_party_pvp ||
-							channelId.parentId == channelsId.eu_static_pve || channelId.parentId == channelsId.eu_party_pve || channelId.parentId == channelsId.eu_party_pvp)))
+						if(channelId)
 						{
-							cmd = msg.content.slice(prefix.length).split(" ", 2);
-							if(cmd.length == 2)
+							if (channelId.channelId == channelsId.jp_static_pve || channelId.channelId == channelsId.jp_party_pve || channelId.channelId == channelsId.jp_party_pvp ||
+								channelId.channelId == channelsId.na_static_pve || channelId.channelId == channelsId.na_party_pve || channelId.channelId == channelsId.na_party_pvp ||
+								channelId.channelId == channelsId.eu_static_pve || channelId.channelId == channelsId.eu_party_pve || channelId.channelId == channelsId.eu_party_pvp ||
+								(channelId.isThread() &&
+								(channelId.parentId == channelsId.jp_static_pve || channelId.parentId == channelsId.jp_party_pve || channelId.parentId == channelsId.jp_party_pvp ||
+								channelId.parentId == channelsId.na_static_pve || channelId.parentId == channelsId.na_party_pve || channelId.parentId == channelsId.na_party_pvp ||
+								channelId.parentId == channelsId.eu_static_pve || channelId.parentId == channelsId.eu_party_pve || channelId.parentId == channelsId.eu_party_pvp)))
 							{
-								channelId.messages.fetch(res.rows[0].dialog_message_id)
-								.then(messageId =>
+								cmd = msg.content.slice(prefix.length).split(" ", 2);
+								if(cmd.length == 2)
 								{
-									var editEmbed = messageId.embeds[0];
-									if(editEmbed.author.name == msg.member.displayName)
+									channelId.messages.fetch(res.rows[0].dialog_message_id)
+									.then(messageId =>
 									{
-										var oldtext = editEmbed.description;
-										if (oldtext == null)
-											oldtext = "null";
-										const text = msg.content.slice(prefix.length + cmd[0].length + 1);
-										editEmbed.description = text;
-										const Embed = new Discord.MessageEmbed()
-										.setColor('#00ffff')
-										.setTitle(channelId.name)
-										.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-										.setDescription("<@" + msg.member.id + ">님이 [해당파티](" + messageId.url + ")의 설명 부분을 수정하셨습니다.")
-										.addField("수정 전", oldtext)
-										.addField("수정 후", text)
-										.setTimestamp()
-										.setFooter("메시지 ID : " + messageId.id);
-										client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-										messageId.edit({ embeds: [editEmbed] });
-										msg.channel.send({ embeds: [editEmbed] });
-										msg.channel.send("```!파티설명 [설명]```");
+										var editEmbed = messageId.embeds[0];
+										if(editEmbed.author.name == msg.member.displayName)
+										{
+											var oldtext = editEmbed.description;
+											if (oldtext == null)
+												oldtext = "null";
+											const text = msg.content.slice(prefix.length + cmd[0].length + 1);
+											editEmbed.description = text;
+											const Embed = new Discord.MessageEmbed()
+											.setColor('#00ffff')
+											.setTitle(channelId.name)
+											.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+											.setDescription("<@" + msg.member.id + ">님이 [해당파티](" + messageId.url + ")의 설명 부분을 수정하셨습니다.")
+											.addField("수정 전", oldtext)
+											.addField("수정 후", text)
+											.setTimestamp()
+											.setFooter("메시지 ID : " + messageId.id);
+											client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+											messageId.edit({ embeds: [editEmbed] });
+											msg.channel.send({ embeds: [editEmbed] });
+											msg.channel.send("```!파티설명 [설명]```");
+										}
+										else
+											msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+									})
+									.catch(err)
+									{
+										msg.reply("없는 파티입니다.").then(message => { setTimeout(() => message.delete(), 10000); });
 									}
-									else
-										msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
-								})
-								.catch(err)
-								{
-									msg.reply("없는 파티입니다.").then(message => { setTimeout(() => message.delete(), 10000); });
 								}
+								else
+									msg.reply("!파티설명 [설명]").then(message => { setTimeout(() => message.delete(), 10000); });
 							}
-							else
-								msg.reply("!파티설명 [설명]").then(message => { setTimeout(() => message.delete(), 10000); });
 						}
 					}
 				});
