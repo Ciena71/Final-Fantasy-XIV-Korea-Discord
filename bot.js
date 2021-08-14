@@ -706,6 +706,21 @@ client.on("interactionCreate", async (interaction) =>
 						}
 						client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
 						interaction.message.delete();
+						dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
+						{
+							if (err)
+							{
+								msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
+								console.log(err);
+							}
+							else
+							{
+								if(res.rows[0].dialog_channel_id == interaction.channelId && res.rows[0].dialog_message_id == interaction.message.id)
+								{
+									dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = " + interaction.channel.id + ", Dialog_Message_Id = null WHERE User_Id = null");
+								}
+							}
+						});
 					}
 				}
 				break;
