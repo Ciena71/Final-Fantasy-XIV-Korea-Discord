@@ -520,6 +520,24 @@ client.on('guildMemberAdd', async (member) =>
 	.setTimestamp()
 	.setFooter("유저 ID : " + member.id);
 	client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });	
+	dataBase.query("SELECT Warning_Reason FROM UserSaveData WHERE User_Id = '" + member.id +"'", (err, res) =>
+	{
+		if (err)
+		{
+			console.log(err);
+		}
+		else
+		{
+			if (res.rows.length > 0)
+			{
+				if (res.rows[0].warning_reason != null)
+				{
+					const warningrole = msg.guild.roles.cache.find(r => r.name === "경고");
+					member.roles.add(warningrole);
+				}
+			}
+		}
+	});
 });
 
 client.on('guildMemberRemove', async (member) =>
@@ -4865,22 +4883,6 @@ async function loadFile(msg, url)
 					.setTimestamp()
 					.setFooter("유저 ID : " + msg.member.id);
 					client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-					/*
-					dataBase.query("SELECT Warning_Reason FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
-					{
-						if (err)
-						{
-							console.log(err);
-						}
-						else
-						{
-							if(res.rows[0].warning_reason != null)
-							{
-								const warningrole = msg.guild.roles.cache.find(r => r.name === "경고");
-								msg.member.roles.add(warningrole);
-							}
-						}
-					});*/
 				}
 				else
 					msg.editReply({ content: "이미 인증하셨습니다.", ephemeral: true });
