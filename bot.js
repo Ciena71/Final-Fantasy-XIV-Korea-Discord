@@ -4782,32 +4782,6 @@ async function addMenu(msg, channel, message)
 	}
 }
 
-async function changeNick(msg, user, name)
-{
-	try
-	{
-		await user.setNickname(name);
-	}
-	catch(err)
-	{
-		console.log(err);
-		msg.editReply({ content: "닉네임 변경에 실패하셨습니다.\n관리자에게 보고하십시오.", ephemeral: true });
-	}
-}
-
-async function removeRole(msg, user, role)
-{
-	try
-	{
-		await user.roles.remove(role);
-	}
-	catch(err)
-	{
-		console.log(err);
-		msg.editReply({ content: "역할 제거에 실패하셨습니다.\n관리자에게 보고하십시오.", ephemeral: true });
-	}
-}
-
 async function loadFile(msg, url)
 {
 	const response = await fetch("https://xivapi.com/character/"+url+"?columns=Character.Bio,Character.DC,Character.Name,Character.Server");
@@ -4867,12 +4841,12 @@ async function loadFile(msg, url)
 					}
 					else
 						dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
-					changeNick(msg, msg.member, data.Character.Name+"@"+data.Character.Server);
+					msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
 					for(var i = 0; i < dataCenterNames.length; i++)
 					{
 						const role = msg.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor);
 						if(user.roles.cache.has(role.id))
-							await user.roles.remove(role);
+							user.roles.remove(role);
 					}
 					for(var i = 0; i < dataCenterNames.length; i++)
 					{
