@@ -3406,9 +3406,9 @@ client.on("messageCreate", async (msg) =>
 									else
 										msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
 								})
-								.catch(error)
+								.catch(err)
 								{
-									console.log(error);
+									console.log(err);
 									msg.reply("!파티설명 [설명]").then(message => { setTimeout(() => message.delete(), 10000); });
 								}
 							}
