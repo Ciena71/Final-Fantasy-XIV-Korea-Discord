@@ -3378,37 +3378,35 @@ client.on("messageCreate", async (msg) =>
 							cmd = msg.content.slice(prefix.length).split(" ", 2);
 							if(cmd.length == 2)
 							{
-								try
+								channelId.messages.fetch(res.rows[0].dialog_message_id)
+								.then(messageId =>
 								{
-									channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
+									var editEmbed = messageId.embeds[0];
+									if(editEmbed.author.name == msg.member.displayName)
 									{
-										var editEmbed = messageId.embeds[0];
-										if(editEmbed.author.name == msg.member.displayName)
-										{
-											var oldtext = editEmbed.description;
-											if (oldtext == null)
-												oldtext = "null";
-											const text = msg.content.slice(prefix.length + cmd[0].length + 1);
-											editEmbed.description = text;
-											const Embed = new Discord.MessageEmbed()
-											.setColor('#00ffff')
-											.setTitle(channelId.name)
-											.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-											.setDescription("<@" + msg.member.id + ">님이 [해당파티](" + messageId.url + ")의 설명 부분을 수정하셨습니다.")
-											.addField("수정 전", oldtext)
-											.addField("수정 후", text)
-											.setTimestamp()
-											.setFooter("메시지 ID : " + messageId.id);
-											client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-											messageId.edit({ embeds: [editEmbed] });
-											msg.channel.send({ embeds: [editEmbed] });
-											msg.channel.send("```!파티설명 [설명]```");
-										}
-										else
-											msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
-									});
-								}
-								catch(error)
+										var oldtext = editEmbed.description;
+										if (oldtext == null)
+											oldtext = "null";
+										const text = msg.content.slice(prefix.length + cmd[0].length + 1);
+										editEmbed.description = text;
+										const Embed = new Discord.MessageEmbed()
+										.setColor('#00ffff')
+										.setTitle(channelId.name)
+										.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+										.setDescription("<@" + msg.member.id + ">님이 [해당파티](" + messageId.url + ")의 설명 부분을 수정하셨습니다.")
+										.addField("수정 전", oldtext)
+										.addField("수정 후", text)
+										.setTimestamp()
+										.setFooter("메시지 ID : " + messageId.id);
+										client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+										messageId.edit({ embeds: [editEmbed] });
+										msg.channel.send({ embeds: [editEmbed] });
+										msg.channel.send("```!파티설명 [설명]```");
+									}
+									else
+										msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+								})
+								.catch(error)
 								{
 									console.log(error);
 									msg.reply("!파티설명 [설명]").then(message => { setTimeout(() => message.delete(), 10000); });
