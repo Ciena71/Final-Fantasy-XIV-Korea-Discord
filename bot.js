@@ -712,7 +712,7 @@ client.on("interactionCreate", async (interaction) =>
 							{
 								if(res.rows[0].dialog_channel_id == interaction.channelId && res.rows[0].dialog_message_id == interaction.message.id)
 								{
-									dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = " + interaction.channel.id + ", Dialog_Message_Id = null WHERE User_Id = null");
+									dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = null, Dialog_Message_Id = null WHERE User_Id = '" + interaction.member.id +"'");
 								}
 							}
 						});
