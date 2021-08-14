@@ -3409,7 +3409,7 @@ client.on("messageCreate", async (msg) =>
 								.catch(err)
 								{
 									console.log(err);
-									msg.reply("!파티설명 [설명]").then(message => { setTimeout(() => message.delete(), 10000); });
+									msg.reply("없는 파티입니다.").then(message => { setTimeout(() => message.delete(), 10000); });
 								}
 							}
 							else
