@@ -4830,7 +4830,7 @@ async function loadFile(msg, url)
 				if(msg.member.nickname != data.Character.Name + "@" + data.Character.Server)
 				{
 					const oldname = msg.member.nickname;
-					const dialogchannels = msg.guild.channels.cache.filter(channel => channel.parentId === categorysId.dialog && channel.name === msg.member.id);
+					const dialogchannels = msg.guild.channels.cache.filter(channel => channel.parentId === categorysId.dialog && channel.name === msg.member.id).s;
 					if(dialogchannels.size == 0)
 					{
 						msg.guild.channels.create(msg.member.id,
@@ -4859,7 +4859,7 @@ async function loadFile(msg, url)
 						});
 					}
 					else
-					{
+					{/*
 						dialogchannels[0].permissionOverwrites.set(
 						[
 							{
@@ -4874,7 +4874,7 @@ async function loadFile(msg, url)
 								id: '819869630893129742',
 								allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
 							}
-						], '다이얼로그 재등록');
+						], '다이얼로그 재등록');*/
 						dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
 					}
 					msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
