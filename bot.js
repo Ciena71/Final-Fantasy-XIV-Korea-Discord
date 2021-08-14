@@ -2087,6 +2087,7 @@ client.on("interactionCreate", async (interaction) =>
 			{
 				if (interaction.channelId == channelsId.trade)
 				{
+					await interaction.deferReply({ ephemeral: true });
 					const tradeName = interaction.options.get("제목").value;
 					const name = interaction.member.displayName.split(" ", 2);
 					const server = name[1].split("@", 2);
@@ -2134,6 +2135,7 @@ client.on("interactionCreate", async (interaction) =>
 						.setTimestamp()
 						.setFooter("메시지 ID : " + message.id);
 						client.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
+						interaction.editReply({ content: "정상적으로 생성되었습니다." });
 					});
 					break;
 				}
