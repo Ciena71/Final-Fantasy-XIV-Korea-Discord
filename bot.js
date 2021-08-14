@@ -4845,8 +4845,8 @@ async function loadFile(msg, url)
 					for(var i = 0; i < dataCenterNames.length; i++)
 					{
 						const role = msg.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor);
-						if(user.roles.cache.has(role.id))
-							user.roles.remove(role);
+						if(msg.member.roles.cache.has(role.id))
+							msg.member.roles.remove(role);
 					}
 					for(var i = 0; i < dataCenterNames.length; i++)
 					{
