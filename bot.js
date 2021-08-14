@@ -168,14 +168,14 @@ const emoji_id = [
 ];
 
 const dataCenterNames = [
-	{ eng: "Mana" , kor: "마나" , region: "JP" , id:'861397390387838996' },
-	{ eng: "Elemental" , kor: "엘레멘탈" , region: "JP" , id:'861397404800253982' },
-	{ eng: "Gaia" , kor: "가이아" , region: "JP" , id:'861397428040761374' },
-	{ eng: "Aether" , kor: "에테르" , region: "NA" , id:'861397454046232576' },
-	{ eng: "Primal" , kor: "프라이멀" , region: "NA" , id:'861397366661447710' },
-	{ eng: "Crystal" , kor: "크리스탈" , region: "NA" , id:'861397565740285973' },
-	{ eng: "Chaos" , kor: "카오스" , region: "EU" , id:'861397548761481226' },
-	{ eng: "Light" , kor: "라이트" , region: "EU" , id:'861397535842893825' }
+	{ eng: "Mana" , kor: "마나" , region: "JP" , id:'857595753982984224' },
+	{ eng: "Elemental" , kor: "엘레멘탈" , region: "JP" , id:'857595646247436318' },
+	{ eng: "Gaia" , kor: "가이아" , region: "JP" , id:'857595712749043732' },
+	{ eng: "Aether" , kor: "에테르" , region: "NA" , id:'857595946207412224' },
+	{ eng: "Primal" , kor: "프라이멀" , region: "NA" , id:'857595490802991104' },
+	{ eng: "Crystal" , kor: "크리스탈" , region: "NA" , id:'857596288786759730' },
+	{ eng: "Chaos" , kor: "카오스" , region: "EU" , id:'857596201008627742' },
+	{ eng: "Light" , kor: "라이트" , region: "EU" , id:'857596076526010368' }
 ];
 
 const PORT = process.env.PORT || 3000;
@@ -988,8 +988,7 @@ client.on("interactionCreate", async (interaction) =>
 									var dataCenter;
 									for(var i = 0; i < dataCenterNames.length; i++)
 									{
-										const role = interaction.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor);
-										if(target.roles.cache.has(role.id))
+										if(target.roles.cache.has(dataCenterNames[i].id))
 										{
 											dataCenter = i;
 											break;
@@ -1122,8 +1121,7 @@ client.on("interactionCreate", async (interaction) =>
 									var dataCenter;
 									for(var i = 0; i < dataCenterNames.length; i++)
 									{
-										const role = interaction.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor);
-										if(target.roles.cache.has(role.id))
+										if(target.roles.cache.has(dataCenterNames[i].id))
 										{
 											dataCenter = i;
 											break;
@@ -1274,8 +1272,7 @@ client.on("interactionCreate", async (interaction) =>
 					var dataCenter;
 					for(var i = 0; i < dataCenterNames.length; i++)
 					{
-						const role = interaction.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor);
-						if(interaction.member.roles.cache.has(role.id))
+						if(interaction.member.roles.cache.has(dataCenterNames[i].id))
 						{
 							dataCenter = i;
 							break;
@@ -1459,8 +1456,7 @@ client.on("interactionCreate", async (interaction) =>
 												var DataCenterName;
 												for(var j = 0; j < dataCenterNames.length; j++)
 												{
-													const role = interaction.guild.roles.cache.find(r => r.name === dataCenterNames[j].kor);
-													if(interaction.member.roles.cache.has(role.id))
+													if(interaction.member.roles.cache.has(dataCenterNames[j].id))
 													{
 														DataCenterName = dataCenterNames[j].kor;
 														break;
@@ -1524,8 +1520,7 @@ client.on("interactionCreate", async (interaction) =>
 									var ENGDataCenterName;
 									for(var j = 0; j < dataCenterNames.length; j++)
 									{
-										const role = interaction.guild.roles.cache.find(r => r.name === dataCenterNames[j].kor);
-										if(interaction.member.roles.cache.has(role.id))
+										if(interaction.member.roles.cache.has(dataCenterNames[j].id))
 										{
 											DataCenterName = dataCenterNames[j].kor;
 											ENGDataCenterName = dataCenterNames[j].eng;
@@ -2112,8 +2107,7 @@ client.on("interactionCreate", async (interaction) =>
 					var DataCenterName;
 					for(var j = 0; j < dataCenterNames.length; j++)
 					{
-						const role = interaction.guild.roles.cache.find(r => r.name === dataCenterNames[j].kor);
-						if(interaction.member.roles.cache.has(role.id))
+						if(interaction.member.roles.cache.has(dataCenterNames[j].id))
 						{
 							DataCenterName = dataCenterNames[j].kor;
 							break;
@@ -3765,10 +3759,7 @@ client.on('raw', async (packet) =>
 						client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
 					}
 				}
-			})/*
-			.catch(error)
-			{
-			}*/
+			});
 			break;
 		}
 		case 'MESSAGE_REACTION_ADD':
@@ -4829,15 +4820,40 @@ async function loadFile(msg, url)
 			{
 				if(msg.member.nickname != data.Character.Name + "@" + data.Character.Server)
 				{
-					const oldname = msg.member.nickname;
-					const dialogchannels = msg.guild.channels.cache.filter(channel => channel.parentId === categorysId.dialog && channel.name === msg.member.id);
-					if(dialogchannels.size == 0)
+					try
 					{
-						msg.guild.channels.create(msg.member.id,
+						const oldname = msg.member.nickname;
+						const dialogchannels = msg.guild.channels.cache.filter(channel => channel.parentId === categorysId.dialog && channel.name === msg.member.id);
+						if(dialogchannels.size == 0)
 						{
-							type: 'text',
-							parent: categorysId.dialog,
-							permissionOverwrites:
+							msg.guild.channels.create(msg.member.id,
+							{
+								type: 'text',
+								parent: categorysId.dialog,
+								permissionOverwrites:
+								[
+									{
+										id: msg.member.id,
+										allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
+									},
+									{
+										id: msg.guild.roles.everyone,
+										deny: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
+									},
+									{
+										id: '819869630893129742',
+										allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
+									}
+								],
+								reason: msg.user.tag + "님의 다이얼로그 생성"
+							}).then(channel => 
+							{
+								dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + channel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + channel.id);
+							});
+						}
+						else
+						{
+							dialogchannels.first().permissionOverwrites.set(
 							[
 								{
 									id: msg.member.id,
@@ -4851,56 +4867,37 @@ async function loadFile(msg, url)
 									id: '819869630893129742',
 									allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
 								}
-							],
-							reason: msg.user.tag + "님의 다이얼로그 생성"
-						}).then(channel => 
-						{
-							dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + channel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + channel.id);
-						});
-					}
-					else
-					{
-						dialogchannels.first().permissionOverwrites.set(
-						[
-							{
-								id: msg.member.id,
-								allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
-							},
-							{
-								id: msg.guild.roles.everyone,
-								deny: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
-							},
-							{
-								id: '819869630893129742',
-								allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
-							}
-						], '다이얼로그 재등록');
-						dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
-					}
-					msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
-					for(var i = 0; i < dataCenterNames.length; i++)
-					{
-						const role = msg.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor);
-						if(msg.member.roles.cache.has(role.id))
-							msg.member.roles.remove(role);
-					}
-					for(var i = 0; i < dataCenterNames.length; i++)
-					{
-						if(data.Character.DC === dataCenterNames[i].eng)
-						{
-							msg.member.roles.add(msg.guild.roles.cache.find(r => r.name === dataCenterNames[i].kor));
-							break;
+							], '다이얼로그 재등록');
+							dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
 						}
+						msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
+						for(var i = 0; i < dataCenterNames.length; i++)
+						{
+							if(msg.member.roles.cache.has(dataCenterNames[i].id))
+								msg.member.roles.remove(dataCenterNames[i].id);
+						}
+						for(var i = 0; i < dataCenterNames.length; i++)
+						{
+							if(data.Character.DC === dataCenterNames[i].eng)
+							{
+								msg.member.roles.add(dataCenterNames[i].id);
+								break;
+							}
+						}
+						msg.editReply({ content: "성공적으로 인증되었습니다", ephemeral: true });
+						const Embed = new Discord.MessageEmbed()
+						.setColor('#ff00ff')
+						.setTitle("서버-인증")
+						.setAuthor(msg.user.tag, msg.user.displayAvatarURL(), "https://na.finalfantasyxiv.com/lodestone/character/" + url)
+						.setDescription("<@" + msg.member.id + ">님이 " + oldname + " 에서 " + data.Character.Name + "@" + data.Character.Server + "으로 변경하셨습니다.\n[로드스톤](https://na.finalfantasyxiv.com/lodestone/character/" + url + ")")
+						.setTimestamp()
+						.setFooter("유저 ID : " + msg.member.id);
+						client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
 					}
-					msg.editReply({ content: "성공적으로 인증되었습니다", ephemeral: true });
-					const Embed = new Discord.MessageEmbed()
-					.setColor('#ff00ff')
-					.setTitle("서버-인증")
-					.setAuthor(msg.user.tag, msg.user.displayAvatarURL(), "https://na.finalfantasyxiv.com/lodestone/character/" + url)
-					.setDescription("<@" + msg.member.id + ">님이 " + oldname + " 에서 " + data.Character.Name + "@" + data.Character.Server + "으로 변경하셨습니다.\n[로드스톤](https://na.finalfantasyxiv.com/lodestone/character/" + url + ")")
-					.setTimestamp()
-					.setFooter("유저 ID : " + msg.member.id);
-					client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+					catch(error)
+					{
+						console.log(error);
+					}
 				}
 				else
 					msg.editReply({ content: "이미 인증하셨습니다.", ephemeral: true });
