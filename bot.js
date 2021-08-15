@@ -1359,7 +1359,7 @@ client.on("interactionCreate", async (interaction) =>
 													var stack = 0;
 													for(var j=0; j<data1.listings.length; j++)
 													{
-														if (hq == 0 || (hq == 1 && data1.listings[j].hq == false) || (hq == 1 && data1.listings[j].hq == true))
+														if (hq == 0 || (hq == 1 && data1.listings[j].hq == false) || (hq == 2 && data1.listings[j].hq == true))
 														{
 															marketdata[0] += data1.listings[j].quantity + "개 x " + data1.listings[j].pricePerUnit + "길\n";
 															marketdata[1] += data1.listings[j].quantity * data1.listings[j].pricePerUnit + "길\n";
