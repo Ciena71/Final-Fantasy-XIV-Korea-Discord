@@ -29,7 +29,7 @@ const dataBase = new Pool(
 
 dataBase.connect();
 
-dataBase.query("CREATE TABLE IF NOT EXISTS UserSaveData (User_Id BIGINT NOT NULL PRIMARY KEY, FFXIV_Id INT, Config INT DEFAULT 0, Warning_Reason TEXT, Ban_Reason TEXT)");
+dataBase.query("CREATE TABLE IF NOT EXISTS UserSaveData (User_Id BIGINT NOT NULL PRIMARY KEY, FFXIV_Id INT, Config INT DEFAULT 0, Warning_Reason TEXT, Ban_Reason TEXT, Language INT DEFAULT 0)");
 
 var catchMessageUpdate = false;
 
@@ -93,6 +93,13 @@ const emoji_role = {
 	"SMN" : { name : "소환사" , slot : 4, slotname : "Caster", fflogs : 11 },
 	"RDM" : { name : "적마도사" , slot : 4, slotname : "Caster", fflogs : 14 },
 	"BLU" : { name : "청마도사" , slot : 4, slotname : "Caster", fflogs : null }
+};
+
+const language_convert = {
+	0 : { xivapi : "en" , lodestone : "na" },
+	1 : { xivapi : "ja" , lodestone : "jp" },
+	2 : { xivapi : "de" , lodestone : "de" },
+	3 : { xivapi : "fr" , lodestone : "fr" }
 };
 
 const jobs_convert = {
@@ -392,20 +399,56 @@ client.on("ready", async () =>
 					choices:
 					[
 						{
-							name: 'NQ',
+							name: 'NQ-HQ',
 							value: 0,
 						},
 						{
-							name: 'HQ',
+							name: 'NQ',
 							value: 1,
+						},
+						{
+							name: 'HQ',
+							value: 2,
 						}
 					]
 				},
 				{
 					name: '아이템',
 					type: 'STRING',
-					description: '아이템의 이름을 적습니다. [영문 명칭만 됩니다.]',
+					description: '아이템의 이름을 적습니다. [자신의 언어설정에 맞는 아이템명을 적으셔야 합니다.]',
 					required: true
+				}
+			]
+		},
+		{
+			name: '언어',
+			description: '[다이얼로그] 클라리언트의 언어를 설정합니다.',
+			options:
+			[
+				{
+					name: '언어',
+					type: 'INTEGER',
+					description: '언어 리스트.',
+					required: true,
+					choices:
+					[
+						{
+							name: '영어',
+							value: 0,
+						},
+						{
+							name: '일본어',
+							value: 1,
+						},
+						{
+							name: '독일어',
+							value: 2,
+						},
+						{
+							name: '프랑스어',
+							value: 3,
+						}
+					]
 				}
 			]
 		},
@@ -1278,59 +1321,85 @@ client.on("interactionCreate", async (interaction) =>
 							break;
 						}
 					}
-					fetch("https://xivapi.com/search?string=" + encodeURIComponent(itemName).replace(/'/gi,"%27")).then(webData =>
+					dataBase.query("SELECT Language FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 					{
-						webData.json().then(data =>
+						if (err)
 						{
-							for(var i=0; i < data.Results.length; i++)
+							console.log(err);
+							interaction.editReply({ content: "플레이어 데이터를 찾지 못했습니다.\n관리자에게 보고하십시오.", ephemeral: true });
+						}
+						else
+						{
+							fetch("https://xivapi.com/search?language=" + language_convert[res.rows[0].language].xivapi + "&string=" + encodeURIComponent(itemName).replace(/'/gi,"%27")).then(webData =>
 							{
-								if(data.Results[i].UrlType == "Item" && data.Results[i].Name.toLowerCase() == itemName.toLowerCase())
+								webData.json().then(data =>
 								{
-									const itemId = data.Results[i].ID;
-									fetch("https://universalis.app/api/" + dataCenterNames[dataCenter].eng + "/" + itemId).then(webData1 =>
+									for(var i=0; i < data.Results.length; i++)
 									{
-										webData1.json().then(data1 =>
+										if(data.Results[i].UrlType == "Item" && data.Results[i].Name.toLowerCase() == itemName.toLowerCase())
 										{
-											const hq = (interaction.options.get("품질").value == 0) ? false : true;
-											const quality = (!hq) ? "NQ" : "HQ";
-											const Embed = new Discord.MessageEmbed()
-											.setColor(getDataCenterColor(interaction.member, interaction.guild))
-											.setTitle(data.Results[i].Name)
-											.setThumbnail("https://xivapi.com" + data.Results[i].Icon)
-											.setDescription("데이터센터 : " + dataCenterNames[dataCenter].kor + "\n품질 : " + quality)
-											.setTimestamp();
-											var marketdata = ["","",""];
-											var stack = 0;
-											for(var j=0; j<data1.listings.length; j++)
+											const itemId = data.Results[i].ID;
+											fetch("https://universalis.app/api/" + dataCenterNames[dataCenter].eng + "/" + itemId).then(webData1 =>
 											{
-												if (data1.listings[j].hq == hq)
+												webData1.json().then(data1 =>
 												{
-													marketdata[0] += data1.listings[j].quantity + "개 x " + data1.listings[j].pricePerUnit + "길\n";
-													marketdata[1] += data1.listings[j].quantity * data1.listings[j].pricePerUnit + "길\n";
-													marketdata[2] += data1.listings[j].worldName + "\n";
-													stack++;
-													if(stack >= 10)
-														break;
-												}
-											}
-											if(stack > 0)
-											{
-												Embed.addField("수량 x 단일가", marketdata[0], true);
-												Embed.addField("총가", marketdata[1], true);
-												Embed.addField("서버", marketdata[2], true);
-												interaction.channel.send({ embeds: [Embed] });
-												interaction.editReply({ content: "성공적으로 조회했습니다.", ephemeral: true });
-											}
-											else
-												interaction.editReply({ content: "마켓에 해당품목이 존재하지 않습니다.", ephemeral: true });
-										});
-									});
-									return;
-								}
-							}
-							interaction.editReply({ content: "없는 아이템입니다.", ephemeral: true });
-						});
+													const hq = interaction.options.get("품질").value;
+													var quality = "NQ-HQ";
+													if(hq == 1)
+														quality = "NQ";
+													else if(hq == 2)
+														quality = "HQ";
+													const Embed = new Discord.MessageEmbed()
+													.setColor(getDataCenterColor(interaction.member, interaction.guild))
+													.setTitle(data.Results[i].Name)
+													.setThumbnail("https://xivapi.com" + data.Results[i].Icon)
+													.setDescription("데이터센터 : " + dataCenterNames[dataCenter].kor + "\n품질 : " + quality)
+													.setTimestamp();
+													var marketdata = ["","",""];
+													var stack = 0;
+													for(var j=0; j<data1.listings.length; j++)
+													{
+														if (hq == 0 || (hq == 1 && data1.listings[j].hq == false) || (hq == 1 && data1.listings[j].hq == true))
+														{
+															marketdata[0] += data1.listings[j].quantity + "개 x " + data1.listings[j].pricePerUnit + "길\n";
+															marketdata[1] += data1.listings[j].quantity * data1.listings[j].pricePerUnit + "길\n";
+															marketdata[2] += data1.listings[j].worldName + "\n";
+															stack++;
+															if(stack >= 10)
+																break;
+														}
+													}
+													if(stack > 0)
+													{
+														Embed.addField("수량 x 단일가", marketdata[0], true);
+														Embed.addField("총가", marketdata[1], true);
+														Embed.addField("서버", marketdata[2], true);
+														interaction.channel.send({ embeds: [Embed] });
+														interaction.editReply({ content: "성공적으로 조회했습니다.", ephemeral: true });
+													}
+													else
+														interaction.editReply({ content: "마켓에 해당품목이 존재하지 않습니다.", ephemeral: true });
+												});
+											});
+											return;
+										}
+									}
+									interaction.editReply({ content: "없는 아이템입니다.", ephemeral: true });
+								});
+							});
+						}
 					});
+				}
+				break;
+			}
+			case '언어':
+			{
+				if (interaction.channel.parent == categorysId.dialog)
+				{
+					await interaction.deferReply({ ephemeral: true });
+					const language = interaction.options.get("언어").value;
+					dataBase.query("UPDATE UserSaveData SET Language = '" + language + "' WHERE User_Id='" + interaction.member.id +"'");
+					interaction.editReply({ content: "성공적으로 언어를 변경했습니다.", ephemeral: true });
 				}
 				break;
 			}
