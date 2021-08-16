@@ -2338,7 +2338,6 @@ client.on("interactionCreate", async (interaction) =>
 
 client.on("messageCreate", async (msg) =>
 {
-	console.log("테스트");
 	if (msg.author.bot) return;
 	if (msg.guild == null) return;
 	if (msg.content.includes("@everyone"))
@@ -3311,7 +3310,7 @@ client.on("messageCreate", async (msg) =>
 									}
 								}
 								else
-									msg.reply("!fc설명 [설명]").then(message => { message.delete({ timeout: 10000 }) });
+									msg.reply({ content : "!fc설명 [설명]" , ephemeral : true });
 							}
 						}
 					}
