@@ -2339,6 +2339,7 @@ client.on("interactionCreate", async (interaction) =>
 client.on("messageCreate", async (msg) =>
 {
 	if (msg.author.bot) return;
+	console.log(msg.guild);
 	if (msg.guild == null)
 	{
 		console.log(msg.content);
