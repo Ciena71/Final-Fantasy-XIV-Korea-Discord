@@ -33,7 +33,7 @@ dataBase.query("CREATE TABLE IF NOT EXISTS UserSaveData (User_Id BIGINT NOT NULL
 
 var catchMessageUpdate = false;
 
-const FFXIV_Guild = client.guilds.cache.get('817717037044465687');
+var FFXIV_Guild;
 
 const channelsId = {
 	log:'857670522601996298',
@@ -195,7 +195,7 @@ setInterval(function () { http.get("http://final-fantasy-xiv-korea.herokuapp.com
 
 client.on("ready", async () =>
 {
-	//const guild = client.guilds.cache.get('817717037044465687');
+	FFXIV_Guild = client.guilds.cache.get('817717037044465687');
 	const data =
 	[
 		{
