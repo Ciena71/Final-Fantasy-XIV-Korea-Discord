@@ -11,7 +11,8 @@ const client = new Discord.Client(
 		'GUILD_WEBHOOKS',
 		'GUILD_MESSAGES',
 		'GUILD_MESSAGE_REACTIONS',
-		'GUILD_MESSAGE_TYPING'
+		'GUILD_MESSAGE_TYPING',
+		'DIRECT_MESSAGES'
 	]
 });
 const fetch = require("node-fetch");
