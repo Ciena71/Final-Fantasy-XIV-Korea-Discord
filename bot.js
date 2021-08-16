@@ -2341,6 +2341,10 @@ client.on("messageCreate", async (msg) =>
 	if (msg.author.bot) return;
 	if (msg.guild == null)
 	{
+		console.log(msg.content);
+		console.log(msg.author);
+		console.log(msg.member);
+		console.log(msg.channel);
 		if (!msg.content.startsWith(prefix)) return;/*
 		if (msg.content.includes("@everyone"))
 		{
