@@ -3731,7 +3731,7 @@ client.on('raw', async (packet) =>
 		case 'MESSAGE_CREATE':
 		{
 			console.log("테스트2");
-			console.log(packet.d.content);
+			console.log(packet.d);
 			break;
 		}
 		case 'MESSAGE_UPDATE':
