@@ -3728,6 +3728,12 @@ client.on('raw', async (packet) =>
 {
 	switch(packet.t)
 	{
+		case 'MESSAGE_CREATE':
+		{
+			console.log("테스트2");
+			console.log(packet.d.content);
+			break;
+		}
 		case 'MESSAGE_UPDATE':
 		{
 			if (packet.d.guild_id == null) return;
