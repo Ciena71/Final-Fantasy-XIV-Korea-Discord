@@ -19,7 +19,7 @@
   "dependencies":
   {
     "express": "^4.17.1",
-    "discord.js": "^13.0.1",
+    "discord.js": "^13.1.0",
     "node-fetch": "^2.6.1",
     "pg": "^8.6.0"
   }
