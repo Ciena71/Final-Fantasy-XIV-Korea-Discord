@@ -698,14 +698,14 @@ client.on("interactionCreate", async (interaction) =>
 									if(interaction.channel.parent == categorysId.fc && interaction.channel != channelsId.fc)
 									{
 										ChannelId.send("```!fc설명 [설명]" +
-										"\n!fc호출벨 [@맨션]" +
+										"\n!fc문의 [@맨션]" +
 										"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
 									}
 									else
 									if(interaction.channel.parent == categorysId.linkshell && interaction.channel != channelsId.linkshell)
 									{
 										ChannelId.send("```!링크쉘설명 [설명] " +
-										"\n!링크쉘호출벨 [@맨션]```");
+										"\n!링크쉘문의 [@맨션]```");
 									}
 									else
 									if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve || interaction.channelId == channelsId.jp_party_pvp ||
@@ -1454,7 +1454,7 @@ client.on("interactionCreate", async (interaction) =>
 													.addField("월드", fcData.FreeCompany.Server, true)
 													.addField("약칭", fcData.FreeCompany.Tag, true)
 													.addField("슬로건", fcData.FreeCompany.Slogan)
-													.addField("호출벨", "<@" + interaction.member.id + ">")
+													.addField("문의", "<@" + interaction.member.id + ">")
 													.setTimestamp();
 													const Button1 = new Discord.MessageButton()
 													.setStyle("PRIMARY")
@@ -1538,7 +1538,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setTitle(linkshell)
 												.setURL("https://na.finalfantasyxiv.com/lodestone/linkshell/" + data.Results[i].ID)
 												.setAuthor(interaction.member.displayName, interaction.user.displayAvatarURL())
-												.addField("호출벨", "<@" + interaction.member.id + ">")
+												.addField("문의", "<@" + interaction.member.id + ">")
 												.addField("타입", "일반 링크쉘", true)
 												.addField("데이터 센터", DataCenterName, true)
 												.addField("월드", server[1], true)
@@ -1610,7 +1610,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setTitle(linkshell)
 												.setURL("https://na.finalfantasyxiv.com/lodestone/crossworld_linkshell/" + data.Results[i].ID)
 												.setAuthor(interaction.member.displayName, interaction.user.displayAvatarURL())
-												.addField("호출벨", "<@" + interaction.member.id + ">")
+												.addField("문의", "<@" + interaction.member.id + ">")
 												.addField("타입", " 크로스-월드 링크쉘", true)
 												.addField("데이터 센터", DataCenterName, true)
 												.setTimestamp();
@@ -2338,7 +2338,9 @@ client.on("interactionCreate", async (interaction) =>
 
 client.on("messageCreate", async (msg) =>
 {
+	console.log(msg.content);
 	if (msg.author.bot) return;
+	console.log("테스트");
 	if (msg.guild == null) return;
 	if (msg.content.includes("@everyone"))
 	{
@@ -2447,7 +2449,7 @@ client.on("messageCreate", async (msg) =>
 											messageId.edit({ embeds: [editEmbed] });
 											msg.channel.send({ embeds: [editEmbed] });
 											msg.channel.send("```!FC설명 [설명]" +
-											"\n!FC호출벨 [@맨션]" +
+											"\n!fc문의 [@맨션]" +
 											"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
 										}
 										else
@@ -3296,7 +3298,7 @@ client.on("messageCreate", async (msg) =>
 												messageId.edit({ embeds: [editEmbed] });
 												msg.channel.send({ embeds: [editEmbed] });
 												msg.channel.send("```!fc설명 [설명]" +
-												"\n!fc호출벨 [@맨션]" +
+												"\n!fc문의 [@맨션]" +
 												"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
 											}
 											else
@@ -3310,7 +3312,7 @@ client.on("messageCreate", async (msg) =>
 									}
 								}
 								else
-									msg.reply({ content : "!fc설명 [설명]" , ephemeral : true });
+									msg.reply("!fc설명 [설명]").then(message => { message.delete({ timeout: 10000 }) });
 							}
 						}
 					}
@@ -3318,7 +3320,7 @@ client.on("messageCreate", async (msg) =>
 			}
 			break;
 		}
-		case "fc호출벨":
+		case "fc문의":
 		{
 			if (msg.channel.parent == categorysId.dialog)
 			{
@@ -3353,7 +3355,7 @@ client.on("messageCreate", async (msg) =>
 												.setColor('#00ffff')
 												.setTitle(channelId.name)
 												.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-												.setDescription("<@" + msg.member.id + ">님이 [해당 메시지]("+ messageId.url +")의 호출벨 부분을 수정하셨습니다.")
+												.setDescription("<@" + msg.member.id + ">님이 [해당 메시지]("+ messageId.url +")의 문의 부분을 수정하셨습니다.")
 												.addField("수정 전", oldtext)
 												.addField("수정 후", text)
 												.setTimestamp()
@@ -3362,7 +3364,7 @@ client.on("messageCreate", async (msg) =>
 												messageId.edit({ embeds: [editEmbed] });
 												msg.channel.send({ embeds: [editEmbed] });
 												msg.channel.send("```!fc설명 [설명]" +
-												"\n!fc호출벨 [@맨션]" +
+												"\n!fc문의 [@맨션]" +
 												"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
 											}
 											else
@@ -3371,11 +3373,11 @@ client.on("messageCreate", async (msg) =>
 									}
 									catch(error)
 									{
-										msg.reply("!fc호출벨 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
+										msg.reply("!fc문의 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
 									}
 								}
 								else
-									msg.reply("!fc호출벨 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
+									msg.reply("!fc문의 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
 							}
 						}
 					}
@@ -3429,7 +3431,7 @@ client.on("messageCreate", async (msg) =>
 												messageId.edit({ embeds: [editEmbed] });
 												msg.channel.send({ embeds: [editEmbed] });
 												msg.channel.send("```!링크쉘설명 [설명] " +
-												"\n!링크쉘호출벨 [@맨션]```");
+												"\n!링크쉘문의 [@맨션]```");
 											}
 											else
 												msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { message.delete({ timeout: 10000 }) });
@@ -3449,7 +3451,7 @@ client.on("messageCreate", async (msg) =>
 			}
 			break;
 		}
-		case "링크쉘호출벨":
+		case "링크쉘문의":
 		{
 			if (msg.channel.parent == categorysId.dialog)
 			{
@@ -3484,7 +3486,7 @@ client.on("messageCreate", async (msg) =>
 												.setColor('#00ffff')
 												.setTitle(channelId.name)
 												.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-												.setDescription("<@" + msg.member.id + ">님이 [해당 메시지]("+ messageId.url +")의 호출벨 부분을 수정하셨습니다.")
+												.setDescription("<@" + msg.member.id + ">님이 [해당 메시지]("+ messageId.url +")의 문의 부분을 수정하셨습니다.")
 												.addField("수정 전", oldtext)
 												.addField("수정 후", text)
 												.setTimestamp()
@@ -3493,7 +3495,7 @@ client.on("messageCreate", async (msg) =>
 												messageId.edit({ embeds: [editEmbed] });
 												msg.channel.send({ embeds: [editEmbed] });
 												msg.channel.send("```!링크쉘설명 [설명] " +
-												"\n!링크쉘호출벨 [@맨션]```");
+												"\n!링크쉘문의 [@맨션]```");
 											}
 											else
 												msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { message.delete({ timeout: 10000 }) });
@@ -3501,11 +3503,11 @@ client.on("messageCreate", async (msg) =>
 									}
 									catch(error)
 									{
-										msg.reply("!링크쉘호출벨 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
+										msg.reply("!링크쉘문의 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
 									}
 								}
 								else
-									msg.reply("!링크쉘호출벨 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
+									msg.reply("!링크쉘문의 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
 							}
 						}
 					}
