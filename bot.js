@@ -3741,8 +3741,8 @@ client.on('raw', async (packet) =>
 						{
 							if (err)
 							{
-								packet.d.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
 								console.log(err);
+								packet.d.channel.send("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
 							}
 							else
 							{
