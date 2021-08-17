@@ -4905,7 +4905,7 @@ async function loadFile(msg, url)
 							msg.guild.channels.cache.get(channelsId.dialog).threads.create(
 							{
 								name: msg.member.id,
-								autoArchiveDuration: 5,
+								autoArchiveDuration: 60,
 								type: 'private_thread',
 								reason: msg.user.tag + "님의 다이얼로그 생성"
 							})
