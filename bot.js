@@ -640,6 +640,8 @@ client.on("threadCreate", async (thread) =>
 	if(thread.parent.id != channelsId.dialog)
 	{
 		const member = FFXIV_Guild.members.fetch(thread.ownerId);
+		console.log("테스트");
+		console.log(member);
 		const Embed = new Discord.MessageEmbed()
 		.setColor('#ff00ff')
 		.setTitle("스레드 생성")
@@ -649,7 +651,6 @@ client.on("threadCreate", async (thread) =>
 		.setFooter("스레드 ID : " + thread.id);
 		client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
 	}
-	console.log(thread);
 });
 
 let makingEmbed = new Discord.MessageEmbed();
