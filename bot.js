@@ -605,51 +605,80 @@ client.on('guildMemberRemove', async (member) =>
 client.on('messageUpdate', async (oldMessage, newMessage) =>
 {
 	if (newMessage.guild == null) return;
-	if (newMessage.author.bot) return;/*
-	if(newMessage.channel.parent != channelsId.dialog)
+	if (newMessage.author.bot) return;
+	if (oldMessage.partial)
 	{
-		if (newMessage.channel.parent != categorysId.inquire && newMessage.channel.parent != categorysId.negotiation && newMessage.channel.parent != categorysId.troubleshooting)
+
+		if(newMessage.channel.parent != channelsId.dialog)
 		{
-			const Embed = new Discord.MessageEmbed()
-			.setColor('#ff00ff')
-			.setTitle("수정")
-			.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
-			.setDescription("<@" + newMessage.author.id + ">님이 <#" + newMessage.channel + ">채널에 있는 [해당 메시지](" + newMessage.url + ") 를 수정했습니다. ")
-			.addFields(
-				{ name : "수정 전" , value : oldMessage.content },
-				{ name : "수정 후" , value : newMessage.content })
-			.setTimestamp()
-			.setFooter("메시지 ID : " + newMessage.id);
-			client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+			if (newMessage.channel.parent != categorysId.inquire && newMessage.channel.parent != categorysId.negotiation && newMessage.channel.parent != categorysId.troubleshooting)
+			{
+				const Embed = new Discord.MessageEmbed()
+				.setColor('#ff00ff')
+				.setTitle("수정")
+				.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
+				.setDescription("<@" + newMessage.author.id + ">님이 <#" + newMessage.channel + ">채널에 있는 [해당 메시지](" + newMessage.url + ") 를 수정했습니다. ")
+				.addFields(
+					{ name : "수정 전" , value : "~~캐시되지 않음~~" },
+					{ name : "수정 후" , value : newMessage.content })
+				.setTimestamp()
+				.setFooter("메시지 ID : " + newMessage.id);
+				client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+			}
+			else
+			{
+				const Embed = new Discord.MessageEmbed()
+				.setColor('#ff00ff')
+				.setTitle("수정")
+				.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
+				.addFields(
+					{ name : "수정 전" , value : "~~캐시되지 않음~~" },
+					{ name : "수정 후" , value : newMessage.content })
+				.setTimestamp();
+				const logChannelId = newMessage.channel.topic.split("-");
+				client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
+			}
 		}
-		else
-		{
-			const Embed = new Discord.MessageEmbed()
-			.setColor('#ff00ff')
-			.setTitle("수정")
-			.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
-			.addFields(
-				{ name : "수정 전" , value : oldMessage.content },
-				{ name : "수정 후" , value : newMessage.content })
-			.setTimestamp();
-			const logChannelId = newMessage.channel.topic.split("-");
-			client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
-		}
-	}*/
-	if(newMessage.partial)
-		console.log("캐시되지 않음");
+	}
 	else
-		console.log("캐시됨");
-	console.log("수정");
-	console.log(oldMessage);
-	console.log("구분선");
-	console.log(newMessage);
+	{
+		if(newMessage.channel.parent != channelsId.dialog)
+		{
+			if (newMessage.channel.parent != categorysId.inquire && newMessage.channel.parent != categorysId.negotiation && newMessage.channel.parent != categorysId.troubleshooting)
+			{
+				const Embed = new Discord.MessageEmbed()
+				.setColor('#ff00ff')
+				.setTitle("수정")
+				.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
+				.setDescription("<@" + newMessage.author.id + ">님이 <#" + newMessage.channel + ">채널에 있는 [해당 메시지](" + newMessage.url + ") 를 수정했습니다. ")
+				.addFields(
+					{ name : "수정 전" , value : oldMessage.content },
+					{ name : "수정 후" , value : newMessage.content })
+				.setTimestamp()
+				.setFooter("메시지 ID : " + newMessage.id);
+				client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+			}
+			else
+			{
+				const Embed = new Discord.MessageEmbed()
+				.setColor('#ff00ff')
+				.setTitle("수정")
+				.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
+				.addFields(
+					{ name : "수정 전" , value : oldMessage.content },
+					{ name : "수정 후" , value : newMessage.content })
+				.setTimestamp();
+				const logChannelId = newMessage.channel.topic.split("-");
+				client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
+			}
+		}
+	}
 });
 
 client.on('messageDelete', async (message) =>
 {
 	if (message.guild == null) return;
-	if(message.partial)
+	if (message.partial)
 	{
 		if (message.channel.id === channelsId.log ||
 		message.channel.id === channelsId.certification ||
@@ -680,7 +709,7 @@ client.on('messageDelete', async (message) =>
 		(message.channel.id != channelsId.linkshell && message.channel.parent.id == categorysId.linkshell) ||
 		message.channel.parent.id == categorysId.job_battle ||
 		message.channel.parent.parent.id == categorysId.job_battle) return;
-		if(message.channel.id != channelsId.dialog)
+		if (message.channel.id != channelsId.dialog)
 		{
 			if (message.channel.parent != categorysId.inquire && message.channel.parent != categorysId.negotiation && message.channel.parent != categorysId.troubleshooting)
 			{
@@ -726,7 +755,7 @@ client.on('messageDelete', async (message) =>
 		(message.channel.id != channelsId.linkshell && message.channel.parent.id == categorysId.linkshell) ||
 		message.channel.parent.id == categorysId.job_battle ||
 		message.channel.parent.parent.id == categorysId.job_battle) return;
-		if(message.channel.id != channelsId.dialog)
+		if (message.channel.id != channelsId.dialog)
 		{
 			if (message.channel.parent != categorysId.inquire && message.channel.parent != categorysId.negotiation && message.channel.parent != categorysId.troubleshooting)
 			{
