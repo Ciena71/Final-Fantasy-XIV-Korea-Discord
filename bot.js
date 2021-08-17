@@ -35,8 +35,6 @@ dataBase.connect();
 
 dataBase.query("CREATE TABLE IF NOT EXISTS UserSaveData (User_Id BIGINT NOT NULL PRIMARY KEY, FFXIV_Id INT, Config INT DEFAULT 0, Warning_Reason TEXT, Ban_Reason TEXT, Language INT DEFAULT 0)");
 
-var catchMessageUpdate = false;
-
 var FFXIV_Guild;
 
 const channelsId = {
@@ -199,7 +197,7 @@ setInterval(function () { http.get("http://final-fantasy-xiv-korea.herokuapp.com
 
 client.on("ready", async () =>
 {
-	FFXIV_Guild = client.guilds.cache.get('817717037044465687');
+	FFXIV_Guild = await client.guilds.cache.get('817717037044465687');
 	const data =
 	[
 		{
@@ -716,7 +714,7 @@ client.on('messageDelete', async (message) =>
 				const Embed = new Discord.MessageEmbed()
 				.setColor('#ff00ff')
 				.setTitle("제거")
-				.setDescription("**<#" + message.channel.id + ">채널에 있었던 캐시되지 않은 메시지가 삭제되었습니다.")
+				.setDescription("**<#" + message.channel.id + ">채널에 있었던 캐시되지 않은 메시지가 삭제되었습니다.**")
 				.setTimestamp()
 				.setFooter("메시지 ID : " + message.id);
 				FFXIV_Guild.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
@@ -3888,116 +3886,7 @@ client.on("messageCreate", async (msg) =>
 client.on('raw', async (packet) =>
 {
 	switch(packet.t)
-	{/*
-		case 'MESSAGE_UPDATE':
-		{
-			if (packet.d.guild_id == null) return;
-			await sleep(1000);
-			if(catchMessageUpdate)
-				catchMessageUpdate = false;
-			else
-			{
-				if (packet.d.channel_id === channelsId.log) return;
-				if (packet.d.author == null) return;
-				if (packet.d.author.bot) return;
-				const channelId = client.channels.cache.get(packet.d.channel_id);
-				const messageId = await channelId.messages.fetch(packet.d.id);
-				if(channelId.parent != channelsId.dialog)
-				{
-					if (channelId.parent != categorysId.inquire && channelId.parent != categorysId.negotiation && channelId.parent != categorysId.troubleshooting)
-					{
-						const Embed = new Discord.MessageEmbed()
-						.setColor('#ff00ff')
-						.setTitle("수정")
-						.setAuthor(packet.d.author.tag, packet.d.author.displayAvatarURL())
-						.setDescription("<@" + packet.d.author.id + ">님이 <#" + channelId.id + ">채널에 있는 [해당 메시지](" + messageId.url + ") 를 수정했습니다. ")
-						.addFields(
-							{ name : "수정 전" , value : "~~캐시되지 않음~~" },
-							{ name : "수정 후" , value : packet.d.content })
-						.setTimestamp()
-						.setFooter("메시지 ID : " + messageId.id);
-						client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-					}
-					else
-					{
-						const Embed = new Discord.MessageEmbed()
-						.setColor('#ff00ff')
-						.setTitle("수정")
-						.setAuthor(packet.d.author.tag, packet.d.author.displayAvatarURL())
-						.addFields(
-							{ name : "수정 전" , value : "~~캐시되지 않음~~" },
-							{ name : "수정 후" , value : packet.d.content })
-						.setTimestamp()
-						const logChannelId = messageId.channel.topic.split("-");
-						client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
-					}
-				}
-			}
-			break;
-		}
-		case 'MESSAGE_DELETE':
-		{
-			if (packet.d.guild_id == null) return;
-			const channelId = client.channels.cache.get(packet.d.channel_id);
-			if (packet.d.channel_id === channelsId.log ||
-			packet.d.channel_id === channelsId.certification ||
-			packet.d.channel_id === channelsId.console ||
-			packet.d.channel_id === channelsId.jp_static_pve ||
-			packet.d.channel_id === channelsId.jp_party_pve ||
-			packet.d.channel_id === channelsId.jp_party_pvp ||
-			packet.d.channel_id === channelsId.na_static_pve ||
-			packet.d.channel_id === channelsId.na_party_pve ||
-			packet.d.channel_id === channelsId.na_party_pvp ||
-			packet.d.channel_id === channelsId.eu_static_pve ||
-			packet.d.channel_id === channelsId.eu_party_pve ||
-			packet.d.channel_id === channelsId.eu_party_pvp ||
-			(channelId.isThread() &&
-			(channelId.parentId === channelsId.jp_static_pve ||
-			channelId.parentId === channelsId.jp_party_pve ||
-			channelId.parentId === channelsId.jp_party_pvp ||
-			channelId.parentId === channelsId.na_static_pve ||
-			channelId.parentId === channelsId.na_party_pve ||
-			channelId.parentId === channelsId.na_party_pvp ||
-			channelId.parentId === channelsId.eu_static_pve ||
-			channelId.parentId === channelsId.eu_party_pve ||
-			channelId.parentId === channelsId.eu_party_pvp)) ||
-			packet.d.channel_id === channelsId.trade ||
-			packet.d.channel_id === channelsId.dialog ||
-			channelId.parent === channelsId.dialog ||
-			(packet.d.channel_id != channelsId.fc && channelId.parent == categorysId.fc) ||
-			(packet.d.channel_id != channelsId.linkshell && channelId.parent == categorysId.linkshell) ||
-			channelId.parentId == categorysId.job_battle ||
-			channelId.parent.parentId == categorysId.job_battle) return;
-			channelId.messages.fetch(packet.d.id).then(messageId =>
-			{
-				if(channelId != channelsId.dialog)
-				{
-					if (channelId.parent != categorysId.inquire && channelId.parent != categorysId.negotiation && channelId.parent != categorysId.troubleshooting)
-					{
-						const Embed = new Discord.MessageEmbed()
-						.setColor('#ff00ff')
-						.setTitle("제거")
-						.setAuthor(messageId.author.tag, messageId.author.displayAvatarURL())
-						.setDescription("**<#" + channelId.id + ">채널에 있는 <@" + messageId.author.id + ">님의 메시지가 제거되었습니다.**\n" + messageId.content)
-						.setTimestamp()
-						.setFooter("메시지 ID : " + messageId.id);
-						client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-					}
-					else
-					{
-						const Embed = new Discord.MessageEmbed()
-						.setColor('#ff00ff')
-						.setTitle("제거")
-						.setAuthor(messageId.author.tag, messageId.author.displayAvatarURL())
-						.setDescription(messageId.content)
-						.setTimestamp();
-						const logChannelId = messageId.channel.topic.split("-");
-						client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
-					}
-				}
-			});
-			break;
-		}*/
+	{
 		case 'MESSAGE_REACTION_ADD':
 		{
 			if (packet.d.guild_id == null) return;
