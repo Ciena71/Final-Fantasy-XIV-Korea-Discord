@@ -638,7 +638,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 client.on("threadCreate", async (thread) =>
 {
 	if(thread.parent.id != channelsId.dialog)
-	{
+	{/*
 		const member = FFXIV_Guild.members.fetch(thread.ownerId);
 		const Embed = new Discord.MessageEmbed()
 		.setColor('#ff00ff')
@@ -647,7 +647,7 @@ client.on("threadCreate", async (thread) =>
 		.setDescription("<@" + member.id + ">님이 <#" + thread.parent.id + ">채널에 <#" + thread.id + "> 스레드를 생성하셨습니다. ")
 		.setTimestamp()
 		.setFooter("스레드 ID : " + thread.id);
-		client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+		client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });*/
 	}
 });
 
