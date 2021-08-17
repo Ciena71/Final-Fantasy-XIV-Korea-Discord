@@ -637,6 +637,18 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 
 client.on("threadCreate", async (thread) =>
 {
+	if(thread.parent.id != channelsId.dialog)
+	{
+		const member = FFXIV_Guild.members.fetch(thread.ownerId);
+		const Embed = new Discord.MessageEmbed()
+		.setColor('#ff00ff')
+		.setTitle("스레드 생성")
+		.setAuthor(member.user.tag, member.user.displayAvatarURL())
+		.setDescription("<@" + member.id + ">님이 <#" + thread.parent.id + ">채널에 <#" + thread.id + "> 스레드를 생성하셨습니다. ")
+		.setTimestamp()
+		.setFooter("스레드 ID : " + thread.id);
+		client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+	}
 	console.log(thread);
 });
 
@@ -991,7 +1003,7 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case '개인정보':
 			{
-				if (interaction.channel.parent == categorysId.dialog)
+				if (interaction.channel.parent == channelsId.dialog)
 				{
 					await interaction.deferReply({ ephemeral: true });
 					dataBase.query("SELECT Config FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
@@ -1022,7 +1034,7 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case '플레이어조회':
 			{
-				if (interaction.channel.parent == categorysId.dialog)
+				if (interaction.channel.parent == channelsId.dialog)
 				{
 					await interaction.deferReply({ ephemeral: true });
 					interaction.guild.members.fetch(interaction.options.get("유저").value).then(target =>
@@ -1155,7 +1167,7 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case '로그':
 			{
-				if (interaction.channel.parent == categorysId.dialog)
+				if (interaction.channel.parent == channelsId.dialog)
 				{
 					await interaction.deferReply({ ephemeral: true });
 					interaction.guild.members.fetch(interaction.options.get("유저").value).then(target =>
@@ -1315,7 +1327,7 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case '마켓':
 			{
-				if (interaction.channel.parent == categorysId.dialog)
+				if (interaction.channel.parent == channelsId.dialog)
 				{
 					await interaction.deferReply({ ephemeral: true });
 					const itemName = interaction.options.get("아이템").value;
@@ -1401,7 +1413,7 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case '언어':
 			{
-				if (interaction.channel.parent == categorysId.dialog)
+				if (interaction.channel.parent == channelsId.dialog)
 				{
 					await interaction.deferReply({ ephemeral: true });
 					const language = interaction.options.get("언어").value;
@@ -2384,7 +2396,7 @@ client.on("messageCreate", async (msg) =>
 	}
 	else
 	{
-		if(msg.channel.parent != categorysId.dialog)
+		if(msg.channel.parent != channelsId.dialog)
 		{
 			if(msg.channel.parent != categorysId.inquire && msg.channel.parent != categorysId.negotiation && msg.channel.parent != categorysId.troubleshooting)
 			{
@@ -3259,7 +3271,7 @@ client.on("messageCreate", async (msg) =>
 		}
 		case "fc설명":
 		{
-			if (msg.channel.parent == categorysId.dialog)
+			if (msg.channel.parent == channelsId.dialog)
 			{
 				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
 				{
@@ -3325,7 +3337,7 @@ client.on("messageCreate", async (msg) =>
 		}
 		case "fc문의":
 		{
-			if (msg.channel.parent == categorysId.dialog)
+			if (msg.channel.parent == channelsId.dialog)
 			{
 				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
 				{
@@ -3390,7 +3402,7 @@ client.on("messageCreate", async (msg) =>
 		}
 		case "링크쉘설명":
 		{
-			if (msg.channel.parent == categorysId.dialog)
+			if (msg.channel.parent == channelsId.dialog)
 			{
 				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
 				{
@@ -3456,7 +3468,7 @@ client.on("messageCreate", async (msg) =>
 		}
 		case "링크쉘문의":
 		{
-			if (msg.channel.parent == categorysId.dialog)
+			if (msg.channel.parent == channelsId.dialog)
 			{
 				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
 				{
@@ -3520,7 +3532,7 @@ client.on("messageCreate", async (msg) =>
 		}
 		case "파티설명":
 		{
-			if (msg.channel.parent == categorysId.dialog)
+			if (msg.channel.parent == channelsId.dialog)
 			{
 				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
 				{
@@ -3591,7 +3603,7 @@ client.on("messageCreate", async (msg) =>
 		}
 		case "거래설명":
 		{
-			if (msg.channel.parent == categorysId.dialog)
+			if (msg.channel.parent == channelsId.dialog)
 			{
 				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
 				{
@@ -3743,7 +3755,7 @@ client.on('raw', async (packet) =>
 				if (packet.d.author.bot) return;
 				const channelId = client.channels.cache.get(packet.d.channel_id);
 				const messageId = await channelId.messages.fetch(packet.d.id);
-				if(channelId.parent != categorysId.dialog)
+				if(channelId.parent != channelsId.dialog)
 				{
 					if (channelId.parent != categorysId.inquire && channelId.parent != categorysId.negotiation && channelId.parent != categorysId.troubleshooting)
 					{
@@ -3803,14 +3815,14 @@ client.on('raw', async (packet) =>
 			channelId.parentId === channelsId.eu_party_pve ||
 			channelId.parentId === channelsId.eu_party_pvp)) ||
 			packet.d.channel_id === channelsId.trade ||
-			channelId.parent === categorysId.dialog ||
+			channelId.parent === channelsId.dialog ||
 			(packet.d.channel_id != channelsId.fc && channelId.parent == categorysId.fc) ||
 			(packet.d.channel_id != channelsId.linkshell && channelId.parent == categorysId.linkshell) ||
 			channelId.parentId == categorysId.job_battle ||
 			channelId.parent.parentId == categorysId.job_battle) return;
 			channelId.messages.fetch(packet.d.id).then(messageId =>
 			{
-				if(channelId.parent != categorysId.dialog)
+				if(channelId != channelsId.dialog)
 				{
 					if (channelId.parent != categorysId.inquire && channelId.parent != categorysId.negotiation && channelId.parent != categorysId.troubleshooting)
 					{
