@@ -4925,7 +4925,7 @@ async function loadFile(msg, url)
 		msg.editReply({ content: "아이디를 찾지 못했습니다.\n혹은 로드스톤이 점검중입니다." });
 		return;
 	}
-	dataBase.query("SELECT User_Id FROM UserSaveData WHERE FFXIV_Id = '" + url +"'", (err, res) =>
+	dataBase.query("SELECT * FROM UserSaveData WHERE FFXIV_Id = '" + url +"'", (err, res) =>
 	{
 		if (err)
 		{
@@ -4948,8 +4948,13 @@ async function loadFile(msg, url)
 					try
 					{
 						const oldname = msg.member.nickname;
-						const dialogchannels = msg.guild.channels.cache.filter(channel => channel.isThread() && channel.parent.id === channelsId.dialog && channel.name === msg.member.id);
-						if(dialogchannels.size == 0)
+						const dialogchannels = msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog);
+						if(dialogchannels)
+						{
+							dialogchannels.members.add(msg.member);
+							dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
+						}
+						else
 						{
 							msg.guild.channels.cache.get(channelsId.dialog).threads.create(
 							{
@@ -4965,11 +4970,6 @@ async function loadFile(msg, url)
 								console.log(threadChannel);
 							})
 							.catch(console.error);
-						}
-						else
-						{
-							dialogchannels.first().members.add(msg.member);
-							dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
 						}
 						msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
 						var checker = false;
