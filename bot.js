@@ -640,6 +640,7 @@ client.on("threadCreate", async (thread) =>
 	if(thread.parent.id != channelsId.dialog)
 	{
 		const member = FFXIV_Guild.members.fetch(thread.ownerId);
+		console.log(member.user);
 		const Embed = new Discord.MessageEmbed()
 		.setColor('#ff00ff')
 		.setTitle("스레드 생성")
