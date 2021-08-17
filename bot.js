@@ -16,7 +16,7 @@ const client = new Discord.Client(
 	],
 	partials:
 	[
-		'MESSAGE'
+		'CHANNEL'
 	]
 });
 const fetch = require("node-fetch");
