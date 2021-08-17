@@ -4906,13 +4906,13 @@ async function loadFile(msg, url)
 							{
 								name: msg.member.id,
 								autoArchiveDuration: 60,
-								//type: 'private_thread',
+								type: 'private_thread',
 								reason: msg.user.tag + "님의 다이얼로그 생성"
 							})
 							.then(threadChannel => 
 							{
 								dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + threadChannel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + threadChannel.id);
-								threadChannel.members.add(msg.member);
+								threadChannel.members.add(msg.member.id);
 							})
 							.catch(console.error);
 						}
