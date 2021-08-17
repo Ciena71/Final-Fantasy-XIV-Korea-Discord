@@ -4899,7 +4899,7 @@ async function loadFile(msg, url)
 					try
 					{
 						const oldname = msg.member.nickname;
-						const dialogchannels = msg.guild.channels.cache.filter(channel => channel.parent.isThread() && channel.parent.id === channelsId.dialog && channel.name === msg.member.id);
+						const dialogchannels = msg.guild.channels.cache.filter(channel => channel.isThread() && channel.parent.id === channelsId.dialog && channel.name === msg.member.id);
 						if(dialogchannels.size == 0)
 						{
 							msg.guild.channels.cache.get(channelsId.dialog).threads.create(
