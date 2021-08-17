@@ -70,8 +70,7 @@ const categorysId = {
 	troubleshooting:'869165235225899008',
 	troubleshooting_log:'869165664257064980',
 	troubleshooting_close:'869165559848263741',
-	job_battle:'857687196911271997',
-	dialog:'866817835951194132'};
+	job_battle:'857687196911271997'};
 
 const config = {
 	private: 1 << 0};
@@ -608,35 +607,32 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 	if (newMessage.guild == null) return;
 	if (newMessage.author.bot) return;
 	catchMessageUpdate = true;
-	if(newMessage.channel.parent != categorysId.dialog)
+	if (newMessage.channel.parent != categorysId.inquire && newMessage.channel.parent != categorysId.negotiation && newMessage.channel.parent != categorysId.troubleshooting)
 	{
-		if (newMessage.channel.parent != categorysId.inquire && newMessage.channel.parent != categorysId.negotiation && newMessage.channel.parent != categorysId.troubleshooting)
-		{
-			const Embed = new Discord.MessageEmbed()
-			.setColor('#ff00ff')
-			.setTitle("수정")
-			.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
-			.setDescription("<@" + newMessage.author.id + ">님이 <#" + newMessage.channel + ">채널에 있는 [해당 메시지](" + newMessage.url + ") 를 수정했습니다. ")
-			.addFields(
-				{ name : "수정 전" , value : oldMessage.content },
-				{ name : "수정 후" , value : newMessage.content })
-			.setTimestamp()
-			.setFooter("메시지 ID : " + newMessage.id);
-			client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-		}
-		else
-		{
-			const Embed = new Discord.MessageEmbed()
-			.setColor('#ff00ff')
-			.setTitle("수정")
-			.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
-			.addFields(
-				{ name : "수정 전" , value : oldMessage.content },
-				{ name : "수정 후" , value : newMessage.content })
-			.setTimestamp();
-			const logChannelId = newMessage.channel.topic.split("-");
-			client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
-		}
+		const Embed = new Discord.MessageEmbed()
+		.setColor('#ff00ff')
+		.setTitle("수정")
+		.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
+		.setDescription("<@" + newMessage.author.id + ">님이 <#" + newMessage.channel + ">채널에 있는 [해당 메시지](" + newMessage.url + ") 를 수정했습니다. ")
+		.addFields(
+			{ name : "수정 전" , value : oldMessage.content },
+			{ name : "수정 후" , value : newMessage.content })
+		.setTimestamp()
+		.setFooter("메시지 ID : " + newMessage.id);
+		client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+	}
+	else
+	{
+		const Embed = new Discord.MessageEmbed()
+		.setColor('#ff00ff')
+		.setTitle("수정")
+		.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
+		.addFields(
+			{ name : "수정 전" , value : oldMessage.content },
+			{ name : "수정 후" , value : newMessage.content })
+		.setTimestamp();
+		const logChannelId = newMessage.channel.topic.split("-");
+		client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
 	}
 });
 
@@ -686,50 +682,37 @@ client.on("interactionCreate", async (interaction) =>
 				{
 					if(interaction.message.embeds[0].author.name == interaction.member.displayName)
 					{
-						dataBase.query("SELECT Dialog FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
+						dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = " + interaction.channel.id + ", Dialog_Message_Id = " + interaction.message.id + " WHERE User_Id = '" + interaction.member.id +"'");
+						interaction.user.send("<@" + interaction.member.id + ">, <#" + interaction.channel.id + "> 의 글을 수정하시려면 아래의 명령어를 따라주세요.");
+						interaction.user.send({ embeds: [interaction.message.embeds[0]] });
+						if(interaction.channel.parent == categorysId.fc && interaction.channel != channelsId.fc)
 						{
-							if (err)
-							{
-								console.log(err);
-							}
-							else
-							{
-								if(res.rows[0].dialog != null)
-								{
-									dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = " + interaction.channel.id + ", Dialog_Message_Id = " + interaction.message.id + " WHERE User_Id = '" + interaction.member.id +"'");
-									interaction.user.send("<@" + interaction.member.id + ">, <#" + interaction.channel.id + "> 의 글을 수정하시려면 아래의 명령어를 따라주세요.");
-									interaction.user.send({ embeds: [interaction.message.embeds[0]] });
-									if(interaction.channel.parent == categorysId.fc && interaction.channel != channelsId.fc)
-									{
-										interaction.user.send("```!fc설명 [설명]" +
-										"\n!fc문의 [@맨션]" +
-										"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
-									}
-									else
-									if(interaction.channel.parent == categorysId.linkshell && interaction.channel != channelsId.linkshell)
-									{
-										interaction.user.send("```!링크쉘설명 [설명] " +
-										"\n!링크쉘문의 [@맨션]```");
-									}
-									else
-									if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve || interaction.channelId == channelsId.jp_party_pvp ||
-										interaction.channelId == channelsId.na_static_pve || interaction.channelId == channelsId.na_party_pve || interaction.channelId == channelsId.na_party_pvp ||
-										interaction.channelId == channelsId.eu_static_pve || interaction.channelId == channelsId.eu_party_pve || interaction.channelId == channelsId.eu_party_pvp ||
-										(interaction.channel.isThread() &&
-										(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve || interaction.channel.parentId == channelsId.jp_party_pvp ||
-										interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
-										interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
-									{
-										interaction.user.send("```!파티설명 [설명]```");
-									}
-									else
-									if(interaction.channel == channelsId.trade)
-									{
-										interaction.user.send("```!거래설명 [설명]```");
-									}
-								}
-							}
-						});
+							interaction.user.send("```!fc설명 [설명]" +
+							"\n!fc문의 [@맨션]" +
+							"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
+						}
+						else
+						if(interaction.channel.parent == categorysId.linkshell && interaction.channel != channelsId.linkshell)
+						{
+							interaction.user.send("```!링크쉘설명 [설명] " +
+							"\n!링크쉘문의 [@맨션]```");
+						}
+						else
+						if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve || interaction.channelId == channelsId.jp_party_pvp ||
+							interaction.channelId == channelsId.na_static_pve || interaction.channelId == channelsId.na_party_pve || interaction.channelId == channelsId.na_party_pvp ||
+							interaction.channelId == channelsId.eu_static_pve || interaction.channelId == channelsId.eu_party_pve || interaction.channelId == channelsId.eu_party_pvp ||
+							(interaction.channel.isThread() &&
+							(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve || interaction.channel.parentId == channelsId.jp_party_pvp ||
+							interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
+							interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
+						{
+							interaction.user.send("```!파티설명 [설명]```");
+						}
+						else
+						if(interaction.channel == channelsId.trade)
+						{
+							interaction.user.send("```!거래설명 [설명]```");
+						}
 					}
 				}
 				break;
@@ -987,7 +970,7 @@ client.on("interactionCreate", async (interaction) =>
 						interaction.editReply({ content: "/인증 [로드스톤 URL]" });
 				}
 				break;
-			}
+			}/*
 			case '개인정보':
 			{
 				if (interaction.channel.parent == categorysId.dialog)
@@ -1408,7 +1391,7 @@ client.on("interactionCreate", async (interaction) =>
 					interaction.editReply({ content: "성공적으로 언어를 변경했습니다." });
 				}
 				break;
-			}
+			}*/
 			case 'fc':
 			{
 				if (interaction.channelId != channelsId.fc && interaction.channel.parent == categorysId.fc)
@@ -2342,7 +2325,6 @@ client.on("interactionCreate", async (interaction) =>
 
 client.on("messageCreate", async (msg) =>
 {
-	console.log(msg);
 	if (msg.author.bot) return;
 	if (msg.guild == null)
 	{
@@ -2355,6 +2337,7 @@ client.on("messageCreate", async (msg) =>
 				return;
 			}
 		}
+		const member = FFXIV_Guild.members.fetch(msg.author.id);
 		if(msg.attachments.size == 1)
 		{
 			const image = msg.attachments.first().url;
@@ -2373,7 +2356,7 @@ client.on("messageCreate", async (msg) =>
 					}
 					else
 					{
-						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
+						const channelId = FFXIV_Guild.channels.cache.get(res.rows[0].dialog_channel_id);
 						if (channelId != channelsId.fc && channelId.parent == categorysId.fc)
 						{
 							try
@@ -2388,12 +2371,12 @@ client.on("messageCreate", async (msg) =>
 										.setColor('#00ffff')
 										.setTitle(channelId.name)
 										.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-										.setDescription("<@" + msg.member.id + ">님이 [해당 메시지]("+ messageId.url +")에 이미지를 수정하셨습니다.")
+										.setDescription("<@" + member.id + ">님이 [해당 메시지]("+ messageId.url +")에 이미지를 수정하셨습니다.")
 										.setImage(image)
 										.setTimestamp()
 										.setFooter("메시지 ID : " + messageId.id);
 										FFXIV_Guild.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
-										FFXIV_Guild.edit({ embeds: [editEmbed] });
+										messageId.edit({ embeds: [editEmbed] });
 										msg.channel.send({ embeds: [editEmbed] });
 										msg.channel.send("```!FC설명 [설명]" +
 										"\n!fc문의 [@맨션]" +
@@ -2420,406 +2403,388 @@ client.on("messageCreate", async (msg) =>
 		{
 			case "fc설명":
 			{
-				if (msg.channel.parent == categorysId.dialog)
+				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + member.id +"'", (err, res) =>
 				{
-					dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
+					if (err)
 					{
-						if (err)
+						msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
+						console.log(err);
+					}
+					else
+					{
+						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
+						if (channelId)
 						{
-							msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
-							console.log(err);
-						}
-						else
-						{
-							const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
-							if (channelId)
+							if (channelId != channelsId.fc && channelId.parent == categorysId.fc)
 							{
-								if (channelId != channelsId.fc && channelId.parent == categorysId.fc)
+								cmd = msg.content.slice(prefix.length).split(" ", 2);
+								if(cmd.length == 2)
 								{
-									cmd = msg.content.slice(prefix.length).split(" ", 2);
-									if(cmd.length == 2)
+									try
 									{
-										try
+										channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
 										{
-											channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
+											var editEmbed = messageId.embeds[0];
+											if(editEmbed.author.name == member.displayName)
 											{
-												var editEmbed = messageId.embeds[0];
-												if(editEmbed.author.name == msg.member.displayName)
-												{
-													const oldtext = editEmbed.description;
-													const text = msg.content.slice(prefix.length + cmd[0].length + 1);
-													editEmbed.setDescription(text);
-													const logEmbed = new Discord.MessageEmbed()
-													.setColor('#00ffff')
-													.setTitle(channelId.name)
-													.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-													.setDescription("<@" + msg.member.id + ">님이 [해당 메시지]("+ messageId.url +")의 설명 부분을 수정하셨습니다.")
-													.addField("수정 전", oldtext)
-													.addField("수정 후", text)
-													.setTimestamp()
-													.setFooter("메시지 ID : " + messageId.id);
-													client.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
-													messageId.edit({ embeds: [editEmbed] });
-													msg.channel.send({ embeds: [editEmbed] });
-													msg.channel.send("```!fc설명 [설명]" +
-													"\n!fc문의 [@맨션]" +
-													"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
-												}
-												else
-													msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { message.delete({ timeout: 10000 }) });
-											});
-										}
-										catch(error)
-										{
-											console.log(error);
-											msg.reply("!fc설명 [설명]").then(message => { message.delete({ timeout: 10000 }) });
-										}
+												const oldtext = editEmbed.description;
+												const text = msg.content.slice(prefix.length + cmd[0].length + 1);
+												editEmbed.setDescription(text);
+												const logEmbed = new Discord.MessageEmbed()
+												.setColor('#00ffff')
+												.setTitle(channelId.name)
+												.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+												.setDescription("<@" + member.id + ">님이 [해당 메시지]("+ messageId.url +")의 설명 부분을 수정하셨습니다.")
+												.addField("수정 전", oldtext)
+												.addField("수정 후", text)
+												.setTimestamp()
+												.setFooter("메시지 ID : " + messageId.id);
+												FFXIV_Guild.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
+												messageId.edit({ embeds: [editEmbed] });
+												msg.channel.send({ embeds: [editEmbed] });
+												msg.channel.send("```!fc설명 [설명]" +
+												"\n!fc문의 [@맨션]" +
+												"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
+											}
+											else
+												msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { message.delete({ timeout: 10000 }) });
+										});
 									}
-									else
+									catch(error)
+									{
+										console.log(error);
 										msg.reply("!fc설명 [설명]").then(message => { message.delete({ timeout: 10000 }) });
+									}
 								}
+								else
+									msg.reply("!fc설명 [설명]").then(message => { message.delete({ timeout: 10000 }) });
 							}
 						}
-					});
-				}
+					}
+				});
 				break;
 			}
 			case "fc문의":
 			{
-				if (msg.channel.parent == categorysId.dialog)
+				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + member.id +"'", (err, res) =>
 				{
-					dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
+					if (err)
 					{
-						if (err)
+						msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
+						console.log(err);
+					}
+					else
+					{
+						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
+						if (channelId)
 						{
-							msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
-							console.log(err);
-						}
-						else
-						{
-							const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
-							if (channelId)
+							if (channelId != channelsId.fc && channelId.parent == categorysId.fc)
 							{
-								if (channelId != channelsId.fc && channelId.parent == categorysId.fc)
+								cmd = msg.content.slice(prefix.length).split(" ", 2);
+								if(cmd.length == 2)
 								{
-									cmd = msg.content.slice(prefix.length).split(" ", 2);
-									if(cmd.length == 2)
+									try
 									{
-										try
+										channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
 										{
-											channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
+											var editEmbed = messageId.embeds[0];
+											if(editEmbed.author.name == member.displayName)
 											{
-												var editEmbed = messageId.embeds[0];
-												if(editEmbed.author.name == msg.member.displayName)
-												{
-													const oldtext = editEmbed.fields[4].value;
-													const text = msg.content.slice(prefix.length + cmd[0].length + 1);
-													editEmbed.fields[4].value = text;
-													const logEmbed = new Discord.MessageEmbed()
-													.setColor('#00ffff')
-													.setTitle(channelId.name)
-													.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-													.setDescription("<@" + msg.member.id + ">님이 [해당 메시지]("+ messageId.url +")의 문의 부분을 수정하셨습니다.")
-													.addField("수정 전", oldtext)
-													.addField("수정 후", text)
-													.setTimestamp()
-													.setFooter("메시지 ID : " + messageId.id);
-													client.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
-													messageId.edit({ embeds: [editEmbed] });
-													msg.channel.send({ embeds: [editEmbed] });
-													msg.channel.send("```!fc설명 [설명]" +
-													"\n!fc문의 [@맨션]" +
-													"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
-												}
-												else
-													msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { message.delete({ timeout: 10000 }) });
-											});
-										}
-										catch(error)
-										{
-											msg.reply("!fc문의 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
-										}
+												const oldtext = editEmbed.fields[4].value;
+												const text = msg.content.slice(prefix.length + cmd[0].length + 1);
+												editEmbed.fields[4].value = text;
+												const logEmbed = new Discord.MessageEmbed()
+												.setColor('#00ffff')
+												.setTitle(channelId.name)
+												.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+												.setDescription("<@" + member.id + ">님이 [해당 메시지]("+ messageId.url +")의 문의 부분을 수정하셨습니다.")
+												.addField("수정 전", oldtext)
+												.addField("수정 후", text)
+												.setTimestamp()
+												.setFooter("메시지 ID : " + messageId.id);
+												FFXIV_Guild.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
+												messageId.edit({ embeds: [editEmbed] });
+												msg.channel.send({ embeds: [editEmbed] });
+												msg.channel.send("```!fc설명 [설명]" +
+												"\n!fc문의 [@맨션]" +
+												"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
+											}
+											else
+												msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { message.delete({ timeout: 10000 }) });
+										});
 									}
-									else
+									catch(error)
+									{
 										msg.reply("!fc문의 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
+									}
 								}
+								else
+									msg.reply("!fc문의 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
 							}
 						}
-					});
-				}
+					}
+				});
 				break;
 			}
 			case "링크쉘설명":
 			{
-				if (msg.channel.parent == categorysId.dialog)
+				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + member.id +"'", (err, res) =>
 				{
-					dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
+					if (err)
 					{
-						if (err)
+						msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
+						console.log(err);
+					}
+					else
+					{
+						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
+						if (channelId)
 						{
-							msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
-							console.log(err);
-						}
-						else
-						{
-							const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
-							if (channelId)
+							if (channelId != channelsId.linkshell && channelId.parent == categorysId.linkshell)
 							{
-								if (channelId != channelsId.linkshell && channelId.parent == categorysId.linkshell)
+								cmd = msg.content.slice(prefix.length).split(" ", 2);
+								if(cmd.length == 2)
 								{
-									cmd = msg.content.slice(prefix.length).split(" ", 2);
-									if(cmd.length == 2)
+									try
 									{
-										try
+										channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
 										{
-											channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
+											var editEmbed = messageId.embeds[0];
+											if(editEmbed.author.name == member.displayName)
 											{
-												var editEmbed = messageId.embeds[0];
-												if(editEmbed.author.name == msg.member.displayName)
-												{
-													var oldtext = editEmbed.description;
-													if(oldtext == null)
-														oldtext = "null";
-													const text = msg.content.slice(prefix.length + cmd[0].length + 1);
-													editEmbed.setDescription(text);
-													const logEmbed = new Discord.MessageEmbed()
-													.setColor('#00ffff')
-													.setTitle(channelId.name)
-													.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-													.setDescription("<@" + msg.member.id + ">님이 [해당 메시지]("+ messageId.url +")의 설명 부분을 수정하셨습니다.")
-													.addField("수정 전", oldtext)
-													.addField("수정 후", text)
-													.setTimestamp()
-													.setFooter("메시지 ID : " + messageId.id);
-													client.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
-													messageId.edit({ embeds: [editEmbed] });
-													msg.channel.send({ embeds: [editEmbed] });
-													msg.channel.send("```!링크쉘설명 [설명] " +
-													"\n!링크쉘문의 [@맨션]```");
-												}
-												else
-													msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { message.delete({ timeout: 10000 }) });
-											});
-										}
-										catch(error)
-										{
-											msg.reply("!링크쉘설명 [메시지ID] [설명]").then(message => { message.delete({ timeout: 10000 }) });
-										}
+												var oldtext = editEmbed.description;
+												if(oldtext == null)
+													oldtext = "null";
+												const text = msg.content.slice(prefix.length + cmd[0].length + 1);
+												editEmbed.setDescription(text);
+												const logEmbed = new Discord.MessageEmbed()
+												.setColor('#00ffff')
+												.setTitle(channelId.name)
+												.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+												.setDescription("<@" + member.id + ">님이 [해당 메시지]("+ messageId.url +")의 설명 부분을 수정하셨습니다.")
+												.addField("수정 전", oldtext)
+												.addField("수정 후", text)
+												.setTimestamp()
+												.setFooter("메시지 ID : " + messageId.id);
+												FFXIV_Guild.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
+												messageId.edit({ embeds: [editEmbed] });
+												msg.channel.send({ embeds: [editEmbed] });
+												msg.channel.send("```!링크쉘설명 [설명] " +
+												"\n!링크쉘문의 [@맨션]```");
+											}
+											else
+												msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { message.delete({ timeout: 10000 }) });
+										});
 									}
-									else
+									catch(error)
+									{
 										msg.reply("!링크쉘설명 [메시지ID] [설명]").then(message => { message.delete({ timeout: 10000 }) });
+									}
 								}
+								else
+									msg.reply("!링크쉘설명 [메시지ID] [설명]").then(message => { message.delete({ timeout: 10000 }) });
 							}
 						}
-					});
-				}
+					}
+				});
 				break;
 			}
 			case "링크쉘문의":
 			{
-				if (msg.channel.parent == categorysId.dialog)
+				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + member.id +"'", (err, res) =>
 				{
-					dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
+					if (err)
 					{
-						if (err)
+						msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
+						console.log(err);
+					}
+					else
+					{
+						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
+						if (channelId)
 						{
-							msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
-							console.log(err);
-						}
-						else
-						{
-							const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
-							if (channelId)
+							if (channelId != channelsId.linkshell && channelId.parent == categorysId.linkshell)
 							{
-								if (channelId != channelsId.linkshell && channelId.parent == categorysId.linkshell)
+								cmd = msg.content.slice(prefix.length).split(" ", 2);
+								if(cmd.length == 2)
 								{
-									cmd = msg.content.slice(prefix.length).split(" ", 2);
-									if(cmd.length == 2)
+									try
 									{
-										try
+										channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
 										{
-											channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
+											var editEmbed = messageId.embeds[0];
+											if(editEmbed.author.name == member.displayName)
 											{
-												var editEmbed = messageId.embeds[0];
-												if(editEmbed.author.name == msg.member.displayName)
-												{
-													const oldtext = editEmbed.fields[0].value;
-													const text = msg.content.slice(prefix.length + cmd[0].length + 1);
-													editEmbed.fields[0].value = text;
-													const logEmbed = new Discord.MessageEmbed()
-													.setColor('#00ffff')
-													.setTitle(channelId.name)
-													.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-													.setDescription("<@" + msg.member.id + ">님이 [해당 메시지]("+ messageId.url +")의 문의 부분을 수정하셨습니다.")
-													.addField("수정 전", oldtext)
-													.addField("수정 후", text)
-													.setTimestamp()
-													.setFooter("메시지 ID : " + messageId.id);
-													client.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
-													messageId.edit({ embeds: [editEmbed] });
-													msg.channel.send({ embeds: [editEmbed] });
-													msg.channel.send("```!링크쉘설명 [설명] " +
-													"\n!링크쉘문의 [@맨션]```");
-												}
-												else
-													msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { message.delete({ timeout: 10000 }) });
-											});
-										}
-										catch(error)
-										{
-											msg.reply("!링크쉘문의 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
-										}
+												const oldtext = editEmbed.fields[0].value;
+												const text = msg.content.slice(prefix.length + cmd[0].length + 1);
+												editEmbed.fields[0].value = text;
+												const logEmbed = new Discord.MessageEmbed()
+												.setColor('#00ffff')
+												.setTitle(channelId.name)
+												.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+												.setDescription("<@" + member.id + ">님이 [해당 메시지]("+ messageId.url +")의 문의 부분을 수정하셨습니다.")
+												.addField("수정 전", oldtext)
+												.addField("수정 후", text)
+												.setTimestamp()
+												.setFooter("메시지 ID : " + messageId.id);
+												FFXIV_Guild.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
+												messageId.edit({ embeds: [editEmbed] });
+												msg.channel.send({ embeds: [editEmbed] });
+												msg.channel.send("```!링크쉘설명 [설명] " +
+												"\n!링크쉘문의 [@맨션]```");
+											}
+											else
+												msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { message.delete({ timeout: 10000 }) });
+										});
 									}
-									else
+									catch(error)
+									{
 										msg.reply("!링크쉘문의 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
+									}
 								}
+								else
+									msg.reply("!링크쉘문의 [@맨션]").then(message => { message.delete({ timeout: 10000 }) });
 							}
 						}
-					});
-				}
+					}
+				});
 				break;
 			}
 			case "파티설명":
 			{
-				if (msg.channel.parent == categorysId.dialog)
+				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + member.id +"'", (err, res) =>
 				{
-					dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
+					if (err)
 					{
-						if (err)
+						msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
+						console.log(err);
+					}
+					else
+					{
+						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
+						if (channelId)
 						{
-							msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
-							console.log(err);
-						}
-						else
-						{
-							const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
-							if (channelId)
+							if (channelId.channelId == channelsId.jp_static_pve || channelId.channelId == channelsId.jp_party_pve || channelId.channelId == channelsId.jp_party_pvp ||
+								channelId.channelId == channelsId.na_static_pve || channelId.channelId == channelsId.na_party_pve || channelId.channelId == channelsId.na_party_pvp ||
+								channelId.channelId == channelsId.eu_static_pve || channelId.channelId == channelsId.eu_party_pve || channelId.channelId == channelsId.eu_party_pvp ||
+								(channelId.isThread() &&
+								(channelId.parentId == channelsId.jp_static_pve || channelId.parentId == channelsId.jp_party_pve || channelId.parentId == channelsId.jp_party_pvp ||
+								channelId.parentId == channelsId.na_static_pve || channelId.parentId == channelsId.na_party_pve || channelId.parentId == channelsId.na_party_pvp ||
+								channelId.parentId == channelsId.eu_static_pve || channelId.parentId == channelsId.eu_party_pve || channelId.parentId == channelsId.eu_party_pvp)))
 							{
-								if (channelId.channelId == channelsId.jp_static_pve || channelId.channelId == channelsId.jp_party_pve || channelId.channelId == channelsId.jp_party_pvp ||
-									channelId.channelId == channelsId.na_static_pve || channelId.channelId == channelsId.na_party_pve || channelId.channelId == channelsId.na_party_pvp ||
-									channelId.channelId == channelsId.eu_static_pve || channelId.channelId == channelsId.eu_party_pve || channelId.channelId == channelsId.eu_party_pvp ||
-									(channelId.isThread() &&
-									(channelId.parentId == channelsId.jp_static_pve || channelId.parentId == channelsId.jp_party_pve || channelId.parentId == channelsId.jp_party_pvp ||
-									channelId.parentId == channelsId.na_static_pve || channelId.parentId == channelsId.na_party_pve || channelId.parentId == channelsId.na_party_pvp ||
-									channelId.parentId == channelsId.eu_static_pve || channelId.parentId == channelsId.eu_party_pve || channelId.parentId == channelsId.eu_party_pvp)))
+								cmd = msg.content.slice(prefix.length).split(" ", 2);
+								if(cmd.length == 2)
 								{
-									cmd = msg.content.slice(prefix.length).split(" ", 2);
-									if(cmd.length == 2)
+									try
 									{
-										try
+										channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
 										{
-											channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
+											var editEmbed = messageId.embeds[0];
+											if(editEmbed.author.name == member.displayName)
 											{
-												var editEmbed = messageId.embeds[0];
-												if(editEmbed.author.name == msg.member.displayName)
-												{
-													var oldtext = editEmbed.description;
-													if (oldtext == null)
-														oldtext = "null";
-													const text = msg.content.slice(prefix.length + cmd[0].length + 1);
-													editEmbed.description = text;
-													const Embed = new Discord.MessageEmbed()
-													.setColor('#00ffff')
-													.setTitle(channelId.name)
-													.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-													.setDescription("<@" + msg.member.id + ">님이 [해당파티](" + messageId.url + ")의 설명 부분을 수정하셨습니다.")
-													.addField("수정 전", oldtext)
-													.addField("수정 후", text)
-													.setTimestamp()
-													.setFooter("메시지 ID : " + messageId.id);
-													client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-													messageId.edit({ embeds: [editEmbed] });
-													msg.channel.send({ embeds: [editEmbed] });
-													msg.channel.send("```!파티설명 [설명]```");
-												}
-												else
-													msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
-											});
-										}
-										catch(err)
-										{
-											msg.reply("없는 파티입니다.").then(message => { setTimeout(() => message.delete(), 10000); });
-										}
+												var oldtext = editEmbed.description;
+												if (oldtext == null)
+													oldtext = "null";
+												const text = msg.content.slice(prefix.length + cmd[0].length + 1);
+												editEmbed.description = text;
+												const Embed = new Discord.MessageEmbed()
+												.setColor('#00ffff')
+												.setTitle(channelId.name)
+												.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+												.setDescription("<@" + member.id + ">님이 [해당파티](" + messageId.url + ")의 설명 부분을 수정하셨습니다.")
+												.addField("수정 전", oldtext)
+												.addField("수정 후", text)
+												.setTimestamp()
+												.setFooter("메시지 ID : " + messageId.id);
+												FFXIV_Guild.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+												messageId.edit({ embeds: [editEmbed] });
+												msg.channel.send({ embeds: [editEmbed] });
+												msg.channel.send("```!파티설명 [설명]```");
+											}
+											else
+												msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+										});
 									}
-									else
-										msg.reply("!파티설명 [설명]").then(message => { setTimeout(() => message.delete(), 10000); });
+									catch(err)
+									{
+										msg.reply("없는 파티입니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+									}
 								}
+								else
+									msg.reply("!파티설명 [설명]").then(message => { setTimeout(() => message.delete(), 10000); });
 							}
 						}
-					});
-				}
+					}
+				});
 				break;
 			}
 			case "거래설명":
 			{
-				if (msg.channel.parent == categorysId.dialog)
+				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + member.id +"'", (err, res) =>
 				{
-					dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
+					if (err)
 					{
-						if (err)
+						msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
+						console.log(err);
+					}
+					else
+					{
+						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
+						if (channelId)
 						{
-							msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
-							console.log(err);
-						}
-						else
-						{
-							const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
-							if (channelId)
+							if (channelId == channelsId.trade)
 							{
-								if (channelId == channelsId.trade)
+								cmd = msg.content.slice(prefix.length).split(" ", 2);
+								if(cmd.length == 2)
 								{
-									cmd = msg.content.slice(prefix.length).split(" ", 2);
-									if(cmd.length == 2)
+									try
 									{
-										try
+										channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
 										{
-											channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
+											var editEmbed = messageId.embeds[0];
+											if(editEmbed.author.name == member.displayName)
 											{
-												var editEmbed = messageId.embeds[0];
-												if(editEmbed.author.name == msg.member.displayName)
-												{
-													var oldtext = editEmbed.description;
-													if (oldtext == null)
-														oldtext = "null";
-													const text = msg.content.slice(prefix.length + cmd[0].length + 1);
-													editEmbed.setDescription(text);
-													const logEmbed = new Discord.MessageEmbed()
-													.setColor('#00ffff')
-													.setTitle(channelId.name)
-													.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-													.setDescription("<@" + msg.member.id + ">님이 [해당 메시지]("+ messageId.url +")의 설명 부분을 수정하셨습니다.")
-													.addField("수정 전", oldtext)
-													.addField("수정 후", text)
-													.setTimestamp()
-													.setFooter("메시지 ID : " + messageId.id);
-													client.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
-													messageId.edit({ embeds: [editEmbed] });
-													msg.channel.send({ embeds: [editEmbed] });
-													msg.channel.send("```!거래설명 [설명]```");
-												}
-												else
-													msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
-											});
-										}
-										catch(error)
-										{
-											console.log(error);
-											msg.reply("!거래설명 [설명]").then(message => { setTimeout(() => message.delete(), 10000); });
-										}
+												var oldtext = editEmbed.description;
+												if (oldtext == null)
+													oldtext = "null";
+												const text = msg.content.slice(prefix.length + cmd[0].length + 1);
+												editEmbed.setDescription(text);
+												const logEmbed = new Discord.MessageEmbed()
+												.setColor('#00ffff')
+												.setTitle(channelId.name)
+												.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+												.setDescription("<@" + member.id + ">님이 [해당 메시지]("+ messageId.url +")의 설명 부분을 수정하셨습니다.")
+												.addField("수정 전", oldtext)
+												.addField("수정 후", text)
+												.setTimestamp()
+												.setFooter("메시지 ID : " + messageId.id);
+												FFXIV_Guild.channels.cache.get(channelsId.log).send({ embeds: [logEmbed] });
+												messageId.edit({ embeds: [editEmbed] });
+												msg.channel.send({ embeds: [editEmbed] });
+												msg.channel.send("```!거래설명 [설명]```");
+											}
+											else
+												msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+										});
 									}
-									else
+									catch(error)
+									{
+										console.log(error);
 										msg.reply("!거래설명 [설명]").then(message => { setTimeout(() => message.delete(), 10000); });
+									}
 								}
+								else
+									msg.reply("!거래설명 [설명]").then(message => { setTimeout(() => message.delete(), 10000); });
 							}
 						}
-					});
-				}
+					}
+				});
 				break;
 			}
 		}
 		setTimeout(() => msg.delete(), 1000);
 	}
-	else
+	else if(msg.guild == FFXIV_Guild)
 	{
 		if (msg.content.includes("@everyone"))
 		{
@@ -2860,33 +2825,27 @@ client.on("messageCreate", async (msg) =>
 		}
 		else
 		{
-			if(msg.channel.parent != categorysId.dialog)
+			if(msg.channel.parent != categorysId.inquire && msg.channel.parent != categorysId.negotiation && msg.channel.parent != categorysId.troubleshooting)
 			{
-				if(msg.channel.parent != categorysId.inquire && msg.channel.parent != categorysId.negotiation && msg.channel.parent != categorysId.troubleshooting)
-				{
-					const Embed = new Discord.MessageEmbed()
-					.setColor('#ff00ff')
-					.setTitle("채팅")
-					.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-					.setDescription("**<@" + msg.author.id + ">님이 <#" + msg.channel.id + ">채널에 말하셨습니다.\n[해당 메시지](" + msg.url + ")**\n" + msg.content)
-					.setTimestamp()
-					.setFooter("메시지 ID : " + msg.id);
-					client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-				}
-				else
-				{
-					const Embed = new Discord.MessageEmbed()
-					.setColor('#ff00ff')
-					.setTitle("채팅")
-					.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
-					.setDescription(msg.content)
-					.setTimestamp();
-					const logChannelId = msg.channel.topic.split("-");
-					client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
-				}
+				const Embed = new Discord.MessageEmbed()
+				.setColor('#ff00ff')
+				.setTitle("채팅")
+				.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+				.setDescription("**<@" + msg.author.id + ">님이 <#" + msg.channel.id + ">채널에 말하셨습니다.\n[해당 메시지](" + msg.url + ")**\n" + msg.content)
+				.setTimestamp()
+				.setFooter("메시지 ID : " + msg.id);
+				client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
 			}
 			else
 			{
+				const Embed = new Discord.MessageEmbed()
+				.setColor('#ff00ff')
+				.setTitle("채팅")
+				.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+				.setDescription(msg.content)
+				.setTimestamp();
+				const logChannelId = msg.channel.topic.split("-");
+				client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
 			}
 		}
 		if (!msg.content.startsWith(prefix))
@@ -3764,35 +3723,32 @@ client.on('raw', async (packet) =>
 				if (packet.d.author.bot) return;
 				const channelId = client.channels.cache.get(packet.d.channel_id);
 				const messageId = await channelId.messages.fetch(packet.d.id);
-				if(channelId.parent != categorysId.dialog)
+				if (channelId.parent != categorysId.inquire && channelId.parent != categorysId.negotiation && channelId.parent != categorysId.troubleshooting)
 				{
-					if (channelId.parent != categorysId.inquire && channelId.parent != categorysId.negotiation && channelId.parent != categorysId.troubleshooting)
-					{
-						const Embed = new Discord.MessageEmbed()
-						.setColor('#ff00ff')
-						.setTitle("수정")
-						.setAuthor(packet.d.author.tag, packet.d.author.displayAvatarURL())
-						.setDescription("<@" + packet.d.author.id + ">님이 <#" + channelId.id + ">채널에 있는 [해당 메시지](" + messageId.url + ") 를 수정했습니다. ")
-						.addFields(
-							{ name : "수정 전" , value : "~~캐시되지 않음~~" },
-							{ name : "수정 후" , value : packet.d.content })
-						.setTimestamp()
-						.setFooter("메시지 ID : " + messageId.id);
-						client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-					}
-					else
-					{
-						const Embed = new Discord.MessageEmbed()
-						.setColor('#ff00ff')
-						.setTitle("수정")
-						.setAuthor(packet.d.author.tag, packet.d.author.displayAvatarURL())
-						.addFields(
-							{ name : "수정 전" , value : "~~캐시되지 않음~~" },
-							{ name : "수정 후" , value : packet.d.content })
-						.setTimestamp()
-						const logChannelId = messageId.channel.topic.split("-");
-						client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
-					}
+					const Embed = new Discord.MessageEmbed()
+					.setColor('#ff00ff')
+					.setTitle("수정")
+					.setAuthor(packet.d.author.tag, packet.d.author.displayAvatarURL())
+					.setDescription("<@" + packet.d.author.id + ">님이 <#" + channelId.id + ">채널에 있는 [해당 메시지](" + messageId.url + ") 를 수정했습니다. ")
+					.addFields(
+						{ name : "수정 전" , value : "~~캐시되지 않음~~" },
+						{ name : "수정 후" , value : packet.d.content })
+					.setTimestamp()
+					.setFooter("메시지 ID : " + messageId.id);
+					client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+				}
+				else
+				{
+					const Embed = new Discord.MessageEmbed()
+					.setColor('#ff00ff')
+					.setTitle("수정")
+					.setAuthor(packet.d.author.tag, packet.d.author.displayAvatarURL())
+					.addFields(
+						{ name : "수정 전" , value : "~~캐시되지 않음~~" },
+						{ name : "수정 후" , value : packet.d.content })
+					.setTimestamp()
+					const logChannelId = messageId.channel.topic.split("-");
+					client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
 				}
 			}
 			break;
@@ -3824,37 +3780,33 @@ client.on('raw', async (packet) =>
 			channelId.parentId === channelsId.eu_party_pve ||
 			channelId.parentId === channelsId.eu_party_pvp)) ||
 			packet.d.channel_id === channelsId.trade ||
-			channelId.parent === categorysId.dialog ||
 			(packet.d.channel_id != channelsId.fc && channelId.parent == categorysId.fc) ||
 			(packet.d.channel_id != channelsId.linkshell && channelId.parent == categorysId.linkshell) ||
 			channelId.parentId == categorysId.job_battle ||
 			channelId.parent.parentId == categorysId.job_battle) return;
 			channelId.messages.fetch(packet.d.id).then(messageId =>
 			{
-				if(channelId.parent != categorysId.dialog)
+				if (channelId.parent != categorysId.inquire && channelId.parent != categorysId.negotiation && channelId.parent != categorysId.troubleshooting)
 				{
-					if (channelId.parent != categorysId.inquire && channelId.parent != categorysId.negotiation && channelId.parent != categorysId.troubleshooting)
-					{
-						const Embed = new Discord.MessageEmbed()
-						.setColor('#ff00ff')
-						.setTitle("제거")
-						.setAuthor(messageId.author.tag, messageId.author.displayAvatarURL())
-						.setDescription("**<#" + channelId.id + ">채널에 있는 <@" + messageId.author.id + ">님의 메시지가 제거되었습니다.**\n" + messageId.content)
-						.setTimestamp()
-						.setFooter("메시지 ID : " + messageId.id);
-						client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-					}
-					else
-					{
-						const Embed = new Discord.MessageEmbed()
-						.setColor('#ff00ff')
-						.setTitle("제거")
-						.setAuthor(messageId.author.tag, messageId.author.displayAvatarURL())
-						.setDescription(messageId.content)
-						.setTimestamp();
-						const logChannelId = messageId.channel.topic.split("-");
-						client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
-					}
+					const Embed = new Discord.MessageEmbed()
+					.setColor('#ff00ff')
+					.setTitle("제거")
+					.setAuthor(messageId.author.tag, messageId.author.displayAvatarURL())
+					.setDescription("**<#" + channelId.id + ">채널에 있는 <@" + messageId.author.id + ">님의 메시지가 제거되었습니다.**\n" + messageId.content)
+					.setTimestamp()
+					.setFooter("메시지 ID : " + messageId.id);
+					client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+				}
+				else
+				{
+					const Embed = new Discord.MessageEmbed()
+					.setColor('#ff00ff')
+					.setTitle("제거")
+					.setAuthor(messageId.author.tag, messageId.author.displayAvatarURL())
+					.setDescription(messageId.content)
+					.setTimestamp();
+					const logChannelId = messageId.channel.topic.split("-");
+					client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
 				}
 			});
 			break;
@@ -4920,53 +4872,7 @@ async function loadFile(msg, url)
 					try
 					{
 						const oldname = msg.member.nickname;
-						const dialogchannels = msg.guild.channels.cache.filter(channel => channel.parentId === categorysId.dialog && channel.name === msg.member.id);
-						if(dialogchannels.size == 0)
-						{
-							msg.guild.channels.create(msg.member.id,
-							{
-								type: 'text',
-								parent: categorysId.dialog,
-								permissionOverwrites:
-								[
-									{
-										id: msg.member.id,
-										allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
-									},
-									{
-										id: msg.guild.roles.everyone,
-										deny: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
-									},
-									{
-										id: '819869630893129742',
-										allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
-									}
-								],
-								reason: msg.user.tag + "님의 다이얼로그 생성"
-							}).then(channel => 
-							{
-								dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + channel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + channel.id);
-							});
-						}
-						else
-						{
-							dialogchannels.first().permissionOverwrites.set(
-							[
-								{
-									id: msg.member.id,
-									allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
-								},
-								{
-									id: msg.guild.roles.everyone,
-									deny: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
-								},
-								{
-									id: '819869630893129742',
-									allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
-								}
-							], '다이얼로그 재등록');
-							dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
-						}
+						dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
 						msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
 						var checker = false;
 						for(var i = 0; i < dataCenterNames.length; i++)
