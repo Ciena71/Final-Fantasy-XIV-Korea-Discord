@@ -603,9 +603,9 @@ client.on('guildMemberRemove', async (member) =>
 });
 
 client.on('messageUpdate', async (oldMessage, newMessage) =>
-{/*
+{
 	if (newMessage.guild == null) return;
-	if (newMessage.author.bot) return;
+	if (newMessage.author.bot) return;/*
 	catchMessageUpdate = true;
 	if(newMessage.channel.parent != channelsId.dialog)
 	{
@@ -637,6 +637,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 			client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
 		}
 	}*/
+	console.log("수정");
 	console.log(oldMessage);
 	console.log("구분선");
 	console.log(newMessage);
@@ -644,6 +645,9 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 
 client.on('messageDelete', async (message) =>
 {
+	if (message.guild == null) return;
+	if (message.author.bot) return;
+	console.log("삭제");
 	console.log(message);
 });
 
