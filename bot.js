@@ -606,7 +606,6 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 {
 	if (newMessage.guild == null) return;
 	if (newMessage.author.bot) return;/*
-	catchMessageUpdate = true;
 	if(newMessage.channel.parent != channelsId.dialog)
 	{
 		if (newMessage.channel.parent != categorysId.inquire && newMessage.channel.parent != categorysId.negotiation && newMessage.channel.parent != categorysId.troubleshooting)
@@ -637,6 +636,10 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 			client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
 		}
 	}*/
+	if(newMessage.partial)
+		console.log("캐시되지 않음");
+	else
+		console.log("캐시됨");
 	console.log("수정");
 	console.log(oldMessage);
 	console.log("구분선");
@@ -645,8 +648,66 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 
 client.on('messageDelete', async (message) =>
 {
-	if (message.guild == null) return;
+	if (message.guild == null) return;/*
 	if (message.author.bot) return;
+	if (message.channel.id === channelsId.log ||
+	message.channel.id === channelsId.certification ||
+	message.channel.id === channelsId.console ||
+	message.channel.id === channelsId.jp_static_pve ||
+	message.channel.id === channelsId.jp_party_pve ||
+	message.channel.id === channelsId.jp_party_pvp ||
+	message.channel.id === channelsId.na_static_pve ||
+	message.channel.id === channelsId.na_party_pve ||
+	message.channel.id === channelsId.na_party_pvp ||
+	message.channel.id === channelsId.eu_static_pve ||
+	message.channel.id === channelsId.eu_party_pve ||
+	message.channel.id === channelsId.eu_party_pvp ||
+	(message.channel.isThread() &&
+	(message.channel.parent.id === channelsId.jp_static_pve ||
+	message.channel.parent.id === channelsId.jp_party_pve ||
+	message.channel.parent.id === channelsId.jp_party_pvp ||
+	message.channel.parent.id === channelsId.na_static_pve ||
+	message.channel.parent.id === channelsId.na_party_pve ||
+	message.channel.parent.id === channelsId.na_party_pvp ||
+	message.channel.parent.id === channelsId.eu_static_pve ||
+	message.channel.parent.id === channelsId.eu_party_pve ||
+	message.channel.parent.id === channelsId.eu_party_pvp)) ||
+	message.channel.id === channelsId.trade ||
+	message.channel.id === channelsId.dialog ||
+	message.channel.parent.id === channelsId.dialog ||
+	(message.channel.id != channelsId.fc && message.channel.parent.id == categorysId.fc) ||
+	(message.channel.id != channelsId.linkshell && message.channel.parent.id == categorysId.linkshell) ||
+	message.channel.parent.id == categorysId.job_battle ||
+	message.channel.parent.parent.id == categorysId.job_battle) return;
+	if(message.channel.id != channelsId.dialog)
+	{
+		if (message.channel.parent != categorysId.inquire && message.channel.parent != categorysId.negotiation && message.channel.parent != categorysId.troubleshooting)
+		{
+			const Embed = new Discord.MessageEmbed()
+			.setColor('#ff00ff')
+			.setTitle("제거")
+			.setAuthor(message.author.tag, message.author.displayAvatarURL())
+			.setDescription("**<#" + message.channel.id + ">채널에 있는 <@" + message.author.id + ">님의 메시지가 제거되었습니다.**\n" + message.content)
+			.setTimestamp()
+			.setFooter("메시지 ID : " + message.id);
+			client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+		}
+		else
+		{
+			const Embed = new Discord.MessageEmbed()
+			.setColor('#ff00ff')
+			.setTitle("제거")
+			.setAuthor(message.author.tag, message.author.displayAvatarURL())
+			.setDescription(message.content)
+			.setTimestamp();
+			const logChannelId = message.channel.topic.split("-");
+			client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
+		}
+	}*/
+	if(message.partial)
+		console.log("캐시되지 않음");
+	else
+		console.log("캐시됨");
 	console.log("삭제");
 	console.log(message);
 });
