@@ -701,14 +701,14 @@ client.on('messageDelete', async (message) =>
 		message.channel.parent.id === channelsId.na_party_pvp ||
 		message.channel.parent.id === channelsId.eu_static_pve ||
 		message.channel.parent.id === channelsId.eu_party_pve ||
-		message.channel.parent.id === channelsId.eu_party_pvp)) ||
+		message.channel.parent.id === channelsId.eu_party_pvp ||
+		message.channel.parent.parent.id == categorysId.job_battle)) ||
 		message.channel.id === channelsId.trade ||
 		message.channel.id === channelsId.dialog ||
 		message.channel.parent.id === channelsId.dialog ||
 		(message.channel.id != channelsId.fc && message.channel.parent.id == categorysId.fc) ||
 		(message.channel.id != channelsId.linkshell && message.channel.parent.id == categorysId.linkshell) ||
-		message.channel.parent.id == categorysId.job_battle ||
-		message.channel.parent.parent.id == categorysId.job_battle) return;
+		message.channel.parent.id == categorysId.job_battle) return;
 		if (message.channel.id != channelsId.dialog)
 		{
 			if (message.channel.parent != categorysId.inquire && message.channel.parent != categorysId.negotiation && message.channel.parent != categorysId.troubleshooting)
@@ -747,14 +747,14 @@ client.on('messageDelete', async (message) =>
 		message.channel.parent.id === channelsId.na_party_pvp ||
 		message.channel.parent.id === channelsId.eu_static_pve ||
 		message.channel.parent.id === channelsId.eu_party_pve ||
-		message.channel.parent.id === channelsId.eu_party_pvp)) ||
+		message.channel.parent.id === channelsId.eu_party_pvp ||
+		message.channel.parent.parent.id == categorysId.job_battle)) ||
 		message.channel.id === channelsId.trade ||
 		message.channel.id === channelsId.dialog ||
 		message.channel.parent.id === channelsId.dialog ||
 		(message.channel.id != channelsId.fc && message.channel.parent.id == categorysId.fc) ||
 		(message.channel.id != channelsId.linkshell && message.channel.parent.id == categorysId.linkshell) ||
-		message.channel.parent.id == categorysId.job_battle ||
-		message.channel.parent.parent.id == categorysId.job_battle) return;
+		message.channel.parent.id == categorysId.job_battle) return;
 		if (message.channel.id != channelsId.dialog)
 		{
 			if (message.channel.parent != categorysId.inquire && message.channel.parent != categorysId.negotiation && message.channel.parent != categorysId.troubleshooting)
