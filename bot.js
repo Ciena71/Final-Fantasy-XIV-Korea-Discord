@@ -640,12 +640,10 @@ client.on("threadCreate", async (thread) =>
 	if(thread.parent.id != channelsId.dialog)
 	{
 		const member = await FFXIV_Guild.members.fetch(thread.ownerId);
-		console.log(member);
-		console.log(member.user);
 		const Embed = new Discord.MessageEmbed()
 		.setColor('#ff00ff')
 		.setTitle("스레드 생성")
-		.setAuthor(member.user.username + "#" + member.user.discriminator, member.user.displayAvatarURL())
+		.setAuthor(member.user.tag, member.user.displayAvatarURL())
 		.setDescription("<@" + member.id + ">님이 <#" + thread.parent.id + ">채널에 <#" + thread.id + "> 스레드를 생성하셨습니다. ")
 		.setTimestamp()
 		.setFooter("스레드 ID : " + thread.id);
