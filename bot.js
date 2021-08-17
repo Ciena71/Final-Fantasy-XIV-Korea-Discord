@@ -12,6 +12,10 @@ const client = new Discord.Client(
 		'GUILD_MESSAGES',
 		'GUILD_MESSAGE_REACTIONS',
 		'GUILD_MESSAGE_TYPING'
+	],
+	partials:
+	[
+		'MESSAGE'
 	]
 });
 const fetch = require("node-fetch");
@@ -599,7 +603,7 @@ client.on('guildMemberRemove', async (member) =>
 });
 
 client.on('messageUpdate', async (oldMessage, newMessage) =>
-{
+{/*
 	if (newMessage.guild == null) return;
 	if (newMessage.author.bot) return;
 	catchMessageUpdate = true;
@@ -632,7 +636,15 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 			const logChannelId = newMessage.channel.topic.split("-");
 			client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
 		}
-	}
+	}*/
+	console.log(oldMessage);
+	console.log("구분선");
+	console.log(newMessage);
+});
+
+client.on('messageDelete', async (message) =>
+{
+	console.log(message);
 });
 
 client.on("threadCreate", async (thread) =>
@@ -3740,7 +3752,7 @@ client.on("messageCreate", async (msg) =>
 client.on('raw', async (packet) =>
 {
 	switch(packet.t)
-	{
+	{/*
 		case 'MESSAGE_UPDATE':
 		{
 			if (packet.d.guild_id == null) return;
@@ -3814,6 +3826,7 @@ client.on('raw', async (packet) =>
 			channelId.parentId === channelsId.eu_party_pve ||
 			channelId.parentId === channelsId.eu_party_pvp)) ||
 			packet.d.channel_id === channelsId.trade ||
+			packet.d.channel_id === channelsId.dialog ||
 			channelId.parent === channelsId.dialog ||
 			(packet.d.channel_id != channelsId.fc && channelId.parent == categorysId.fc) ||
 			(packet.d.channel_id != channelsId.linkshell && channelId.parent == categorysId.linkshell) ||
@@ -3848,7 +3861,7 @@ client.on('raw', async (packet) =>
 				}
 			});
 			break;
-		}
+		}*/
 		case 'MESSAGE_REACTION_ADD':
 		{
 			if (packet.d.guild_id == null) return;
@@ -4924,6 +4937,7 @@ async function loadFile(msg, url)
 							{
 								dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + threadChannel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + threadChannel.id);
 								threadChannel.members.add(msg.member.id);
+
 							})
 							.catch(console.error);
 						}
