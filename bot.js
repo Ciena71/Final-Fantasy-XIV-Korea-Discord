@@ -4948,13 +4948,12 @@ async function loadFile(msg, url)
 					try
 					{
 						const oldname = msg.member.nickname;
-						const dialogchannels = msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog);
-						if(dialogchannels)
+						msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(dialogchannels =>
 						{
 							dialogchannels.members.add(msg.member);
 							dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
-						}
-						else
+						})
+						.catch(err => 
 						{
 							msg.guild.channels.cache.get(channelsId.dialog).threads.create(
 							{
@@ -4970,7 +4969,7 @@ async function loadFile(msg, url)
 								console.log(threadChannel);
 							})
 							.catch(console.error);
-						}
+						});
 						msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
 						var checker = false;
 						for(var i = 0; i < dataCenterNames.length; i++)
