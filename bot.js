@@ -692,20 +692,19 @@ client.on("interactionCreate", async (interaction) =>
 							{
 								if(res.rows[0].dialog != null)
 								{
-									const ChannelId = client.channels.cache.get(res.rows[0].dialog);
 									dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = " + interaction.channel.id + ", Dialog_Message_Id = " + interaction.message.id + " WHERE User_Id = '" + interaction.member.id +"'");
-									ChannelId.send("<@" + interaction.member.id + ">, <#" + interaction.channel.id + "> 의 글을 수정하시려면 아래의 명령어를 따라주세요.");
-									ChannelId.send({ embeds: [interaction.message.embeds[0]] });
+									interaction.user.send("<@" + interaction.member.id + ">, <#" + interaction.channel.id + "> 의 글을 수정하시려면 아래의 명령어를 따라주세요.");
+									interaction.user.send({ embeds: [interaction.message.embeds[0]] });
 									if(interaction.channel.parent == categorysId.fc && interaction.channel != channelsId.fc)
 									{
-										ChannelId.send("```!fc설명 [설명]" +
+										interaction.user.send("```!fc설명 [설명]" +
 										"\n!fc문의 [@맨션]" +
 										"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
 									}
 									else
 									if(interaction.channel.parent == categorysId.linkshell && interaction.channel != channelsId.linkshell)
 									{
-										ChannelId.send("```!링크쉘설명 [설명] " +
+										interaction.user.send("```!링크쉘설명 [설명] " +
 										"\n!링크쉘문의 [@맨션]```");
 									}
 									else
@@ -717,12 +716,12 @@ client.on("interactionCreate", async (interaction) =>
 										interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
 										interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
 									{
-										ChannelId.send("```!파티설명 [설명]```");
+										interaction.user.send("```!파티설명 [설명]```");
 									}
 									else
 									if(interaction.channel == channelsId.trade)
 									{
-										ChannelId.send("```!거래설명 [설명]```");
+										interaction.user.send("```!거래설명 [설명]```");
 									}
 								}
 							}
@@ -5380,7 +5379,7 @@ async function loadFile(msg, url)
 			else
 			{
 				msg.editReply({ content: "당신의 DM으로 인증코드가 전송되었습니다." });
-				msg.user.send("```당신의 인증코드는\n" + msg.user.id + "\n입니다.\n로드스톤에서 해당 캐릭터 프로필란에 입력 후 5분후에 해당 디스코드 서버에서 다시 인증하십시오.```").then(message => { setTimeout(() => message.delete(), 60000); });
+				msg.user.send("```당신의 인증코드는\n" + msg.user.id + "\n입니다.\n로드스톤에서 해당 캐릭터 프로필란에 입력 후 5분후에 해당 디스코드 서버에서 다시 인증하십시오.```");
 			}
 		}
 	});
