@@ -13,6 +13,10 @@ const client = new Discord.Client(
 		'GUILD_MESSAGE_REACTIONS',
 		'GUILD_MESSAGE_TYPING',
 		'DIRECT_MESSAGES'
+	],
+	partials:
+	[
+		'MESSAGE'
 	]
 });
 const fetch = require("node-fetch");
@@ -2338,6 +2342,7 @@ client.on("interactionCreate", async (interaction) =>
 
 client.on("messageCreate", async (msg) =>
 {
+	console.log("테스트");
 	if (msg.author.bot) return;
 	if (msg.guild == null) return;
 	if (msg.content.includes("@everyone"))
