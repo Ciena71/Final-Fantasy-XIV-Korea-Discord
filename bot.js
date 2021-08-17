@@ -639,7 +639,7 @@ client.on("threadCreate", async (thread) =>
 {
 	if(thread.parent.id != channelsId.dialog)
 	{
-		const member = FFXIV_Guild.members.fetch(thread.ownerId);
+		const member = await FFXIV_Guild.members.fetch(thread.ownerId).fetch({ force: true });
 		console.log(member);
 		console.log(member.user);
 		const Embed = new Discord.MessageEmbed()
