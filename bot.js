@@ -3428,7 +3428,7 @@ client.on("messageCreate", async (msg) =>
 										else
 										msg.reply("해당 <@" + target.id + ">의 데이터가 존재하지 않습니다.");
 									}
-								}
+								});
 							}
 						});
 					}
