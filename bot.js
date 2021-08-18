@@ -3466,7 +3466,7 @@ client.on("messageCreate", async (msg) =>
 												{
 													dialogthread.setArchived(false).then(() =>
 													{
-														dialogthread.remove();
+														dialogthread.delete();
 														msg.guild.channels.cache.get(channelsId.dialog).threads.create(
 														{
 															name: target.id,
