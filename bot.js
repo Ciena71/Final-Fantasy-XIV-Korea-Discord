@@ -3403,7 +3403,7 @@ client.on("messageCreate", async (msg) =>
 									if (err)
 									{
 										console.log(err);
-										msg.reply("해당 <@" + target.id + ">의 데이터에 오류가 났습니다. 에러코드 : 1");
+										msg.reply("해당 <@" + target.id + ">의 데이터에 오류가 났습니다. 에러코드 : 1").then(message => { setTimeout(() => message.delete(), 10000); });
 									}
 									else
 									{
@@ -3416,17 +3416,17 @@ client.on("messageCreate", async (msg) =>
 													dialogchannels.setArchived(false).then(() =>
 													{
 														dialogchannels.members.add(target);
-														msg.reply("<@" + target.id + ">님의 다이얼로그를 재연결했습니다.");
+														msg.reply("<@" + target.id + ">님의 다이얼로그를 재연결했습니다.").then(message => { setTimeout(() => message.delete(), 10000); });
 													});
 												}
 											}).catch(err1 =>
 											{
 												console.log(err1);
-												msg.reply("해당 <@" + target.id + ">의 데이터에 오류가 났습니다. 에러코드 : 2");
+												msg.reply("해당 <@" + target.id + ">의 데이터에 오류가 났습니다. 에러코드 : 2").then(message => { setTimeout(() => message.delete(), 10000); });
 											});
 										}
 										else
-										msg.reply("해당 <@" + target.id + ">의 데이터가 존재하지 않습니다.");
+										msg.reply("해당 <@" + target.id + ">의 데이터가 존재하지 않습니다.").then(message => { setTimeout(() => message.delete(), 10000); });
 									}
 								});
 							}
