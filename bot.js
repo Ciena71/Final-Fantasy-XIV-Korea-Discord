@@ -4974,7 +4974,7 @@ async function loadFile(msg, url)
 						}
 						else
 						{
-							if(res1.rows.length > 0 && res1.rows[0].user_id == msg.member.id)
+							if(res1.rows.length > 0)
 							{
 								msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res1.rows[0].dialog).then(dialogchannels =>
 								{
