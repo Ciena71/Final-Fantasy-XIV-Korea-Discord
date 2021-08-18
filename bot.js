@@ -4980,15 +4980,15 @@ async function loadFile(msg, url)
 								{
 									if(dialogchannels)
 									{
-										console.log("테스트1");
-										dialogchannels.setArchived(false);
-										dialogchannels.members.add(msg.member);
-										dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
+										dialogchannels.setArchived(false).then(() =>
+										{
+											dialogchannels.members.add(msg.member);
+											dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
+										});
 									}
 								})
 								.catch(() => 
 								{
-									console.log("테스트2");
 									msg.guild.channels.cache.get(channelsId.dialog).threads.create(
 									{
 										name: msg.member.id,
@@ -5010,7 +5010,6 @@ async function loadFile(msg, url)
 							}
 							else
 							{
-								console.log("테스트3");
 								msg.guild.channels.cache.get(channelsId.dialog).threads.create(
 								{
 									name: msg.member.id,
