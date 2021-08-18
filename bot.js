@@ -4972,11 +4972,13 @@ async function loadFile(msg, url)
 						console.log(res.rows[0].dialog);
 						msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(dialogchannels =>
 						{
-							console.log("테스트1");
-							dialogchannels.setArchived(false);
-							thread.send("<@" + msg.member.id + "> 님의 다이얼로그가 활성화 되었습니다.");
-							dialogchannels.members.add(msg.member);
-							dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
+							if(dialogchannels)
+							{
+								console.log("테스트1");
+								dialogchannels.setArchived(false);
+								dialogchannels.members.add(msg.member);
+								dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
+							}
 						})
 						.catch(err => 
 						{
