@@ -4994,7 +4994,7 @@ async function loadFile(msg, url)
 							{
 								dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + threadChannel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + threadChannel.id);
 								threadChannel.members.add(msg.member.id);
-								//console.log(threadChannel);
+								console.log(threadChannel);
 							})
 							.catch(console.error);
 						});
