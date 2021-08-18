@@ -606,7 +606,6 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 	if (newMessage.author.bot) return;
 	if (oldMessage.partial)
 	{
-
 		if(newMessage.channel.parent != channelsId.dialog)
 		{
 			if (newMessage.channel.parent != categorysId.inquire && newMessage.channel.parent != categorysId.negotiation && newMessage.channel.parent != categorysId.troubleshooting)
@@ -4999,7 +4998,10 @@ async function loadFile(msg, url)
 									{
 										dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + threadChannel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + threadChannel.id);
 										threadChannel.members.add(msg.member.id);
-										FFXIV_Guild.channels.cache.get(channelsId.dialog).messages.fetch(threadChannel.id).delete();
+										FFXIV_Guild.channels.cache.get(channelsId.dialog).messages.fetch(threadChannel.id).then(threadmsg =>
+										{
+											threadmsg.delete();
+										});
 									})
 									.catch(console.error);
 								});
@@ -5017,7 +5019,10 @@ async function loadFile(msg, url)
 								{
 									dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + threadChannel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + threadChannel.id);
 									threadChannel.members.add(msg.member.id);
-									FFXIV_Guild.channels.cache.get(channelsId.dialog).messages.fetch(threadChannel.id).delete();
+									FFXIV_Guild.channels.cache.get(channelsId.dialog).messages.fetch(threadChannel.id).then(threadmsg =>
+									{
+										threadmsg.delete();
+									});
 								})
 								.catch(console.error);
 							}
