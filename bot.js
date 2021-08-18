@@ -851,7 +851,7 @@ client.on("interactionCreate", async (interaction) =>
 						{
 							FFXIV_Guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(thread => 
 							{
-								thread.channel.send("<#" + interaction.member.id + "> 님의 다이얼로그가 활성화 되었습니다.");
+								thread.send("<#" + interaction.member.id + "> 님의 다이얼로그가 활성화 되었습니다.");
 							});
 						}
 					}
