@@ -3362,9 +3362,10 @@ client.on("messageCreate", async (msg) =>
 				const role = msg.guild.roles.cache.find(r => r.name === "관리자");
 				if(msg.member.roles.cache.has(role.id))
 				{
-					var text = "";
 					if(cmd.length == 2)
 					{
+						cmd = msg.content.slice(prefix.length).split(" ", 3);
+						var text = "";
 						for(var i = 1; i < cmd.length; i++)
 						{
 							msg.guild.members.fetch(cmd[i].replace(/[^0-9]/g,'')).then(target =>
@@ -3376,10 +3377,61 @@ client.on("messageCreate", async (msg) =>
 								}
 							});
 						}
+						text += "님이 호출되었습니다.";
+						msg.channel.send(text);
 					}
-					text += "님이 호출되었습니다.";
-					msg.channel.send(text);
 					msg.delete();
+				}
+			}
+			break;
+		}
+		case "다이얼로그":
+		{
+			if (msg.channel == channelsId.console)
+			{
+				const role = msg.guild.roles.cache.find(r => r.name === "관리자");
+				if(msg.member.roles.cache.has(role.id))
+				{
+					if(cmd.length == 2)
+					{
+						msg.guild.members.fetch(cmd[1].replace(/[^0-9]/g,'')).then(target =>
+						{
+							if(!target.user.bot)
+							{
+								dataBase.query("SELECT Dialog FROM UserSaveData WHERE User_Id = '" + target.id +"'", (err, res) =>
+								{
+									if (err)
+									{
+										console.log(err);
+										msg.reply("해당 <@" + target.id + ">의 데이터에 오류가 났습니다. 에러코드 : 1");
+									}
+									else
+									{
+										if(res.rows.length > 0)
+										{
+											msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(dialogchannels =>
+											{
+												if(dialogchannels)
+												{
+													dialogchannels.setArchived(false).then(() =>
+													{
+														dialogchannels.members.add(target);
+														msg.reply("<@" + target.id + ">님의 다이얼로그를 재연결했습니다.");
+													});
+												}
+											}).catch(err1 =>
+											{
+												console.log(err1);
+												msg.reply("해당 <@" + target.id + ">의 데이터에 오류가 났습니다. 에러코드 : 2");
+											});
+										}
+										else
+										msg.reply("해당 <@" + target.id + ">의 데이터가 존재하지 않습니다.");
+									}
+								}
+							}
+						});
+					}
 				}
 			}
 			break;
