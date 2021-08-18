@@ -4965,7 +4965,7 @@ async function loadFile(msg, url)
 			{
 				if(msg.member.nickname != data.Character.Name + "@" + data.Character.Server)
 				{
-					dataBase.query("SELECT Dialog FROM UserSaveData WHERE User_Id = '" + url +"'", (err1, res1) =>
+					dataBase.query("SELECT Dialog FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err1, res1) =>
 					{
 						if (err1)
 						{
