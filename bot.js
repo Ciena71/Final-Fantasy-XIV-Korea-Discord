@@ -796,6 +796,30 @@ client.on("threadCreate", async (thread) =>
 	}
 });
 
+client.on("threadMemberUpdate", async (oldMember, newMember) =>
+{
+	if(newMember.thread.parent.id == channelsId.dialog)
+	{
+		if(newMember.guildMember.id != newMember.thread.name)
+		{
+			newMember.remove();
+		}
+	}
+});
+
+client.on("threadUpdate", async (oldThread, newThread) =>
+{
+	if(newThread.parent.id == channelsId.jp_static_pve || newThread.parent.id == channelsId.jp_party_pve || newThread.parent.id == channelsId.jp_party_pvp ||
+		newThread.parent.id == channelsId.na_static_pve || newThread.parent.id == channelsId.na_party_pve || newThread.parent.id == channelsId.na_party_pvp ||
+		newThread.parent.id == channelsId.eu_static_pve || newThread.parent.id == channelsId.eu_party_pve || newThread.parent.id == channelsId.eu_party_pvp)
+	{
+		if(newThread.archived == true)
+		{
+			newThread.setArchived(false);
+		}
+	}
+});
+
 let makingEmbed = new Discord.MessageEmbed();
 
 let makingAuthor = {
@@ -5030,6 +5054,7 @@ async function loadFile(msg, url)
 							}
 							msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
 							var checker = false;
+							var checking = 0;
 							for(var i = 0; i < dataCenterNames.length; i++)
 							{
 								if(msg.member.roles.cache.has(dataCenterNames[i].id))
@@ -5039,6 +5064,7 @@ async function loadFile(msg, url)
 									else
 										checker = true;
 								}
+								checking = i;
 							}
 							if(!checker)
 							{
