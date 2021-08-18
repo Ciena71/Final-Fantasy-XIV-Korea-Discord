@@ -837,6 +837,27 @@ client.on("interactionCreate", async (interaction) =>
 	{
 		switch(interaction.customId)
 		{
+			case 'active_dialog':
+			{
+				dataBase.query("SELECT Dialog FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
+				{
+					if (err)
+					{
+						console.log(err);
+					}
+					else
+					{
+						if(res.rows[0].dialog != null)
+						{
+							FFXIV_Guild.threads.fetch(res.rows[0].dialog).then(thread => 
+							{
+								thread.channel.send("활성화 되었습니다.");
+							});
+						}
+					}
+				});
+				break;
+			}
 			case 'edit_message':
 			{
 				if(interaction.message.embeds.length == 1)
