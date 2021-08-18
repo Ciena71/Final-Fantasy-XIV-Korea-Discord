@@ -813,9 +813,10 @@ client.on("threadUpdate", async (oldThread, newThread) =>
 		newThread.parent.id == channelsId.na_static_pve || newThread.parent.id == channelsId.na_party_pve || newThread.parent.id == channelsId.na_party_pvp ||
 		newThread.parent.id == channelsId.eu_static_pve || newThread.parent.id == channelsId.eu_party_pve || newThread.parent.id == channelsId.eu_party_pvp)
 	{
-		if(newThread.archived == true)
+		if(newThread.archived)
 		{
 			newThread.setArchived(false);
+			console.log(newThread.name + " 스레드 자동 활성화함");
 		}
 	}
 });
