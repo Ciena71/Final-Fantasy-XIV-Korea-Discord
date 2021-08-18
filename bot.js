@@ -4946,7 +4946,7 @@ async function loadFile(msg, url)
 		msg.editReply({ content: "아이디를 찾지 못했습니다.\n혹은 로드스톤이 점검중입니다." });
 		return;
 	}
-	dataBase.query("SELECT * FROM UserSaveData WHERE FFXIV_Id = '" + url +"'", (err, res) =>
+	dataBase.query("SELECT User_Id FROM UserSaveData WHERE FFXIV_Id = '" + url +"'", (err, res) =>
 	{
 		if (err)
 		{
@@ -4969,67 +4969,96 @@ async function loadFile(msg, url)
 					try
 					{
 						const oldname = msg.member.nickname;
-						console.log(res.rows[0].dialog);
-						msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(dialogchannels =>
+						dataBase.query("SELECT Dialog FROM UserSaveData WHERE User_Id = '" + url +"'", (err1, res1) =>
 						{
-							if(dialogchannels)
+							if (err1)
 							{
-								console.log("테스트1");
-								dialogchannels.setArchived(false);
-								dialogchannels.members.add(msg.member);
-								dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
+								console.log(err1);
 							}
-						})
-						.catch(err => 
-						{
-							console.log("테스트2");
-							msg.guild.channels.cache.get(channelsId.dialog).threads.create(
+							else
 							{
-								name: msg.member.id,
-								autoArchiveDuration: 60,
-								//type: 'private_thread',
-								reason: msg.user.tag + "님의 다이얼로그 생성"
-							})
-							.then(threadChannel => 
-							{
-								dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + threadChannel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + threadChannel.id);
-								threadChannel.members.add(msg.member.id);
-								console.log(threadChannel);
-							})
-							.catch(console.error);
-						});
-						msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
-						var checker = false;
-						for(var i = 0; i < dataCenterNames.length; i++)
-						{
-							if(msg.member.roles.cache.has(dataCenterNames[i].id))
-							{
-								if(data.Character.DC !== dataCenterNames[i].eng)
-									msg.member.roles.remove(dataCenterNames[i].id);
-								else
-									checker = true;
-							}
-						}
-						if(!checker)
-						{
-							for(var i = 0; i < dataCenterNames.length; i++)
-							{
-								if(data.Character.DC === dataCenterNames[i].eng)
+								if(res1.rows.length > 0 && res1.rows[0].user_id == msg.member.id)
 								{
-									msg.member.roles.add(dataCenterNames[i].id);
-									break;
+									msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res1.rows[0].dialog).then(dialogchannels =>
+									{
+										if(dialogchannels)
+										{
+											dialogchannels.setArchived(false);
+											dialogchannels.members.add(msg.member);
+											dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
+										}
+									})
+									.catch(() => 
+									{
+										msg.guild.channels.cache.get(channelsId.dialog).threads.create(
+										{
+											name: msg.member.id,
+											autoArchiveDuration: 60,
+											//type: 'private_thread',
+											reason: msg.user.tag + "님의 다이얼로그 생성"
+										})
+										.then(threadChannel => 
+										{
+											dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + threadChannel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + threadChannel.id);
+											threadChannel.members.add(msg.member.id);
+											FFXIV_Guild.channels.cache.get(channelsId.dialog).messages.fetch(threadChannel.id).delete();
+										})
+										.catch(console.error);
+									});
+								}
+								else
+								{
+									msg.guild.channels.cache.get(channelsId.dialog).threads.create(
+									{
+										name: msg.member.id,
+										autoArchiveDuration: 60,
+										//type: 'private_thread',
+										reason: msg.user.tag + "님의 다이얼로그 생성"
+									})
+									.then(threadChannel => 
+									{
+										dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + threadChannel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + threadChannel.id);
+										threadChannel.members.add(msg.member.id);
+										FFXIV_Guild.channels.cache.get(channelsId.dialog).messages.fetch(threadChannel.id).delete();
+									})
+									.catch(console.error);
 								}
 							}
-						}
-						msg.editReply({ content: "성공적으로 인증되었습니다" });
-						const Embed = new Discord.MessageEmbed()
-						.setColor('#ff00ff')
-						.setTitle("서버-인증")
-						.setAuthor(msg.user.tag, msg.user.displayAvatarURL(), "https://na.finalfantasyxiv.com/lodestone/character/" + url)
-						.setDescription("<@" + msg.member.id + ">님이 " + oldname + " 에서 " + data.Character.Name + "@" + data.Character.Server + "으로 변경하셨습니다.\n[로드스톤](https://na.finalfantasyxiv.com/lodestone/character/" + url + ")")
-						.setTimestamp()
-						.setFooter("유저 ID : " + msg.member.id);
-						client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+						}).then(() =>
+						{
+							msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
+							var checker = false;
+							for(var i = 0; i < dataCenterNames.length; i++)
+							{
+								if(msg.member.roles.cache.has(dataCenterNames[i].id))
+								{
+									if(data.Character.DC !== dataCenterNames[i].eng)
+										msg.member.roles.remove(dataCenterNames[i].id);
+									else
+										checker = true;
+								}
+							}
+							if(!checker)
+							{
+								for(var i = 0; i < dataCenterNames.length; i++)
+								{
+									if(data.Character.DC === dataCenterNames[i].eng)
+									{
+										msg.member.roles.add(dataCenterNames[i].id);
+										break;
+									}
+								}
+							}
+							msg.editReply({ content: "성공적으로 인증되었습니다" });
+							const Embed = new Discord.MessageEmbed()
+							.setColor('#ff00ff')
+							.setTitle("서버-인증")
+							.setAuthor(msg.user.tag, msg.user.displayAvatarURL(), "https://na.finalfantasyxiv.com/lodestone/character/" + url)
+							.setDescription("<@" + msg.member.id + ">님이 " + oldname + " 에서 " + data.Character.Name + "@" + data.Character.Server + "으로 변경하셨습니다.\n[로드스톤](https://na.finalfantasyxiv.com/lodestone/character/" + url + ")")
+							.setTimestamp()
+							.setFooter("유저 ID : " + msg.member.id);
+							client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });	
+						});
 					}
 					catch(error)
 					{
