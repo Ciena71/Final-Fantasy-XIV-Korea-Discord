@@ -4969,14 +4969,18 @@ async function loadFile(msg, url)
 					try
 					{
 						const oldname = msg.member.nickname;
+						console.log(res.rows[0].dialog);
 						msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(dialogchannels =>
 						{
+							console.log("테스트1");
+							dialogchannels.setArchived(false);
 							thread.send("<@" + msg.member.id + "> 님의 다이얼로그가 활성화 되었습니다.");
 							dialogchannels.members.add(msg.member);
 							dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id) VALUES (" + msg.member.id + ", " + url + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url);
 						})
 						.catch(err => 
 						{
+							console.log("테스트2");
 							msg.guild.channels.cache.get(channelsId.dialog).threads.create(
 							{
 								name: msg.member.id,
@@ -4986,7 +4990,6 @@ async function loadFile(msg, url)
 							})
 							.then(threadChannel => 
 							{
-								threadChannel.setArchived(false);
 								dataBase.query("INSERT INTO UserSaveData (User_Id, FFXIV_Id, Dialog) VALUES (" + msg.member.id + ", " + url + ", " + threadChannel.id + ") ON CONFLICT (User_Id) DO UPDATE SET FFXIV_Id = " + url + ", Dialog = " + threadChannel.id);
 								threadChannel.members.add(msg.member.id);
 								//console.log(threadChannel);
