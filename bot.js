@@ -3409,13 +3409,81 @@ client.on("messageCreate", async (msg) =>
 									{
 										if(res.rows.length > 0)
 										{
-											msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(dialogchannels =>
+											msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(dialogthread =>
 											{
-												if(dialogchannels)
+												if(dialogthread)
 												{
-													dialogchannels.setArchived(false).then(() =>
+													dialogthread.setArchived(false).then(() =>
 													{
-														dialogchannels.members.add(target);
+														dialogthread.members.add(target);
+														msg.reply("<@" + target.id + ">님의 다이얼로그를 재연결했습니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+													});
+												}
+											}).catch(err1 =>
+											{
+												console.log(err1);
+												msg.reply("해당 <@" + target.id + ">의 데이터에 오류가 났습니다. 에러코드 : 2").then(message => { setTimeout(() => message.delete(), 10000); });
+											});
+										}
+										else
+										msg.reply("해당 <@" + target.id + ">의 데이터가 존재하지 않습니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+									}
+								});
+							}
+						});
+					}
+				}
+			}
+			break;
+		}
+		case "다이얼로그재생성":
+		{
+			if (msg.channel == channelsId.console)
+			{
+				const role = msg.guild.roles.cache.find(r => r.name === "관리자");
+				if(msg.member.roles.cache.has(role.id))
+				{
+					if(cmd.length == 2)
+					{
+						msg.guild.members.fetch(cmd[1].replace(/[^0-9]/g,'')).then(target =>
+						{
+							if(!target.user.bot)
+							{
+								dataBase.query("SELECT Dialog FROM UserSaveData WHERE User_Id = '" + target.id +"'", (err, res) =>
+								{
+									if (err)
+									{
+										console.log(err);
+										msg.reply("해당 <@" + target.id + ">의 데이터에 오류가 났습니다. 에러코드 : 1").then(message => { setTimeout(() => message.delete(), 10000); });
+									}
+									else
+									{
+										if(res.rows.length > 0)
+										{
+											msg.guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(dialogthread =>
+											{
+												if(dialogthread)
+												{
+													dialogthread.setArchived(false).then(() =>
+													{
+														dialogthread.remove();
+														msg.guild.channels.cache.get(channelsId.dialog).threads.create(
+														{
+															name: target.id,
+															autoArchiveDuration: 60,
+															//type: 'private_thread',
+															reason: target.user.tag + "님의 다이얼로그 생성"
+														})
+														.then(threadChannel => 
+														{
+															dataBase.query("UPDATE UserSaveData SET Dialog = '" + threadChannel.id + "' WHERE User_Id='" + target.id +"'");
+															threadChannel.members.add(target.id);
+															FFXIV_Guild.channels.cache.get(channelsId.dialog).messages.fetch(threadChannel.id).then(threadmsg =>
+															{
+																threadmsg.delete();
+															});
+														})
+														.catch(console.error);
 														msg.reply("<@" + target.id + ">님의 다이얼로그를 재연결했습니다.").then(message => { setTimeout(() => message.delete(), 10000); });
 													});
 												}
