@@ -566,6 +566,46 @@ client.on("ready", async () =>
 					permission: false,
 				},
 				{
+					id: dataCenterNames[0].id,
+					type: 'ROLE',
+					permission: false,
+				},
+				{
+					id: dataCenterNames[1].id,
+					type: 'ROLE',
+					permission: false,
+				},
+				{
+					id: dataCenterNames[2].id,
+					type: 'ROLE',
+					permission: false,
+				},
+				{
+					id: dataCenterNames[3].id,
+					type: 'ROLE',
+					permission: false,
+				},
+				{
+					id: dataCenterNames[4].id,
+					type: 'ROLE',
+					permission: false,
+				},
+				{
+					id: dataCenterNames[5].id,
+					type: 'ROLE',
+					permission: false,
+				},
+				{
+					id: dataCenterNames[6].id,
+					type: 'ROLE',
+					permission: false,
+				},
+				{
+					id: dataCenterNames[7].id,
+					type: 'ROLE',
+					permission: false,
+				},
+				{
 					id: FFXIV_Guild.roles.cache.find(role => role.name === "관리자").id,
 					type: 'ROLE',
 					permission: true,
@@ -607,12 +647,6 @@ client.on("ready", async () =>
 		console.log(data[i].name + " 2번");
 		console.log(commandPermissions[i]);
 	}
-	/*
-	for(var i = 0; i < commandPermissions.length; i++)
-	{
-		console.log(commandPermissions[i].id);
-		console.log(commandPermissions[i].permissions);
-	}*/
 	//await FFXIV_Guild.commands.permissions.set({ commandPermissions });
 });
 
