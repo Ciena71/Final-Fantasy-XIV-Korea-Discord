@@ -4306,7 +4306,7 @@ client.on('raw', async (packet) =>
 							if(editEmbed.fields[1].name == "연합 A")
 							{
 								var slot = null;
-								for(var i=0;i<emoji_partyslot.length;i++)
+								for(var i=1;i<emoji_partyslot.length + 1;i++)
 								{
 									if(i != emoji_partyslotcheck[packet.d.emoji.name])
 									{
