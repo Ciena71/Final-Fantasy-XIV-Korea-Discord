@@ -557,7 +557,7 @@ client.on("ready", async () =>
 	var commandPermissions = 
 	[
 		{
-			id: FFXIV_Guild.commands.cache.find(command => command.name === "스킬"),
+			id: FFXIV_Guild.commands.cache.find(command => command.name === "스킬").id,
 			permissions:
 			[
 				{
@@ -566,7 +566,7 @@ client.on("ready", async () =>
 					permission: false,
 				},
 				{
-					id: FFXIV_Guild.roles.cache.find(role => role.name === "관리자"),
+					id: FFXIV_Guild.roles.cache.find(role => role.name === "관리자").id,
 					type: 'ROLE',
 					permission: true,
 				}
@@ -578,11 +578,10 @@ client.on("ready", async () =>
 	{
 		if(data[i].name != "인증" && data[i].name != "스킬")
 		{
-			command
 			commandPermissions += 
 			[
 				{
-					id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name),
+					id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name).id,
 					permissions:
 					[
 						{
@@ -603,7 +602,9 @@ client.on("ready", async () =>
 				};
 			}
 		}
-	}/*
+		console.log(commandPermissions);
+	}
+	/*
 	for(var i = 0; i < commandPermissions.length; i++)
 	{
 		console.log(commandPermissions[i].id);
