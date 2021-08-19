@@ -572,7 +572,7 @@ client.on("ready", async () =>
 				}
 			]
 		}
-	];/*
+	];
 	for(var i = 0; i < data.length; i++)
 	{
 		//console.log(data[i].name + " 1번");
@@ -596,7 +596,7 @@ client.on("ready", async () =>
 				});
 			}
 			//console.log(permissionList);
-			commandPermissions.push(
+			fullPermissions.push(
 			[
 				{
 					id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name).id,
@@ -605,8 +605,8 @@ client.on("ready", async () =>
 			]);
 		}
 		//console.log(data[i].name + " 2번");
-		//console.log(commandPermissions[i]);
-	}*/
+		//console.log(fullPermissions[i]);
+	}
 	await FFXIV_Guild.commands.permissions.set({ fullPermissions });
 });
 
