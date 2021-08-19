@@ -3847,8 +3847,10 @@ client.on("messageCreate", async (msg) =>
 		}
 		case "파티설명":
 		{
+			console.log("테스트1");
 			if (msg.channel.parent == channelsId.dialog)
 			{
+				console.log("테스트2");
 				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
 				{
 					if (err)
