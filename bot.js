@@ -895,38 +895,40 @@ client.on("interactionCreate", async (interaction) =>
 							{
 								if(res.rows[0].dialog != null)
 								{
-									const ChannelId = client.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog);
-									dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = " + interaction.channel.id + ", Dialog_Message_Id = " + interaction.message.id + " WHERE User_Id = '" + interaction.member.id +"'");
-									ChannelId.send("<@" + interaction.member.id + ">, <#" + interaction.channel.id + "> 의 글을 수정하시려면 아래의 명령어를 따라주세요.");
-									ChannelId.send({ embeds: [interaction.message.embeds[0]] });
-									if(interaction.channel.parent == categorysId.fc && interaction.channel != channelsId.fc)
+									client.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(ChannelId => 
 									{
-										ChannelId.send("```!fc설명 [설명]" +
-										"\n!fc문의 [@맨션]" +
-										"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
-									}
-									else
-									if(interaction.channel.parent == categorysId.linkshell && interaction.channel != channelsId.linkshell)
-									{
-										ChannelId.send("```!링크쉘설명 [설명] " +
-										"\n!링크쉘문의 [@맨션]```");
-									}
-									else
-									if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve || interaction.channelId == channelsId.jp_party_pvp ||
-										interaction.channelId == channelsId.na_static_pve || interaction.channelId == channelsId.na_party_pve || interaction.channelId == channelsId.na_party_pvp ||
-										interaction.channelId == channelsId.eu_static_pve || interaction.channelId == channelsId.eu_party_pve || interaction.channelId == channelsId.eu_party_pvp ||
-										(interaction.channel.isThread() &&
-										(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve || interaction.channel.parentId == channelsId.jp_party_pvp ||
-										interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
-										interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
-									{
-										ChannelId.send("```!파티설명 [설명]```");
-									}
-									else
-									if(interaction.channel == channelsId.trade)
-									{
-										ChannelId.send("```!거래설명 [설명]```");
-									}
+										dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = " + interaction.channel.id + ", Dialog_Message_Id = " + interaction.message.id + " WHERE User_Id = '" + interaction.member.id +"'");
+										ChannelId.send("<@" + interaction.member.id + ">, <#" + interaction.channel.id + "> 의 글을 수정하시려면 아래의 명령어를 따라주세요.");
+										ChannelId.send({ embeds: [interaction.message.embeds[0]] });
+										if(interaction.channel.parent == categorysId.fc && interaction.channel != channelsId.fc)
+										{
+											ChannelId.send("```!fc설명 [설명]" +
+											"\n!fc문의 [@맨션]" +
+											"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
+										}
+										else
+										if(interaction.channel.parent == categorysId.linkshell && interaction.channel != channelsId.linkshell)
+										{
+											ChannelId.send("```!링크쉘설명 [설명] " +
+											"\n!링크쉘문의 [@맨션]```");
+										}
+										else
+										if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve || interaction.channelId == channelsId.jp_party_pvp ||
+											interaction.channelId == channelsId.na_static_pve || interaction.channelId == channelsId.na_party_pve || interaction.channelId == channelsId.na_party_pvp ||
+											interaction.channelId == channelsId.eu_static_pve || interaction.channelId == channelsId.eu_party_pve || interaction.channelId == channelsId.eu_party_pvp ||
+											(interaction.channel.isThread() &&
+											(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve || interaction.channel.parentId == channelsId.jp_party_pvp ||
+											interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
+											interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
+										{
+											ChannelId.send("```!파티설명 [설명]```");
+										}
+										else
+										if(interaction.channel == channelsId.trade)
+										{
+											ChannelId.send("```!거래설명 [설명]```");
+										}
+									});
 								}
 							}
 						});
