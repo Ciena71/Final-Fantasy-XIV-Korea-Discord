@@ -1879,7 +1879,11 @@ client.on("interactionCreate", async (interaction) =>
 							{
 								if (interaction.channelId == channelsId.jp_party_pve || interaction.channelId == channelsId.jp_party_pvp ||
 									interaction.channelId == channelsId.na_party_pve || interaction.channelID == channelsId.na_party_pvp ||
-									interaction.channelId == channelsId.eu_party_pve || interaction.channelId == channelsId.eu_party_pvp)
+									interaction.channelId == channelsId.eu_party_pve || interaction.channelId == channelsId.eu_party_pvp ||
+									(interaction.channel.isThread() &&
+									(interaction.channel.parentId == channelsId.jp_party_pve || interaction.channel.parentId == channelsId.jp_party_pvp ||
+									interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
+									interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
