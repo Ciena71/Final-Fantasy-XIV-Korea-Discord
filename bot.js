@@ -572,7 +572,7 @@ client.on("ready", async () =>
 				}
 			]
 		}
-	];
+	];/*
 	for(var i = 0; i < data.length; i++)
 	{
 		//console.log(data[i].name + " 1번");
@@ -606,8 +606,8 @@ client.on("ready", async () =>
 		}
 		//console.log(data[i].name + " 2번");
 		//console.log(commandPermissions[i]);
-	}
-	await FFXIV_Guild.commands.permissions.set({ commandPermissions });
+	}*/
+	await FFXIV_Guild.commands.permissions.set({ fullPermissions: [commandPermissions] });
 });
 
 client.on('guildMemberAdd', async (member) =>
