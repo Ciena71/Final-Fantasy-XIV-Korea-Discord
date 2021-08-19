@@ -554,7 +554,7 @@ client.on("ready", async () =>
 		}
 	];
 	await FFXIV_Guild.commands.set(data);
-	var commandPermissions = 
+	var fullPermissions = 
 	[
 		{
 			id: FFXIV_Guild.commands.cache.find(command => command.name === "스킬").id,
@@ -607,7 +607,7 @@ client.on("ready", async () =>
 		//console.log(data[i].name + " 2번");
 		//console.log(commandPermissions[i]);
 	}*/
-	await FFXIV_Guild.commands.permissions.set({ commandPermissions });
+	await FFXIV_Guild.commands.permissions.set({ fullPermissions });
 });
 
 client.on('guildMemberAdd', async (member) =>
