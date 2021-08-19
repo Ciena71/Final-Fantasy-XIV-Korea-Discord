@@ -557,6 +557,7 @@ client.on("ready", async () =>
 	var commandPermissions = null;
 	for(var i = 0; i < data.length; i++)
 	{
+		console.log(data[i].name);
 		if(data[i].name != "인증" && data[i].name != "스킬")
 		{
 			commandPermissions += 
