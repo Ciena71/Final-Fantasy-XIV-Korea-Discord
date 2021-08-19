@@ -3863,6 +3863,7 @@ client.on("messageCreate", async (msg) =>
 						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
 						if (channelId)
 						{
+							console.log(channelId);
 							console.log("테스트3");
 							if (channelId.channelId == channelsId.jp_static_pve || channelId.channelId == channelsId.jp_party_pve || channelId.channelId == channelsId.jp_party_pvp ||
 								channelId.channelId == channelsId.na_static_pve || channelId.channelId == channelsId.na_party_pve || channelId.channelId == channelsId.na_party_pvp ||
