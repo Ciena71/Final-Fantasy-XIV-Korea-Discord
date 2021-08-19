@@ -554,6 +554,62 @@ client.on("ready", async () =>
 		}
 	];
 	await FFXIV_Guild.commands.set(data);
+	var commandPermissions = null;
+	for(var i = 0; i < data.length; i++)
+	{
+		if(data[i].name != "인증" && data[i].name != "스킬")
+		{
+			commandPermissions += 
+			[
+				{
+					id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name),
+					permissions:
+					[
+						// EVERYONE ROLE
+						{
+							id: FFXIV_Guild.roles.everyone,
+							type: 'ROLE',
+							permission: false,
+						}
+					]
+				}
+			];
+			for(var j = 0; j < dataCenterNames.length; j ++)
+			{
+				commandPermissions[commandPermissions.length-1].permission +=
+				{
+					id: dataCenterNames[j].id,
+					type: 'ROLE',
+					permission: true,
+				};
+			}
+		}
+		else
+		if(data[i].name == "스킬")
+		{
+			commandPermissions += 
+			[
+				{
+					id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name),
+					permissions:
+					[
+						{
+							id: FFXIV_Guild.roles.everyone,
+							type: 'ROLE',
+							permission: false,
+						},
+						{
+							id: FFXIV_Guild.roles.cache.find(role => role.name === "관리자"),
+							type: 'ROLE',
+							permission: true,
+						},
+					]
+				}
+			];
+		}
+	}
+	console.log(commandPermissions);
+	//await FFXIV_Guild.commands.permissions.set({ commandPermissions });
 });
 
 client.on('guildMemberAdd', async (member) =>
