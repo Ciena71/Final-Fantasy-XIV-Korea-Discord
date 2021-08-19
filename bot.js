@@ -578,29 +578,30 @@ client.on("ready", async () =>
 	{
 		if(data[i].name != "인증" && data[i].name != "스킬")
 		{
-			commandPermissions += 
+			const permissionList = 
 			[
 				{
-					id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name).id,
-					permissions:
-					[
-						{
-							id: FFXIV_Guild.roles.everyone.id,
-							type: 'ROLE',
-							permission: false,
-						},
-					]
+					id: FFXIV_Guild.roles.everyone.id,
+					type: 'ROLE',
+					permission: false,
 				}
 			];
 			for(var j = 0; j < dataCenterNames.length; j ++)
 			{
-				commandPermissions[commandPermissions.length-1].permission +=
+				permissionList.push(
 				{
 					id: dataCenterNames[j].id,
 					type: 'ROLE',
 					permission: true,
-				};
+				});
 			}
+			commandPermissions.push(
+			[
+				{
+					id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name).id,
+					permissions: permissionList
+				}
+			]);
 		}
 		console.log(commandPermissions[i]);
 	}
