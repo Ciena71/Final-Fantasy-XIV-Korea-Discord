@@ -607,7 +607,7 @@ client.on("ready", async () =>
 		//console.log(data[i].name + " 2번");
 		//console.log(commandPermissions[i]);
 	}*/
-	await FFXIV_Guild.commands.permissions.set({ fullPermissions: [commandPermissions] });
+	await FFXIV_Guild.commands.permissions.set({ commandPermissions });
 });
 
 client.on('guildMemberAdd', async (member) =>
