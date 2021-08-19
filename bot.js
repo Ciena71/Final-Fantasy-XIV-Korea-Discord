@@ -561,7 +561,7 @@ client.on("ready", async () =>
 			permissions:
 			[
 				{
-					id: FFXIV_Guild.roles.everyone,
+					id: FFXIV_Guild.roles.everyone.id,
 					type: 'ROLE',
 					permission: false,
 				},
@@ -585,10 +585,10 @@ client.on("ready", async () =>
 					permissions:
 					[
 						{
-							id: FFXIV_Guild.roles.everyone,
+							id: FFXIV_Guild.roles.everyone.id,
 							type: 'ROLE',
 							permission: false,
-						}
+						},
 					]
 				}
 			];
