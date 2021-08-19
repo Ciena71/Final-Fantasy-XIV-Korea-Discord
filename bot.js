@@ -3861,7 +3861,6 @@ client.on("messageCreate", async (msg) =>
 						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
 						if (channelId)
 						{
-							console.log(channelId);
 							if (channelId.id == channelsId.jp_static_pve || channelId.id == channelsId.jp_party_pve || channelId.id == channelsId.jp_party_pvp ||
 								channelId.id == channelsId.na_static_pve || channelId.id == channelsId.na_party_pve || channelId.id == channelsId.na_party_pvp ||
 								channelId.id == channelsId.eu_static_pve || channelId.id == channelsId.eu_party_pve || channelId.id == channelsId.eu_party_pvp ||
