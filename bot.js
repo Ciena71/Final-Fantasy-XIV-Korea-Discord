@@ -573,9 +573,9 @@ client.on("ready", async () =>
 			]
 		}
 	];
-	console.log(commandPermissions);
 	for(var i = 0; i < data.length; i++)
 	{
+		console.log(data[i].name + " 1번");
 		if(data[i].name != "인증" && data[i].name != "스킬")
 		{
 			const permissionList = 
@@ -595,6 +595,7 @@ client.on("ready", async () =>
 					permission: true,
 				});
 			}
+			console.log(permissionList);
 			commandPermissions.push(
 			[
 				{
@@ -603,6 +604,7 @@ client.on("ready", async () =>
 				}
 			]);
 		}
+		console.log(data[i].name + " 2번");
 		console.log(commandPermissions[i]);
 	}
 	/*
