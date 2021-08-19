@@ -5178,41 +5178,32 @@ async function loadFile(msg, url)
 								})
 								.catch(console.error);
 							}
-							msg.member.setNickname(data.Character.Name+"@"+data.Character.Server);
-							var checker = false;
-							var checking = 0;
-							for(var i = 0; i < dataCenterNames.length; i++)
-							{
-								if(msg.member.roles.cache.has(dataCenterNames[i].id))
-								{
-									if(data.Character.DC !== dataCenterNames[i].eng)
-										msg.member.roles.remove(dataCenterNames[i].id);
-									else
-										checker = true;
-								}
-								checking = i;
-							}
-							if(!checker)
+							const oldname = msg.member.nickname;
+							msg.member.setNickname(data.Character.Name+"@"+data.Character.Server).then(() =>
 							{
 								for(var i = 0; i < dataCenterNames.length; i++)
 								{
-									if(data.Character.DC === dataCenterNames[i].eng)
+									if(msg.member.roles.cache.has(dataCenterNames[i].id))
 									{
-										msg.member.roles.add(dataCenterNames[i].id);
-										break;
+										if(data.Character.DC !== dataCenterNames[i].eng)
+											msg.member.roles.remove(dataCenterNames[i].id);
+									}
+									else
+									{
+										if(data.Character.DC === dataCenterNames[i].eng)
+											msg.member.roles.add(dataCenterNames[i].id);
 									}
 								}
-							}
-							const oldname = msg.member.nickname;
-							msg.editReply({ content: "성공적으로 인증되었습니다" });
-							const Embed = new Discord.MessageEmbed()
-							.setColor('#ff00ff')
-							.setTitle("서버-인증")
-							.setAuthor(msg.user.tag, msg.user.displayAvatarURL(), "https://na.finalfantasyxiv.com/lodestone/character/" + url)
-							.setDescription("<@" + msg.member.id + ">님이 " + oldname + " 에서 " + data.Character.Name + "@" + data.Character.Server + "으로 변경하셨습니다.\n[로드스톤](https://na.finalfantasyxiv.com/lodestone/character/" + url + ")")
-							.setTimestamp()
-							.setFooter("유저 ID : " + msg.member.id);
-							client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+								msg.editReply({ content: "성공적으로 인증되었습니다" });
+								const Embed = new Discord.MessageEmbed()
+								.setColor('#ff00ff')
+								.setTitle("서버-인증")
+								.setAuthor(msg.user.tag, msg.user.displayAvatarURL(), "https://na.finalfantasyxiv.com/lodestone/character/" + url)
+								.setDescription("<@" + msg.member.id + ">님이 " + oldname + " 에서 " + data.Character.Name + "@" + data.Character.Server + "으로 변경하셨습니다.\n[로드스톤](https://na.finalfantasyxiv.com/lodestone/character/" + url + ")")
+								.setTimestamp()
+								.setFooter("유저 ID : " + msg.member.id);
+								client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+							});
 						}
 					});
 				}
