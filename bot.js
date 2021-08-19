@@ -913,13 +913,13 @@ client.on("interactionCreate", async (interaction) =>
 											"\n!링크쉘문의 [@맨션]```");
 										}
 										else
-										if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve || interaction.channelId == channelsId.jp_party_pvp ||
-											interaction.channelId == channelsId.na_static_pve || interaction.channelId == channelsId.na_party_pve || interaction.channelId == channelsId.na_party_pvp ||
-											interaction.channelId == channelsId.eu_static_pve || interaction.channelId == channelsId.eu_party_pve || interaction.channelId == channelsId.eu_party_pvp ||
+										if (interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve || interaction.channel.id == channelsId.jp_party_pvp ||
+											interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve || interaction.channel.id == channelsId.na_party_pvp ||
+											interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve || interaction.channel.id == channelsId.eu_party_pvp ||
 											(interaction.channel.isThread() &&
-											(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve || interaction.channel.parentId == channelsId.jp_party_pvp ||
-											interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
-											interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
+											(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
+											interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
+											interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
 										{
 											ChannelId.send("```!파티설명 [설명]```");
 										}
@@ -952,9 +952,9 @@ client.on("interactionCreate", async (interaction) =>
 							interaction.channel == channelsId.na_static_pve || interaction.channel == channelsId.na_party_pve || interaction.channel == channelsId.na_party_pvp ||
 							interaction.channel == channelsId.eu_static_pve || interaction.channel == channelsId.eu_party_pve || interaction.channel == channelsId.eu_party_pvp ||
 							(interaction.channel.isThread() &&
-							(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve || interaction.channel.parentId == channelsId.jp_party_pvp ||
-							interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
-							interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
+							(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
+							interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
+							interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
 						{
 							Embed.setDescription("<@" + interaction.member.id + ">님이 파티 모집글을 삭제하셨습니다.");
 						}
@@ -979,7 +979,7 @@ client.on("interactionCreate", async (interaction) =>
 						{
 							if (!err)
 							{
-								if(res.rows[0].dialog_channel_id == interaction.channelId && res.rows[0].dialog_message_id == interaction.message.id)
+								if(res.rows[0].dialog_channel_id == interaction.channel.id && res.rows[0].dialog_message_id == interaction.message.id)
 								{
 									dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = null, Dialog_Message_Id = null WHERE User_Id = '" + interaction.member.id +"'");
 								}
@@ -995,7 +995,7 @@ client.on("interactionCreate", async (interaction) =>
 				if(editEmbed.author.name != interaction.member.displayName)
 				{
 					const sellerId = editEmbed.fields[0].value.replace(/[^0-9]/g,'');
-					if(interaction.guild.channels.cache.filter(channel => channel.parentId === categorysId.negotiation && channel.name === interaction.message.id).size == 0)
+					if(interaction.guild.channels.cache.filter(channel => channel.parent.id === categorysId.negotiation && channel.name === interaction.message.id).size == 0)
 					{
 						interaction.guild.channels.create(interaction.message.id,
 						{
@@ -1087,7 +1087,7 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case 'inquire':
 			{
-				if(interaction.guild.channels.cache.filter(channel => channel.parentId === categorysId.inquire && channel.name === interaction.member.id).size == 0)
+				if(interaction.guild.channels.cache.filter(channel => channel.parent.id === categorysId.inquire && channel.name === interaction.member.id).size == 0)
 				{
 					interaction.guild.channels.create(interaction.member.id,
 					{
@@ -1168,7 +1168,7 @@ client.on("interactionCreate", async (interaction) =>
 		{
 			case '인증':
 			{
-				if (interaction.channelId == channelsId.certification)
+				if (interaction.channel.id == channelsId.certification)
 				{
 					await interaction.deferReply({ ephemeral: true });
 					var check = false;
@@ -1613,7 +1613,7 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case 'fc':
 			{
-				if (interaction.channelId != channelsId.fc && interaction.channel.parent == categorysId.fc)
+				if (interaction.channel.id != channelsId.fc && interaction.channel.parent == categorysId.fc)
 				{
 					await interaction.deferReply({ ephemeral: true });
 					if (interaction.options.get("설명").value.includes("@everyone"))
@@ -1707,7 +1707,7 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case '링크쉘':
 			{
-				if (interaction.channelId != channelsId.linkshell && interaction.channel.parent == categorysId.linkshell)
+				if (interaction.channel.id != channelsId.linkshell && interaction.channel.parent == categorysId.linkshell)
 				{
 					await interaction.deferReply({ ephemeral: true });
 					switch(interaction.options.get("형식").value)
@@ -1862,13 +1862,13 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case '파티':
 			{
-				if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve || interaction.channelId == channelsId.jp_party_pvp ||
-					interaction.channelId == channelsId.na_static_pve || interaction.channelId == channelsId.na_party_pve || interaction.channelId == channelsId.na_party_pvp ||
-					interaction.channelId == channelsId.eu_static_pve || interaction.channelId == channelsId.eu_party_pve || interaction.channelId == channelsId.eu_party_pvp ||
+				if (interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve || interaction.channel.id == channelsId.jp_party_pvp ||
+					interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve || interaction.channel.id == channelsId.na_party_pvp ||
+					interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve || interaction.channel.id == channelsId.eu_party_pvp ||
 					(interaction.channel.isThread() && 
-					(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve || interaction.channel.parentId == channelsId.jp_party_pvp ||
-					interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
-					interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
+					(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
+					interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
+					interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
 				{
 					await interaction.deferReply({ ephemeral: true });
 					if (interaction.options.get("제목").value.includes("@everyone"))
@@ -1888,13 +1888,13 @@ client.on("interactionCreate", async (interaction) =>
 						{
 							case 1:
 							{
-								if (interaction.channelId == channelsId.jp_party_pve || interaction.channelId == channelsId.jp_party_pvp ||
-									interaction.channelId == channelsId.na_party_pve || interaction.channelID == channelsId.na_party_pvp ||
-									interaction.channelId == channelsId.eu_party_pve || interaction.channelId == channelsId.eu_party_pvp ||
+								if (interaction.channel.id == channelsId.jp_party_pve || interaction.channel.id == channelsId.jp_party_pvp ||
+									interaction.channel.id == channelsId.na_party_pve || interaction.channel.id == channelsId.na_party_pvp ||
+									interaction.channel.id == channelsId.eu_party_pve || interaction.channel.id == channelsId.eu_party_pvp ||
 									(interaction.channel.isThread() &&
-									(interaction.channel.parentId == channelsId.jp_party_pve || interaction.channel.parentId == channelsId.jp_party_pvp ||
-									interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
-									interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
+									(interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
+									interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
+									interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
@@ -1959,13 +1959,13 @@ client.on("interactionCreate", async (interaction) =>
 							}
 							case 2:
 							{
-								if (interaction.channelId == channelsId.jp_party_pve || interaction.channelId == channelsId.jp_party_pvp ||
-									interaction.channelId == channelsId.na_party_pve || interaction.channelID == channelsId.na_party_pvp ||
-									interaction.channelId == channelsId.eu_party_pve || interaction.channelId == channelsId.eu_party_pvp ||
+								if (interaction.channel.id == channelsId.jp_party_pve || interaction.channel.id == channelsId.jp_party_pvp ||
+									interaction.channel.id == channelsId.na_party_pve || interaction.channel.id == channelsId.na_party_pvp ||
+									interaction.channel.id == channelsId.eu_party_pve || interaction.channel.id == channelsId.eu_party_pvp ||
 									(interaction.channel.isThread() &&
-									(interaction.channel.parentId == channelsId.jp_party_pve || interaction.channel.parentId == channelsId.jp_party_pvp ||
-									interaction.channel.parentId == channelsId.na_party_pve || interaction.channel.parentId == channelsId.na_party_pvp ||
-									interaction.channel.parentId == channelsId.eu_party_pve || interaction.channel.parentId == channelsId.eu_party_pvp)))
+									(interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
+									interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
+									interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
@@ -2030,13 +2030,13 @@ client.on("interactionCreate", async (interaction) =>
 							}
 							case 3:
 							{
-								if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve ||
-									interaction.channelId == channelsId.na_static_pve || interaction.channelId == channelsId.na_party_pve ||
-									interaction.channelId == channelsId.eu_static_pve || interaction.channelId == channelsId.eu_party_pve ||
+								if (interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve ||
+									interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve ||
+									interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve ||
 									(interaction.channel.isThread() &&
-									(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve ||
-									interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve ||
-									interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve)))
+									(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve ||
+									interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve ||
+									interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
@@ -2106,13 +2106,13 @@ client.on("interactionCreate", async (interaction) =>
 							}
 							case 4:
 							{
-								if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve ||
-									interaction.channelId == channelsId.na_static_pve || interaction.channelId == channelsId.na_party_pve ||
-									interaction.channelId == channelsId.eu_static_pve || interaction.channelId == channelsId.eu_party_pve ||
+								if (interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve ||
+									interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve ||
+									interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve ||
 									(interaction.channel.isThread() &&
-									(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve ||
-									interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve ||
-									interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve)))
+									(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve ||
+									interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve ||
+									interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
@@ -2182,13 +2182,13 @@ client.on("interactionCreate", async (interaction) =>
 							}
 							case 5:
 							{
-								if (interaction.channelId == channelsId.jp_party_pve ||
-									interaction.channelId == channelsId.na_party_pve ||
-									interaction.channelId == channelsId.eu_party_pve ||
+								if (interaction.channel.id == channelsId.jp_party_pve ||
+									interaction.channel.id == channelsId.na_party_pve ||
+									interaction.channel.id == channelsId.eu_party_pve ||
 									(interaction.channel.isThread() &&
-									(interaction.channel.parentId == channelsId.jp_party_pve ||
-									interaction.channel.parentId == channelsId.na_party_pve ||
-									interaction.channel.parentId == channelsId.eu_party_pve)))
+									(interaction.channel.parent.id == channelsId.jp_party_pve ||
+									interaction.channel.parent.id == channelsId.na_party_pve ||
+									interaction.channel.parent.id == channelsId.eu_party_pve)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
@@ -2249,13 +2249,13 @@ client.on("interactionCreate", async (interaction) =>
 							}
 							case 6:
 							{
-								if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve ||
-									interaction.channelId == channelsId.na_static_pve || interaction.channelId == channelsId.na_party_pve ||
-									interaction.channelId == channelsId.eu_static_pve || interaction.channelId == channelsId.eu_party_pve ||
+								if (interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve ||
+									interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve ||
+									interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve ||
 									(interaction.channel.isThread() &&
-									(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve ||
-									interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve ||
-									interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve)))
+									(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve ||
+									interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve ||
+									interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
@@ -2319,13 +2319,13 @@ client.on("interactionCreate", async (interaction) =>
 							}
 							case 7:
 							{
-								if (interaction.channelId == channelsId.jp_static_pve || interaction.channelId == channelsId.jp_party_pve ||
-									interaction.channelId == channelsId.na_static_pve || interaction.channelId == channelsId.na_party_pve ||
-									interaction.channelId == channelsId.eu_static_pve || interaction.channelId == channelsId.eu_party_pve ||
+								if (interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve ||
+									interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve ||
+									interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve ||
 									(interaction.channel.isThread() &&
-									(interaction.channel.parentId == channelsId.jp_static_pve || interaction.channel.parentId == channelsId.jp_party_pve ||
-									interaction.channel.parentId == channelsId.na_static_pve || interaction.channel.parentId == channelsId.na_party_pve ||
-									interaction.channel.parentId == channelsId.eu_static_pve || interaction.channel.parentId == channelsId.eu_party_pve)))
+									(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve ||
+									interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve ||
+									interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
@@ -2395,7 +2395,7 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case '거래':
 			{
-				if (interaction.channelId == channelsId.trade)
+				if (interaction.channel.id == channelsId.trade)
 				{
 					await interaction.deferReply({ ephemeral: true });
 					const tradeName = interaction.options.get("제목").value;
@@ -2454,7 +2454,7 @@ client.on("interactionCreate", async (interaction) =>
 			{
 				if (interaction.channel.isThread())
 				{
-					if (interaction.channel.parent.parentId == categorysId.job_battle)
+					if (interaction.channel.parent.parent.id == categorysId.job_battle)
 					{
 						if (interaction.member.roles.cache.has(interaction.guild.roles.cache.find(r => r.name === "관리자").id))
 						{
@@ -2586,20 +2586,20 @@ client.on("messageCreate", async (msg) =>
 	msg.channel == channelsId.eu_static_pve ||
 	msg.channel == channelsId.eu_party_pve ||
 	msg.channel == channelsId.eu_party_pvp ||
-	(msg.channel.isThread() && (msg.channel.parentId == channelsId.jp_static_pve ||
-	msg.channel.parentId == channelsId.jp_party_pve ||
-	msg.channel.parentId == channelsId.jp_party_pvp ||
-	msg.channel.parentId == channelsId.na_static_pve ||
-	msg.channel.parentId == channelsId.na_party_pve ||
-	msg.channel.parentId == channelsId.na_party_pvp ||
-	msg.channel.parentId == channelsId.eu_static_pve ||
-	msg.channel.parentId == channelsId.eu_party_pve ||
-	msg.channel.parentId == channelsId.eu_party_pvp)) ||
+	(msg.channel.isThread() && (msg.channel.parent.id == channelsId.jp_static_pve ||
+	msg.channel.parent.id == channelsId.jp_party_pve ||
+	msg.channel.parent.id == channelsId.jp_party_pvp ||
+	msg.channel.parent.id == channelsId.na_static_pve ||
+	msg.channel.parent.id == channelsId.na_party_pve ||
+	msg.channel.parent.id == channelsId.na_party_pvp ||
+	msg.channel.parent.id == channelsId.eu_static_pve ||
+	msg.channel.parent.id == channelsId.eu_party_pve ||
+	msg.channel.parent.id == channelsId.eu_party_pvp)) ||
 	msg.channel == channelsId.trade ||
 	(msg.channel != channelsId.fc && msg.channel.parent == categorysId.fc) ||
 	(msg.channel != channelsId.linkshell && msg.channel.parent == categorysId.linkshell) ||
-	msg.channel.parentId == categorysId.job_battle ||
-	msg.channel.parent.parentId == categorysId.job_battle)
+	msg.channel.parent.id == categorysId.job_battle ||
+	msg.channel.parent.parent.id == categorysId.job_battle)
 	{
 		setTimeout(() => msg.delete(), 1000);
 	}
@@ -3300,7 +3300,7 @@ client.on("messageCreate", async (msg) =>
 					}
 					if(name.length != 0)
 					{
-						if(msg.guild.channels.cache.filter(channel => channel.parentId === categorysId.troubleshooting && channel.name === name).size == 0)
+						if(msg.guild.channels.cache.filter(channel => channel.parent.id === categorysId.troubleshooting && channel.name === name).size == 0)
 						{
 							msg.guild.channels.create(name,
 							{
@@ -3865,13 +3865,13 @@ client.on("messageCreate", async (msg) =>
 						{
 							console.log(channelId);
 							console.log("테스트3");
-							if (channelId.channelId == channelsId.jp_static_pve || channelId.channelId == channelsId.jp_party_pve || channelId.channelId == channelsId.jp_party_pvp ||
-								channelId.channelId == channelsId.na_static_pve || channelId.channelId == channelsId.na_party_pve || channelId.channelId == channelsId.na_party_pvp ||
-								channelId.channelId == channelsId.eu_static_pve || channelId.channelId == channelsId.eu_party_pve || channelId.channelId == channelsId.eu_party_pvp ||
+							if (channelId.channel.id == channelsId.jp_static_pve || channelId.channel.id == channelsId.jp_party_pve || channelId.channel.id == channelsId.jp_party_pvp ||
+								channelId.channel.id == channelsId.na_static_pve || channelId.channel.id == channelsId.na_party_pve || channelId.channel.id == channelsId.na_party_pvp ||
+								channelId.channel.id == channelsId.eu_static_pve || channelId.channel.id == channelsId.eu_party_pve || channelId.channel.id == channelsId.eu_party_pvp ||
 								(channelId.isThread() &&
-								(channelId.parentId == channelsId.jp_static_pve || channelId.parentId == channelsId.jp_party_pve || channelId.parentId == channelsId.jp_party_pvp ||
-								channelId.parentId == channelsId.na_static_pve || channelId.parentId == channelsId.na_party_pve || channelId.parentId == channelsId.na_party_pvp ||
-								channelId.parentId == channelsId.eu_static_pve || channelId.parentId == channelsId.eu_party_pve || channelId.parentId == channelsId.eu_party_pvp)))
+								(channelId.parent.id == channelsId.jp_static_pve || channelId.parent.id == channelsId.jp_party_pve || channelId.parent.id == channelsId.jp_party_pvp ||
+								channelId.parent.id == channelsId.na_static_pve || channelId.parent.id == channelsId.na_party_pve || channelId.parent.id == channelsId.na_party_pvp ||
+								channelId.parent.id == channelsId.eu_static_pve || channelId.parent.id == channelsId.eu_party_pve || channelId.parent.id == channelsId.eu_party_pvp)))
 							{
 								console.log("테스트4");
 								cmd = msg.content.slice(prefix.length).split(" ", 2);
@@ -4128,9 +4128,9 @@ client.on('raw', async (packet) =>
 				packet.d.channel_id == channelsId.na_static_pve || packet.d.channel_id == channelsId.na_party_pve || packet.d.channel_id == channelsId.na_party_pvp ||
 				packet.d.channel_id == channelsId.eu_static_pve || packet.d.channel_id == channelsId.eu_party_pve || packet.d.channel_id == channelsId.eu_party_pvp ||
 				(channelId.isThread() &&
-				(channelId.parentId == channelsId.jp_static_pve || channelId.parentId == channelsId.jp_party_pve || channelId.parentId == channelsId.jp_party_pvp ||
-				channelId.parentId == channelsId.na_static_pve || channelId.parentId == channelsId.na_party_pve || channelId.parentId == channelsId.na_party_pvp ||
-				channelId.parentId == channelsId.eu_static_pve || channelId.parentId == channelsId.eu_party_pve || channelId.parentId == channelsId.eu_party_pvp)))
+				(channelId.parent.id == channelsId.jp_static_pve || channelId.parent.id == channelsId.jp_party_pve || channelId.parent.id == channelsId.jp_party_pvp ||
+				channelId.parent.id == channelsId.na_static_pve || channelId.parent.id == channelsId.na_party_pve || channelId.parent.id == channelsId.na_party_pvp ||
+				channelId.parent.id == channelsId.eu_static_pve || channelId.parent.id == channelsId.eu_party_pve || channelId.parent.id == channelsId.eu_party_pvp)))
 			{
 				const emojiId = client.emojis.cache.find(emoji => emoji.name == packet.d.emoji.name);
 				const messageId = await channelId.messages.fetch(packet.d.message_id);
@@ -4793,9 +4793,9 @@ client.on('raw', async (packet) =>
 				packet.d.channel_id == channelsId.na_static_pve || packet.d.channel_id == channelsId.na_party_pve || packet.d.channel_id == channelsId.na_party_pvp ||
 				packet.d.channel_id == channelsId.eu_static_pve || packet.d.channel_id == channelsId.eu_party_pve || packet.d.channel_id == channelsId.eu_party_pvp ||
 				(channelId.isThread() &&
-				(channelId.parentId == channelsId.jp_static_pve || channelId.parentId == channelsId.jp_party_pve || channelId.parentId == channelsId.jp_party_pvp ||
-				channelId.parentId == channelsId.na_static_pve || channelId.parentId == channelsId.na_party_pve || channelId.parentId == channelsId.na_party_pvp ||
-				channelId.parentId == channelsId.eu_static_pve || channelId.parentId == channelsId.eu_party_pve || channelId.parentId == channelsId.eu_party_pvp)))
+				(channelId.parent.id == channelsId.jp_static_pve || channelId.parent.id == channelsId.jp_party_pve || channelId.parent.id == channelsId.jp_party_pvp ||
+				channelId.parent.id == channelsId.na_static_pve || channelId.parent.id == channelsId.na_party_pve || channelId.parent.id == channelsId.na_party_pvp ||
+				channelId.parent.id == channelsId.eu_static_pve || channelId.parent.id == channelsId.eu_party_pve || channelId.parent.id == channelsId.eu_party_pvp)))
 			{
 				if (packet.d.emoji.name in emoji_role)
 				{
