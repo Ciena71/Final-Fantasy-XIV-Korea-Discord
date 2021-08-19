@@ -578,59 +578,57 @@ client.on("ready", async () =>
 		if(data[i].name != "인증" && data[i].name != "스킬")
 		{
 			fullPermissions.push(
-			[
-				{
-					id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name).id,
-					permissions: 
-					[
-						{
-							id: FFXIV_Guild.roles.everyone.id,
-							type: 'ROLE',
-							permission: false,
-						},
-						{
-							id: dataCenterNames[0].id,
-							type: 'ROLE',
-							permission: true,
-						},
-						{
-							id: dataCenterNames[1].id,
-							type: 'ROLE',
-							permission: true,
-						},
-						{
-							id: dataCenterNames[2].id,
-							type: 'ROLE',
-							permission: true,
-						},
-						{
-							id: dataCenterNames[3].id,
-							type: 'ROLE',
-							permission: true,
-						},
-						{
-							id: dataCenterNames[4].id,
-							type: 'ROLE',
-							permission: true,
-						},
-						{
-							id: dataCenterNames[5].id,
-							type: 'ROLE',
-							permission: true,
-						},
-						{
-							id: dataCenterNames[6].id,
-							type: 'ROLE',
-							permission: true,
-						},
-						{
-							id: dataCenterNames[7].id,
-							type: 'ROLE',
-							permission: true,
-						}
-					]
-				}
-			]);
+			{
+				id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name).id,
+				permissions: 
+				[
+					{
+						id: FFXIV_Guild.roles.everyone.id,
+						type: 'ROLE',
+						permission: false,
+					},
+					{
+						id: dataCenterNames[0].id,
+						type: 'ROLE',
+						permission: true,
+					},
+					{
+						id: dataCenterNames[1].id,
+						type: 'ROLE',
+						permission: true,
+					},
+					{
+						id: dataCenterNames[2].id,
+						type: 'ROLE',
+						permission: true,
+					},
+					{
+						id: dataCenterNames[3].id,
+						type: 'ROLE',
+						permission: true,
+					},
+					{
+						id: dataCenterNames[4].id,
+						type: 'ROLE',
+						permission: true,
+					},
+					{
+						id: dataCenterNames[5].id,
+						type: 'ROLE',
+						permission: true,
+					},
+					{
+						id: dataCenterNames[6].id,
+						type: 'ROLE',
+						permission: true,
+					},
+					{
+						id: dataCenterNames[7].id,
+						type: 'ROLE',
+						permission: true,
+					}
+				]
+			});
 		}
 		console.log(fullPermissions[i]);
 	}
