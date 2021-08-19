@@ -632,8 +632,9 @@ client.on("ready", async () =>
 				}
 			]);
 		}
+		console.log(fullPermissions[i]);
 	}
-	await FFXIV_Guild.commands.permissions.set({ fullPermissions });
+	//await FFXIV_Guild.commands.permissions.set({ fullPermissions });
 });
 
 client.on('guildMemberAdd', async (member) =>
