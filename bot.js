@@ -566,46 +566,6 @@ client.on("ready", async () =>
 					permission: false,
 				},
 				{
-					id: dataCenterNames[0].id,
-					type: 'ROLE',
-					permission: false,
-				},
-				{
-					id: dataCenterNames[1].id,
-					type: 'ROLE',
-					permission: false,
-				},
-				{
-					id: dataCenterNames[2].id,
-					type: 'ROLE',
-					permission: false,
-				},
-				{
-					id: dataCenterNames[3].id,
-					type: 'ROLE',
-					permission: false,
-				},
-				{
-					id: dataCenterNames[4].id,
-					type: 'ROLE',
-					permission: false,
-				},
-				{
-					id: dataCenterNames[5].id,
-					type: 'ROLE',
-					permission: false,
-				},
-				{
-					id: dataCenterNames[6].id,
-					type: 'ROLE',
-					permission: false,
-				},
-				{
-					id: dataCenterNames[7].id,
-					type: 'ROLE',
-					permission: false,
-				},
-				{
 					id: FFXIV_Guild.roles.cache.find(role => role.name === "관리자").id,
 					type: 'ROLE',
 					permission: true,
@@ -615,7 +575,7 @@ client.on("ready", async () =>
 	];
 	for(var i = 0; i < data.length; i++)
 	{
-		console.log(data[i].name + " 1번");
+		//console.log(data[i].name + " 1번");
 		if(data[i].name != "인증" && data[i].name != "스킬")
 		{
 			const permissionList = 
@@ -635,7 +595,7 @@ client.on("ready", async () =>
 					permission: true,
 				});
 			}
-			console.log(permissionList);
+			//console.log(permissionList);
 			commandPermissions.push(
 			[
 				{
@@ -644,10 +604,10 @@ client.on("ready", async () =>
 				}
 			]);
 		}
-		console.log(data[i].name + " 2번");
-		console.log(commandPermissions[i]);
+		//console.log(data[i].name + " 2번");
+		//console.log(commandPermissions[i]);
 	}
-	//await FFXIV_Guild.commands.permissions.set({ commandPermissions });
+	await FFXIV_Guild.commands.permissions.set({ commandPermissions });
 });
 
 client.on('guildMemberAdd', async (member) =>
