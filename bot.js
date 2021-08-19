@@ -4315,7 +4315,7 @@ client.on('raw', async (packet) =>
 										{
 											if(emojiId.users.cache.has(member.id))
 											{
-												slot = emoji_partyslotcheck[packet.d.emoji.name];
+												slot = i + 1;
 												break;
 											}
 										}
