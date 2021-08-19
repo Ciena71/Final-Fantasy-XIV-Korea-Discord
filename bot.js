@@ -602,7 +602,7 @@ client.on("ready", async () =>
 				};
 			}
 		}
-		console.log(commandPermissions);
+		console.log(commandPermissions[i]);
 	}
 	/*
 	for(var i = 0; i < commandPermissions.length; i++)
