@@ -569,14 +569,16 @@ client.on("ready", async () =>
 					id: FFXIV_Guild.roles.cache.find(role => role.name === "관리자"),
 					type: 'ROLE',
 					permission: true,
-				},
+				}
 			]
 		}
-	];;
+	];
+	console.log(commandPermissions);
 	for(var i = 0; i < data.length; i++)
 	{
 		if(data[i].name != "인증" && data[i].name != "스킬")
 		{
+			command
 			commandPermissions += 
 			[
 				{
@@ -601,12 +603,12 @@ client.on("ready", async () =>
 				};
 			}
 		}
-	}
+	}/*
 	for(var i = 0; i < commandPermissions.length; i++)
 	{
 		console.log(commandPermissions[i].id);
 		console.log(commandPermissions[i].permissions);
-	}
+	}*/
 	//await FFXIV_Guild.commands.permissions.set({ commandPermissions });
 });
 
