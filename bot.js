@@ -554,7 +554,25 @@ client.on("ready", async () =>
 		}
 	];
 	await FFXIV_Guild.commands.set(data);
-	var commandPermissions = null;
+	var commandPermissions = 
+	[
+		{
+			id: FFXIV_Guild.commands.cache.find(command => command.name === "스킬"),
+			permissions:
+			[
+				{
+					id: FFXIV_Guild.roles.everyone,
+					type: 'ROLE',
+					permission: false,
+				},
+				{
+					id: FFXIV_Guild.roles.cache.find(role => role.name === "관리자"),
+					type: 'ROLE',
+					permission: true,
+				},
+			]
+		}
+	];;
 	for(var i = 0; i < data.length; i++)
 	{
 		console.log(data[i].name);
@@ -566,7 +584,6 @@ client.on("ready", async () =>
 					id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name),
 					permissions:
 					[
-						// EVERYONE ROLE
 						{
 							id: FFXIV_Guild.roles.everyone,
 							type: 'ROLE',
@@ -585,29 +602,10 @@ client.on("ready", async () =>
 				};
 			}
 		}
-		else
-		if(data[i].name == "스킬")
-		{
-			commandPermissions += 
-			[
-				{
-					id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name),
-					permissions:
-					[
-						{
-							id: FFXIV_Guild.roles.everyone,
-							type: 'ROLE',
-							permission: false,
-						},
-						{
-							id: FFXIV_Guild.roles.cache.find(role => role.name === "관리자"),
-							type: 'ROLE',
-							permission: true,
-						},
-					]
-				}
-			];
-		}
+	}
+	for(var i = 0; i < commandPermissions.length; i++)
+	{
+		console.log(commandPermissions[i]);
 	}
 	console.log(commandPermissions);
 	//await FFXIV_Guild.commands.permissions.set({ commandPermissions });
