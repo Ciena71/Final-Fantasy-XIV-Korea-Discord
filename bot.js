@@ -575,7 +575,6 @@ client.on("ready", async () =>
 	];;
 	for(var i = 0; i < data.length; i++)
 	{
-		console.log(data[i].name);
 		if(data[i].name != "인증" && data[i].name != "스킬")
 		{
 			commandPermissions += 
@@ -605,9 +604,9 @@ client.on("ready", async () =>
 	}
 	for(var i = 0; i < commandPermissions.length; i++)
 	{
-		console.log(commandPermissions[i]);
+		console.log(commandPermissions[i].id);
+		console.log(commandPermissions[i].permissions);
 	}
-	console.log(commandPermissions);
 	//await FFXIV_Guild.commands.permissions.set({ commandPermissions });
 });
 
