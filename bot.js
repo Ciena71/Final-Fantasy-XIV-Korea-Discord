@@ -1559,7 +1559,7 @@ client.on("interactionCreate", async (interaction) =>
 													.setColor(getDataCenterColor(interaction.member, interaction.guild))
 													.setTitle(data.Results[i].Name)
 													.setThumbnail("https://xivapi.com" + data.Results[i].Icon)
-													.setDescription("데이터센터 : " + dataCenterNames[dataCenter].kor + "\n품질 : " + quality)
+													.setDescription("데이터 센터 : " + dataCenterNames[dataCenter].kor + "\n품질 : " + quality)
 													.setTimestamp();
 													var marketdata = ["","",""];
 													var stack = 0;
@@ -1873,6 +1873,15 @@ client.on("interactionCreate", async (interaction) =>
 						interaction.editReply("everyone을 사용하실 수 없습니다.");
 					else
 					{
+						var DataCenterIndex;
+						for(var i = 0; i < dataCenterNames.length; i++)
+						{
+							if(interaction.member.roles.cache.has(dataCenterNames[i].id))
+							{
+								DataCenterIndex = i;
+								break;
+							}
+						}
 						switch(interaction.options.get("형식").value)
 						{
 							case 1:
@@ -1902,6 +1911,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setAuthor(interaction.member.displayName, interaction.user.displayAvatarURL())
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
+												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
 												.addField("공용", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("공용", "공석", true)
@@ -1972,6 +1982,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setAuthor(interaction.member.displayName, interaction.user.displayAvatarURL())
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
+												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
 												.addField("탱커", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("힐러", "공석", true)
@@ -2042,6 +2053,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setAuthor(interaction.member.displayName, interaction.user.displayAvatarURL())
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
+												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
 												.addField("공용", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("공용", "공석", true)
@@ -2117,6 +2129,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setAuthor(interaction.member.displayName, interaction.user.displayAvatarURL())
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
+												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
 												.addField("탱커", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("탱커", "공석", true)
@@ -2192,6 +2205,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setAuthor(interaction.member.displayName, interaction.user.displayAvatarURL())
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
+												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
 												.addField("연합 A", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 B", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 C", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
@@ -2258,6 +2272,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setAuthor(interaction.member.displayName, interaction.user.displayAvatarURL())
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
+												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
 												.addField("연합 A", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 B", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 C", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
@@ -2327,6 +2342,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setAuthor(interaction.member.displayName, interaction.user.displayAvatarURL())
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
+												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
 												.addField("연합 A", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 B", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 C", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
@@ -4106,7 +4122,7 @@ client.on('raw', async (packet) =>
 			{
 				const emojiId = client.emojis.cache.find(emoji => emoji.name == packet.d.emoji.name);
 				const messageId = await channelId.messages.fetch(packet.d.message_id);
-				if (packet.d.emoji.name in emoji_partyslotcheck && messageId.embeds[0].fields[0].name == "연합 A" && emoji_partyslotcheck[packet.d.emoji.name] < messageId.embeds[0].fields.length)
+				if (packet.d.emoji.name in emoji_partyslotcheck && messageId.embeds[0].fields[1].name == "연합 A" && emoji_partyslotcheck[packet.d.emoji.name] < messageId.embeds[0].fields.length)
 				{
 					for(var i=0;i<emoji_partyslot.length;i++)
 					{
@@ -4133,7 +4149,7 @@ client.on('raw', async (packet) =>
 						var isAlreadyJoin = isAlreadyRole(editEmbed, member);
 						if(isAlreadyJoin != null)
 						{
-							if(editEmbed.fields[0].name == "연합 A")
+							if(editEmbed.fields[1].name == "연합 A")
 							{
 								const party = parseInt(isAlreadyJoin / 10) - 1;
 								const slot = isAlreadyJoin % 10;
@@ -4287,7 +4303,7 @@ client.on('raw', async (packet) =>
 						}
 						else
 						{
-							if(editEmbed.fields[0].name == "연합 A")
+							if(editEmbed.fields[1].name == "연합 A")
 							{
 								var slot = null;
 								for(var i=0;i<emoji_partyslot.length;i++)
@@ -4779,7 +4795,7 @@ client.on('raw', async (packet) =>
 						const index = isAlreadyRole(editEmbed,member);
 						if(index != null)
 						{
-							if(editEmbed.fields[0].name == "연합 A")
+							if(editEmbed.fields[1].name == "연합 A")
 							{
 								const party = parseInt(index / 10) - 1;
 								const slot = index % 10;
@@ -5238,7 +5254,7 @@ async function getAvatarURL(id)
 
 function isAlreadyRole(editEmbed, member)
 {
-	if(editEmbed.fields[0].name == "연합 A")
+	if(editEmbed.fields[1].name == "연합 A")
 	{
 		for(var j=0; j<editEmbed.fields.length; j++)
 		{
