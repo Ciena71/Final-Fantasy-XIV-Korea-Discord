@@ -577,6 +577,28 @@ client.on("ready", async () =>
 	{
 		if(data[i].name != "인증" && data[i].name != "스킬")
 		{
+			var permissionList =
+			[
+				{
+					id: FFXIV_Guild.roles.everyone.id,
+					type: 'ROLE',
+					permission: false,
+				}
+			];
+			for(var j = 0; j < dataCenterNames.length; j++)
+			{
+				permissionList.push(
+				{
+					id: dataCenterNames[j].id,
+					type: 'ROLE',
+					permission: true,
+				});
+			}
+			fullPermissions.push(
+			{
+				id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name).id,
+				permissions: permissionList
+			});/*
 			fullPermissions.push(
 			{
 				id: FFXIV_Guild.commands.cache.find(command => command.name === data[i].name).id,
@@ -628,7 +650,7 @@ client.on("ready", async () =>
 						permission: true,
 					}
 				]
-			});
+			});*/
 		}
 		console.log(fullPermissions[i]);
 	}
