@@ -4306,16 +4306,16 @@ client.on('raw', async (packet) =>
 							if(editEmbed.fields[1].name == "연합 A")
 							{
 								var slot = null;
-								for(var i=1;i<emoji_partyslot.length + 1;i++)
+								for(var i=0;i<emoji_partyslot.length;i++)
 								{
-									if(i != emoji_partyslotcheck[packet.d.emoji.name])
+									if(i + 1 != emoji_partyslotcheck[packet.d.emoji.name])
 									{
 										const emojiId = messageId.reactions.cache.find(reaction => reaction.emoji.name == emoji_partyslot[i].name);
 										if(emojiId != null)
 										{
 											if(emojiId.users.cache.has(member.id))
 											{
-												slot = i;
+												slot = emoji_partyslotcheck[packet.d.emoji.name];
 												break;
 											}
 										}
