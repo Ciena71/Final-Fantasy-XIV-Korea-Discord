@@ -5256,7 +5256,7 @@ function isAlreadyRole(editEmbed, member)
 {
 	if(editEmbed.fields[1].name == "연합 A")
 	{
-		for(var j=0; j<editEmbed.fields.length; j++)
+		for(var j=1; j<editEmbed.fields.length; j++)
 		{
 			const fieldvalue = editEmbed.fields[j].value.split("\n");
 			for(var i=0; i<fieldvalue.length;i++)
@@ -5268,7 +5268,7 @@ function isAlreadyRole(editEmbed, member)
 	}
 	else
 	{
-		for(var i=0; i<editEmbed.fields.length;i++)
+		for(var i=1; i<editEmbed.fields.length;i++)
 		{
 			if(editEmbed.fields[i].value == "<@" + member.id + ">")
 				return i;
