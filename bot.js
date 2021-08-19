@@ -3847,12 +3847,11 @@ client.on("messageCreate", async (msg) =>
 		}
 		case "파티설명":
 		{
-			console.log("테스트1");
 			if (msg.channel.parent == channelsId.dialog)
 			{
-				console.log("테스트2");
 				dataBase.query("SELECT Dialog_Channel_Id, Dialog_Message_Id FROM UserSaveData WHERE User_Id = '" + msg.member.id +"'", (err, res) =>
 				{
+					console.log("테스트1");
 					if (err)
 					{
 						msg.reply("플레이어 데이터를 찾지 못했습니다. 관리자에게 보고하십시오.");
@@ -3860,9 +3859,11 @@ client.on("messageCreate", async (msg) =>
 					}
 					else
 					{
+						console.log("테스트2");
 						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
 						if (channelId)
 						{
+							console.log("테스트3");
 							if (channelId.channelId == channelsId.jp_static_pve || channelId.channelId == channelsId.jp_party_pve || channelId.channelId == channelsId.jp_party_pvp ||
 								channelId.channelId == channelsId.na_static_pve || channelId.channelId == channelsId.na_party_pve || channelId.channelId == channelsId.na_party_pvp ||
 								channelId.channelId == channelsId.eu_static_pve || channelId.channelId == channelsId.eu_party_pve || channelId.channelId == channelsId.eu_party_pvp ||
@@ -3871,16 +3872,21 @@ client.on("messageCreate", async (msg) =>
 								channelId.parentId == channelsId.na_static_pve || channelId.parentId == channelsId.na_party_pve || channelId.parentId == channelsId.na_party_pvp ||
 								channelId.parentId == channelsId.eu_static_pve || channelId.parentId == channelsId.eu_party_pve || channelId.parentId == channelsId.eu_party_pvp)))
 							{
+								console.log("테스트4");
 								cmd = msg.content.slice(prefix.length).split(" ", 2);
 								if(cmd.length == 2)
 								{
+									console.log("테스트5");
 									try
 									{
+										console.log("테스트6");
 										channelId.messages.fetch(res.rows[0].dialog_message_id).then(messageId =>
 										{
+											console.log("테스트7");
 											var editEmbed = messageId.embeds[0];
 											if(editEmbed.author.name == msg.member.displayName)
 											{
+												console.log("테스트8");
 												var oldtext = editEmbed.description;
 												if (oldtext == null)
 													oldtext = "null";
@@ -3899,6 +3905,7 @@ client.on("messageCreate", async (msg) =>
 												messageId.edit({ embeds: [editEmbed] });
 												msg.channel.send({ embeds: [editEmbed] });
 												msg.channel.send("```!파티설명 [설명]```");
+												console.log("테스트9");
 											}
 											else
 												msg.reply("자기가 작성한 글만 수정이 가능합니다.").then(message => { setTimeout(() => message.delete(), 10000); });
