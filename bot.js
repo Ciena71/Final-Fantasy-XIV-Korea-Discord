@@ -71,7 +71,9 @@ const categorysId = {
 	job_battle:'857687196911271997'};
 
 const config = {
-	private: 1 << 0};
+	private: 1 << 0,
+	alarm: 1 << 1
+};
 
 const emoji_role = {
 	"TANK" : { name : "탱커" , slot : 0, slotname : "Tank", fflogs : null },
@@ -217,6 +219,10 @@ client.on("ready", async () =>
 		{
 			name: '개인정보',
 			description: '[다이얼로그] 모두에게 나의 정보에 대한 조회를 허가 하거나 비허가 합니다.'
+		},
+		{
+			name: '알람',
+			description: '[다이얼로그] 자신의 파티모집글에 대한 알람을 켜거나 끕니다.'
 		},
 		{
 			name: '플레이어조회',
@@ -1263,6 +1269,37 @@ client.on("interactionCreate", async (interaction) =>
 							{
 								userconfig -= config.private;
 								interaction.editReply({ content: "자신의 정보를 공개 하셨습니다." });
+							}
+							dataBase.query("UPDATE UserSaveData SET Config = '" + userconfig + "' WHERE User_Id='" + interaction.member.id +"'");
+						}
+					});
+				}
+				break;
+			}
+			case '알람':
+			{
+				if (interaction.channel.parent == channelsId.dialog)
+				{
+					await interaction.deferReply({ ephemeral: true });
+					dataBase.query("SELECT Config FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
+					{
+						if (err)
+						{
+							console.log(err);
+							interaction.editReply({ content: "플레이어 데이터를 찾지 못했습니다.\n관리자에게 보고하십시오." });
+						}
+						else
+						{
+							var userconfig = res.rows[0].config;
+							if((userconfig & config.alarm) == 0)
+							{
+								userconfig += config.alarm;
+								interaction.editReply({ content: "알람을 켰습니다." });
+							}
+							else
+							{
+								userconfig -= config.alarm;
+								interaction.editReply({ content: "알람을 껐습니다." });
 							}
 							dataBase.query("UPDATE UserSaveData SET Config = '" + userconfig + "' WHERE User_Id='" + interaction.member.id +"'");
 						}
@@ -4683,7 +4720,21 @@ client.on('raw', async (packet) =>
 							.setFooter("메시지 ID : " + messageId.id);
 							client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
 							messageId.edit({ embeds: [editEmbed] });
-							channelId.send({ content: editEmbed.fields[1].value }).then(message => { message.delete(); });
+							dataBase.query("SELECT Config FROM UserSaveData WHERE User_Id='" + editEmbed.fields[1].value.replace(/[^0-9]/g,'') +"'", (err, res) =>
+							{
+								if (err)
+								{
+									console.log(err);
+									interaction.editReply({ content: "플레이어 데이터를 찾지 못했습니다.\n관리자에게 보고하십시오." });
+								}
+								else
+								{
+									if((res.rows[0].config & config.alarm) != 0)
+									{
+										channelId.send({ content: editEmbed.fields[1].value }).then(message => { message.delete(); });
+									}
+								}
+							});
 						}
 						else
 							messageId.reactions.cache.find(reaction => reaction.emoji.name == emojiId.name).users.remove(member.id);
