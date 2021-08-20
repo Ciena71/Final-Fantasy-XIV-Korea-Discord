@@ -193,6 +193,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`App is running on port ${ PORT }`); });
 
 const http = require("http");
+const { Channel } = require("diagnostics_channel");
 setInterval(function () { http.get("http://final-fantasy-xiv-korea.herokuapp.com"); }, 900000);
 
 client.on("ready", async () =>
@@ -4682,9 +4683,10 @@ client.on('raw', async (packet) =>
 							.setFooter("메시지 ID : " + messageId.id);
 							client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
 							//messageId.edit({  embeds: [editEmbed] });
-							messageId.edit({ content: editEmbed.fields[1].value , embeds: [editEmbed] }).then(() =>
+							channelId.send({ content: editEmbed.fields[1].value }).then(message =>
 							{
-								setTimeout(() =>messageId.edit({ content: null, embeds: [editEmbed] }), 500);
+								message.delete();
+								//setTimeout(() => message.delete(), 500);
 							});
 						}
 						else
