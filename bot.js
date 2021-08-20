@@ -2820,6 +2820,21 @@ client.on("messageCreate", async (msg) =>
 			}
 			break;
 		}
+		case "파일":
+		{
+			if (msg.channel == channelsId.console)
+			{
+				cmd = msg.content.slice(prefix.length).split(" ", 3);
+				if(cmd.length != 3)
+					msg.reply("!파일 [#채널 맨션] [url]").then(message => { setTimeout(() => message.delete(), 10000); });
+				else
+				{
+					var text = msg.content.slice(prefix.length + cmd[0].length + cmd[1].length + 2);
+					sendMessage(msg, cmd[1].replace(/[^0-9]/g,''), text);
+				}
+			}
+			break;
+		}
 		case "삭제":
 		{
 			if (msg.channel == channelsId.console)
@@ -5027,6 +5042,37 @@ async function editMessage(msg, channel, message, text)
 	{
 		console.log(err);
 		msg.reply("메시지 송출에 실패했습니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+	}
+}
+
+async function sendFile(msg, channel, file)
+{
+	try
+	{
+		if(channel != channelsId.log)
+		{
+			const channelId = client.channels.cache.get(channel);
+			channelId.send({ files:[file] }).then(message =>
+			{
+				makingButton = new Discord.MessageButton();
+				const Embed = new Discord.MessageEmbed()
+				.setColor('#ffff00')
+				.setTitle("콘솔")
+				.setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+				.setDescription("<#" + channelId.id + ">채널에 [파일](" + message.url + ")을 송출하셨습니다.")
+				.setTimestamp()
+				.setFooter("메시지 ID : " + message.id);
+				client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+				msg.reply("파일을 성공적으로 송출되었습니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+			});
+		}
+		else
+			msg.reply("로그에는 송출할 수 없습니다.").then(message => { setTimeout(() => message.delete(), 10000); });
+	}
+	catch(err)
+	{
+		console.log(err);
+		msg.reply("파일 송출에 실패했습니다.").then(message => { setTimeout(() => message.delete(), 10000); });
 	}
 }
 
