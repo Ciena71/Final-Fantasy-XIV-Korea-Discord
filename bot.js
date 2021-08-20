@@ -4682,7 +4682,7 @@ client.on('raw', async (packet) =>
 							.setFooter("메시지 ID : " + messageId.id);
 							client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
 							//messageId.edit({  embeds: [editEmbed] });
-							messageId.edit({ content: editEmbed.field[1].value , embeds: [editEmbed] }).then(() =>
+							messageId.edit({ content: editEmbed.fields[1].value , embeds: [editEmbed] }).then(() =>
 							{
 								messageId.edit({  embeds: [editEmbed] });
 							});
