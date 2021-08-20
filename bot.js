@@ -4666,7 +4666,6 @@ client.on('raw', async (packet) =>
 						}
 						if(success === true)
 						{
-							const creator = FFXIV_Guild.members.cache.get(m => m.nickname === editEmbed.author);
 							const Embed = new Discord.MessageEmbed()
 							.setColor('#00ffff')
 							.setTitle(channelId.name)
@@ -4675,10 +4674,11 @@ client.on('raw', async (packet) =>
 							.setTimestamp()
 							.setFooter("메시지 ID : " + messageId.id);
 							client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+							messageId.edit({  embeds: [editEmbed] });/*
 							messageId.edit({ content: "<@" + creator.id + ">", embeds: [editEmbed] }).then(() =>
 							{
 								messageId.edit({  embeds: [editEmbed] });
-							});
+							});*/
 						}
 						else
 							messageId.reactions.cache.find(reaction => reaction.emoji.name == emojiId.name).users.remove(member.id);
