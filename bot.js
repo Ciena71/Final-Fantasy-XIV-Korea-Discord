@@ -1954,7 +1954,7 @@ client.on("interactionCreate", async (interaction) =>
 										else
 										{
 											getAvatarURL(res.rows[0].ffxiv_id).then((avatarurl) =>
-											{ 
+											{
 												const Embed = new Discord.MessageEmbed()
 												.setColor(getDataCenterColor(interaction.member, interaction.guild))
 												.setTitle(interaction.options.get("제목").value)
@@ -1962,6 +1962,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
+												.addField("파티장", "<@" + interaction.member.id + ">")
 												.addField("공용", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("공용", "공석", true)
@@ -2033,6 +2034,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
+												.addField("파티장", "<@" + interaction.member.id + ">")
 												.addField("탱커", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("힐러", "공석", true)
@@ -2104,6 +2106,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
+												.addField("파티장", "<@" + interaction.member.id + ">")
 												.addField("공용", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("공용", "공석", true)
@@ -2180,6 +2183,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
+												.addField("파티장", "<@" + interaction.member.id + ">")
 												.addField("탱커", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("탱커", "공석", true)
@@ -2256,6 +2260,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
+												.addField("파티장", "<@" + interaction.member.id + ">")
 												.addField("연합 A", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 B", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 C", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
@@ -2323,6 +2328,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
+												.addField("파티장", "<@" + interaction.member.id + ">")
 												.addField("연합 A", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 B", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 C", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
@@ -2393,6 +2399,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
+												.addField("파티장", "<@" + interaction.member.id + ">")
 												.addField("연합 A", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 B", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 C", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
@@ -4172,7 +4179,7 @@ client.on('raw', async (packet) =>
 			{
 				const emojiId = client.emojis.cache.find(emoji => emoji.name == packet.d.emoji.name);
 				const messageId = await channelId.messages.fetch(packet.d.message_id);
-				if (packet.d.emoji.name in emoji_partyslotcheck && messageId.embeds[0].fields[1].name == "연합 A" && emoji_partyslotcheck[packet.d.emoji.name] < messageId.embeds[0].fields.length)
+				if (packet.d.emoji.name in emoji_partyslotcheck && messageId.embeds[0].fields[2].name == "연합 A" && emoji_partyslotcheck[packet.d.emoji.name] < messageId.embeds[0].fields.length)
 				{
 					for(var i=0;i<emoji_partyslot.length;i++)
 					{
@@ -4199,7 +4206,7 @@ client.on('raw', async (packet) =>
 						var isAlreadyJoin = isAlreadyRole(editEmbed, member);
 						if(isAlreadyJoin != null)
 						{
-							if(editEmbed.fields[1].name == "연합 A")
+							if(editEmbed.fields[2].name == "연합 A")
 							{
 								const party = parseInt(isAlreadyJoin / 10) - 1;
 								const slot = isAlreadyJoin % 10;
@@ -4353,19 +4360,19 @@ client.on('raw', async (packet) =>
 						}
 						else
 						{
-							if(editEmbed.fields[1].name == "연합 A")
+							if(editEmbed.fields[2].name == "연합 A")
 							{
 								var slot = null;
 								for(var i=0;i<emoji_partyslot.length;i++)
 								{
-									if(i + 1 != emoji_partyslotcheck[packet.d.emoji.name])
+									if(i + 2 != emoji_partyslotcheck[packet.d.emoji.name])
 									{
 										const emojiId = messageId.reactions.cache.find(reaction => reaction.emoji.name == emoji_partyslot[i].name);
 										if(emojiId != null)
 										{
 											if(emojiId.users.cache.has(member.id))
 											{
-												slot = i + 1;
+												slot = i + 2;
 												break;
 											}
 										}
@@ -4849,7 +4856,7 @@ client.on('raw', async (packet) =>
 						const index = isAlreadyRole(editEmbed,member);
 						if(index != null)
 						{
-							if(editEmbed.fields[1].name == "연합 A")
+							if(editEmbed.fields[2].name == "연합 A")
 							{
 								const party = parseInt(index / 10) - 1;
 								const slot = index % 10;
@@ -5299,9 +5306,9 @@ async function getAvatarURL(id)
 
 function isAlreadyRole(editEmbed, member)
 {
-	if(editEmbed.fields[1].name == "연합 A")
+	if(editEmbed.fields[2].name == "연합 A")
 	{
-		for(var j=1; j<editEmbed.fields.length; j++)
+		for(var j=2; j<editEmbed.fields.length; j++)
 		{
 			const fieldvalue = editEmbed.fields[j].value.split("\n");
 			for(var i=0; i<fieldvalue.length;i++)
@@ -5313,7 +5320,7 @@ function isAlreadyRole(editEmbed, member)
 	}
 	else
 	{
-		for(var i=1; i<editEmbed.fields.length;i++)
+		for(var i=2; i<editEmbed.fields.length;i++)
 		{
 			if(editEmbed.fields[i].value == "<@" + member.id + ">")
 				return i;
