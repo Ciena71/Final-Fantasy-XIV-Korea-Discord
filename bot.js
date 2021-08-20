@@ -1962,7 +1962,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
-												.addField("파티장", "<@" + interaction.member.id + ">")
+												.addField("모집자", "<@" + interaction.member.id + ">")
 												.addField("공용", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("공용", "공석", true)
@@ -2034,7 +2034,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
-												.addField("파티장", "<@" + interaction.member.id + ">")
+												.addField("모집자", "<@" + interaction.member.id + ">")
 												.addField("탱커", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("힐러", "공석", true)
@@ -2106,7 +2106,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
-												.addField("파티장", "<@" + interaction.member.id + ">")
+												.addField("모집자", "<@" + interaction.member.id + ">")
 												.addField("공용", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("공용", "공석", true)
@@ -2183,7 +2183,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
-												.addField("파티장", "<@" + interaction.member.id + ">")
+												.addField("모집자", "<@" + interaction.member.id + ">")
 												.addField("탱커", "공석", true)
 												.addField('\u200b', '\u200b', true)
 												.addField("탱커", "공석", true)
@@ -2260,7 +2260,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
-												.addField("파티장", "<@" + interaction.member.id + ">")
+												.addField("모집자", "<@" + interaction.member.id + ">")
 												.addField("연합 A", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 B", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 C", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
@@ -2328,7 +2328,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
-												.addField("파티장", "<@" + interaction.member.id + ">")
+												.addField("모집자", "<@" + interaction.member.id + ">")
 												.addField("연합 A", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 B", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 C", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
@@ -2399,7 +2399,7 @@ client.on("interactionCreate", async (interaction) =>
 												.setDescription("설명")
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
-												.addField("파티장", "<@" + interaction.member.id + ">")
+												.addField("모집자", "<@" + interaction.member.id + ">")
 												.addField("연합 A", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 B", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
 												.addField("연합 C", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
@@ -4681,11 +4681,11 @@ client.on('raw', async (packet) =>
 							.setTimestamp()
 							.setFooter("메시지 ID : " + messageId.id);
 							client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-							messageId.edit({  embeds: [editEmbed] });/*
-							messageId.edit({ content: "<@" + creator.id + ">", embeds: [editEmbed] }).then(() =>
+							//messageId.edit({  embeds: [editEmbed] });
+							messageId.edit({ content: editEmbed.field[1].value , embeds: [editEmbed] }).then(() =>
 							{
 								messageId.edit({  embeds: [editEmbed] });
-							});*/
+							});
 						}
 						else
 							messageId.reactions.cache.find(reaction => reaction.emoji.name == emojiId.name).users.remove(member.id);
