@@ -2830,7 +2830,7 @@ client.on("messageCreate", async (msg) =>
 				else
 				{
 					var text = msg.content.slice(prefix.length + cmd[0].length + cmd[1].length + 2);
-					sendMessage(msg, cmd[1].replace(/[^0-9]/g,''), text);
+					sendFile(msg, cmd[1].replace(/[^0-9]/g,''), text);
 				}
 			}
 			break;
