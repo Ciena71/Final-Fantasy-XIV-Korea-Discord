@@ -4684,7 +4684,7 @@ client.on('raw', async (packet) =>
 							//messageId.edit({  embeds: [editEmbed] });
 							messageId.edit({ content: editEmbed.fields[1].value , embeds: [editEmbed] }).then(() =>
 							{
-								messageId.edit({ content: null, embeds: [editEmbed] });
+								setTimeout(() =>messageId.edit({ content: null, embeds: [editEmbed] }), 500);
 							});
 						}
 						else
