@@ -4666,20 +4666,18 @@ client.on('raw', async (packet) =>
 						}
 						if(success === true)
 						{
-							FFXIV_Guild.members.cache.get(m => m.nickname === editEmbed.author).then(creator =>
+							const creator = FFXIV_Guild.members.cache.get(m => m.nickname === editEmbed.author);
+							const Embed = new Discord.MessageEmbed()
+							.setColor('#00ffff')
+							.setTitle(channelId.name)
+							.setAuthor(member.user.tag, member.user.displayAvatarURL())
+							.setDescription("<@" + member.id + ">님이 [해당파티](" + messageId.url + ") 에 " + `${emojiId}` + " 로 참가하셨습니다.")
+							.setTimestamp()
+							.setFooter("메시지 ID : " + messageId.id);
+							client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
+							messageId.edit({ content: "<@" + creator.id + ">", embeds: [editEmbed] }).then(() =>
 							{
-								const Embed = new Discord.MessageEmbed()
-								.setColor('#00ffff')
-								.setTitle(channelId.name)
-								.setAuthor(member.user.tag, member.user.displayAvatarURL())
-								.setDescription("<@" + member.id + ">님이 [해당파티](" + messageId.url + ") 에 " + `${emojiId}` + " 로 참가하셨습니다.")
-								.setTimestamp()
-								.setFooter("메시지 ID : " + messageId.id);
-								client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-								messageId.edit({ content: "<@" + creator.id + ">", embeds: [editEmbed] }).then(() =>
-								{
-									messageId.edit({  embeds: [editEmbed] });
-								});
+								messageId.edit({  embeds: [editEmbed] });
 							});
 						}
 						else
