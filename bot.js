@@ -4682,12 +4682,8 @@ client.on('raw', async (packet) =>
 							.setTimestamp()
 							.setFooter("메시지 ID : " + messageId.id);
 							client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
-							//messageId.edit({  embeds: [editEmbed] });
-							channelId.send({ content: editEmbed.fields[1].value }).then(message =>
-							{
-								message.delete();
-								//setTimeout(() => message.delete(), 500);
-							});
+							messageId.edit({ embeds: [editEmbed] });
+							channelId.send({ content: editEmbed.fields[1].value }).then(message => { message.delete(); });
 						}
 						else
 							messageId.reactions.cache.find(reaction => reaction.emoji.name == emojiId.name).users.remove(member.id);
