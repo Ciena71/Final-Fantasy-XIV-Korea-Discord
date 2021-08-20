@@ -2184,7 +2184,7 @@ client.on("interactionCreate", async (interaction) =>
 												});
 											}).
 											catch(error => {
-												interaction.editReply("/파티 [타입] [파티제목]").then(message => { setTimeout(() => message.delete(), 10000); });
+												interaction.editReply("/파티 [타입] [파티제목]");
 											});
 										}
 									});
@@ -2261,7 +2261,7 @@ client.on("interactionCreate", async (interaction) =>
 												});
 											}).
 											catch(error => {
-												interaction.editReply("/파티 [타입] [파티제목]").then(message => { setTimeout(() => message.delete(), 10000); });
+												interaction.editReply("/파티 [타입] [파티제목]");
 											});
 										}
 									});
@@ -2329,7 +2329,7 @@ client.on("interactionCreate", async (interaction) =>
 												});
 											}).
 											catch(error => {
-												interaction.editReply("/파티 [타입] [파티제목]").then(message => { setTimeout(() => message.delete(), 10000); });
+												interaction.editReply("/파티 [타입] [파티제목]");
 											});
 										}
 									});
@@ -2400,7 +2400,7 @@ client.on("interactionCreate", async (interaction) =>
 												});
 											}).
 											catch(error => {
-												interaction.editReply("/파티 [타입] [파티제목]").then(message => { setTimeout(() => message.delete(), 10000); });
+												interaction.editReply("/파티 [타입] [파티제목]");
 											});
 										}
 									});
@@ -2472,7 +2472,7 @@ client.on("interactionCreate", async (interaction) =>
 												});
 											}).
 											catch(error => {
-												interaction.editReply("/파티 [타입] [파티제목]").then(message => { setTimeout(() => message.delete(), 10000); });
+												interaction.editReply("/파티 [타입] [파티제목]");
 											});
 										}
 									});
