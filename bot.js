@@ -2056,7 +2056,7 @@ client.on("interactionCreate", async (interaction) =>
 									});
 								}
 								else
-									interaction.editReply("공대 모집 게시판에 개설할 수 없습니다.");
+									interaction.editReply("연합파티 모집 게시판과 고정파티 모집 게시판에 개설할 수 없습니다.");
 								break;
 							}
 							case 2:
@@ -2128,7 +2128,7 @@ client.on("interactionCreate", async (interaction) =>
 									});
 								}
 								else
-									interaction.editReply("PVE 공대 모집 게시판에 개설할 수 없습니다.");
+									interaction.editReply("연합파티 모집 게시판과 고정파티 모집 게시판에 개설할 수 없습니다.");
 								break;
 							}
 							case 3:
@@ -2205,7 +2205,7 @@ client.on("interactionCreate", async (interaction) =>
 									});
 								}
 								else
-									interaction.editReply("PVP 파티 모집 게시판에 개설할 수 없습니다.");
+									interaction.editReply("연합파티 모집 게시판과 PVP 파티 모집 게시판에 개설할 수 없습니다.");
 								break;
 							}
 							case 4:
@@ -2276,7 +2276,7 @@ client.on("interactionCreate", async (interaction) =>
 												});
 											}).
 											catch(error => {
-												interaction.editReply("/파티 [타입] [파티제목]");
+												interaction.editReply("연합파티 모집 게시판과 PVP 파티 모집 게시판에 개설할 수 없습니다.");
 											});
 										}
 									});
@@ -2350,7 +2350,7 @@ client.on("interactionCreate", async (interaction) =>
 									});
 								}
 								else
-									interaction.editReply("PVP 파티 모집 게시판과 PVE 공대 모집 게시판에 개설할 수 없습니다.");
+									interaction.editReply("연합파티 모집 게시판에만 개설할 수 있습니다.");
 								break;
 							}
 							case 6:
@@ -2421,7 +2421,7 @@ client.on("interactionCreate", async (interaction) =>
 									});
 								}
 								else
-									interaction.editReply("PVP 파티 모집 게시판에 개설할 수 없습니다.");
+									interaction.editReply("연합파티 모집 게시판에만 개설할 수 있습니다.");
 								break;
 							}
 							case 7:
@@ -2493,7 +2493,7 @@ client.on("interactionCreate", async (interaction) =>
 									});
 								}
 								else
-									interaction.editReply("PVP 파티 모집 게시판에 개설할 수 없습니다.");
+									interaction.editReply("연합파티 모집 게시판에만 개설할 수 있습니다.");
 								break;
 							}
 						}
@@ -4964,9 +4964,19 @@ client.on('raw', async (packet) =>
 									for(var i = 0; i < 8; i++)
 									{
 										if(slot == i)
-											editEmbed.fields[party].value += fieldvalue[i * 4].substr(0,2) + "\n공석\n";
+										{
+											if(i == 7)
+												editEmbed.fields[party].value += fieldvalue[i * 4].substr(0,2) + "\n공석";
+											else
+												editEmbed.fields[party].value += fieldvalue[i * 4].substr(0,2) + "\n공석\n";
+										}
 										else
-											editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2];
+										{
+											if(i == 7 && fieldvalue.length == 30)
+												editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1];
+											else
+												editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2];
+										}
 										if(i < 7)
 											editEmbed.fields[party].value += "\n\n";
 									}
