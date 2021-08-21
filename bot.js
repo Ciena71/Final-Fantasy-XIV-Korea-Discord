@@ -5409,7 +5409,9 @@ async function loadFile(msg, url)
 			else
 			{
 				msg.editReply({ content: "당신의 DM으로 인증코드가 전송되었습니다." });
-				msg.user.send("```당신의 인증코드는\n" + msg.user.id + "\n입니다.\n로드스톤에서 해당 캐릭터 프로필란에 입력 후 5분후에 해당 디스코드 서버에서 다시 인증하십시오.```").then(message => { setTimeout(() => message.delete(), 60000); });
+				msg.user.send("```당신의 인증코드는\n" + msg.user.id + "\n입니다.\n로드스톤에서 해당 캐릭터 프로필란에 입력 후 5분에서 10분 사이에 해당 디스코드 서버에서 다시 인증하십시오.```")
+				.then(message => { setTimeout(() => message.delete(), 60000); })
+				.catch(() => msg.editReply({ content: "DM을 허용하지 않으셨습니다.\n개인 DM을 먼저 허용을 해주세요." }));
 			}
 		}
 	});
