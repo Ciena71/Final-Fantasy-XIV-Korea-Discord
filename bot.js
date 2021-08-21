@@ -42,12 +42,15 @@ const channelsId = {
 	certification:'856918824627732500',
 	console:'857695133700325437',
 	role:'857691161116278824',
+	jp_alliance_pve:'878522834861838376',
 	jp_static_pve:'857683635388809226',
 	jp_party_pve:'857683653266374706',
 	jp_party_pvp:'865957945909313546',
+	na_alliance_pve:'878522884996349992',
 	na_static_pve:'863295574212083722',
 	na_party_pve:'863295603537608734',
 	na_party_pvp:'865957966875197440',
+	eu_alliance_pve:'878524462977400844',
 	eu_static_pve:'863295627558387712',
 	eu_party_pve:'863295645862330388',
 	eu_party_pvp:'865957988148445234',
@@ -735,22 +738,28 @@ client.on('messageDelete', async (message) =>
 		if (message.channel.id === channelsId.log ||
 		message.channel.id === channelsId.certification ||
 		message.channel.id === channelsId.console ||
+		message.channel.id === channelsId.jp_alliance_pve ||
 		message.channel.id === channelsId.jp_static_pve ||
 		message.channel.id === channelsId.jp_party_pve ||
 		message.channel.id === channelsId.jp_party_pvp ||
+		message.channel.id === channelsId.na_alliance_pve ||
 		message.channel.id === channelsId.na_static_pve ||
 		message.channel.id === channelsId.na_party_pve ||
 		message.channel.id === channelsId.na_party_pvp ||
+		message.channel.id === channelsId.eu_alliance_pve ||
 		message.channel.id === channelsId.eu_static_pve ||
 		message.channel.id === channelsId.eu_party_pve ||
 		message.channel.id === channelsId.eu_party_pvp ||
 		(message.channel.isThread() &&
-		(message.channel.parent.id === channelsId.jp_static_pve ||
+		(message.channel.parent.id === channelsId.jp_alliance_pve ||
+		message.channel.parent.id === channelsId.jp_static_pve ||
 		message.channel.parent.id === channelsId.jp_party_pve ||
 		message.channel.parent.id === channelsId.jp_party_pvp ||
+		message.channel.parent.id === channelsId.na_alliance_pve ||
 		message.channel.parent.id === channelsId.na_static_pve ||
 		message.channel.parent.id === channelsId.na_party_pve ||
 		message.channel.parent.id === channelsId.na_party_pvp ||
+		message.channel.parent.id === channelsId.eu_alliance_pve ||
 		message.channel.parent.id === channelsId.eu_static_pve ||
 		message.channel.parent.id === channelsId.eu_party_pve ||
 		message.channel.parent.id === channelsId.eu_party_pvp ||
@@ -781,22 +790,28 @@ client.on('messageDelete', async (message) =>
 		if (message.channel.id === channelsId.log ||
 		message.channel.id === channelsId.certification ||
 		message.channel.id === channelsId.console ||
+		message.channel.id === channelsId.jp_alliance_pve ||
 		message.channel.id === channelsId.jp_static_pve ||
 		message.channel.id === channelsId.jp_party_pve ||
 		message.channel.id === channelsId.jp_party_pvp ||
+		message.channel.id === channelsId.na_alliance_pve ||
 		message.channel.id === channelsId.na_static_pve ||
 		message.channel.id === channelsId.na_party_pve ||
 		message.channel.id === channelsId.na_party_pvp ||
+		message.channel.id === channelsId.eu_alliance_pve ||
 		message.channel.id === channelsId.eu_static_pve ||
 		message.channel.id === channelsId.eu_party_pve ||
 		message.channel.id === channelsId.eu_party_pvp ||
 		(message.channel.isThread() &&
-		(message.channel.parent.id === channelsId.jp_static_pve ||
+		(message.channel.parent.id === channelsId.jp_alliance_pve ||
+		message.channel.parent.id === channelsId.jp_static_pve ||
 		message.channel.parent.id === channelsId.jp_party_pve ||
 		message.channel.parent.id === channelsId.jp_party_pvp ||
+		message.channel.parent.id === channelsId.na_alliance_pve ||
 		message.channel.parent.id === channelsId.na_static_pve ||
 		message.channel.parent.id === channelsId.na_party_pve ||
 		message.channel.parent.id === channelsId.na_party_pvp ||
+		message.channel.parent.id === channelsId.eu_alliance_pve ||
 		message.channel.parent.id === channelsId.eu_static_pve ||
 		message.channel.parent.id === channelsId.eu_party_pve ||
 		message.channel.parent.id === channelsId.eu_party_pvp ||
@@ -864,9 +879,9 @@ client.on("threadMemberUpdate", async (oldMember, newMember) =>
 
 client.on("threadUpdate", async (oldThread, newThread) =>
 {
-	if(newThread.parent.id == channelsId.jp_static_pve || newThread.parent.id == channelsId.jp_party_pve || newThread.parent.id == channelsId.jp_party_pvp ||
-		newThread.parent.id == channelsId.na_static_pve || newThread.parent.id == channelsId.na_party_pve || newThread.parent.id == channelsId.na_party_pvp ||
-		newThread.parent.id == channelsId.eu_static_pve || newThread.parent.id == channelsId.eu_party_pve || newThread.parent.id == channelsId.eu_party_pvp)
+	if(newThread.parent.id == channelsId.jp_alliance_pve || newThread.parent.id == channelsId.jp_static_pve || newThread.parent.id == channelsId.jp_party_pve || newThread.parent.id == channelsId.jp_party_pvp ||
+		newThread.parent.id == channelsId.na_alliance_pve || newThread.parent.id == channelsId.na_static_pve || newThread.parent.id == channelsId.na_party_pve || newThread.parent.id == channelsId.na_party_pvp ||
+		newThread.parent.id == channelsId.eu_alliance_pve || newThread.parent.id == channelsId.eu_static_pve || newThread.parent.id == channelsId.eu_party_pve || newThread.parent.id == channelsId.eu_party_pvp)
 	{
 		if(newThread.archived)
 			newThread.setArchived(false);
@@ -968,13 +983,13 @@ client.on("interactionCreate", async (interaction) =>
 											"\n!링크쉘문의 [@맨션]```");
 										}
 										else
-										if (interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve || interaction.channel.id == channelsId.jp_party_pvp ||
-											interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve || interaction.channel.id == channelsId.na_party_pvp ||
-											interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve || interaction.channel.id == channelsId.eu_party_pvp ||
+										if (interaction.channel.id == channelsId.jp_alliance_pve || interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve || interaction.channel.id == channelsId.jp_party_pvp ||
+											interaction.channel.id == channelsId.na_alliance_pve || interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve || interaction.channel.id == channelsId.na_party_pvp ||
+											interaction.channel.id == channelsId.eu_alliance_pve || interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve || interaction.channel.id == channelsId.eu_party_pvp ||
 											(interaction.channel.isThread() &&
-											(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
-											interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
-											interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
+											(interaction.channel.parent.id == channelsId.jp_alliance_pve || interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
+											interaction.channel.parent.id == channelsId.na_alliance_pve || interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
+											interaction.channel.parent.id == channelsId.eu_alliance_pve || interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
 										{
 											ChannelId.send("```!파티설명 [설명]```");
 										}
@@ -1003,13 +1018,13 @@ client.on("interactionCreate", async (interaction) =>
 						.setAuthor(interaction.user.tag, interaction.user.displayAvatarURL())
 						.setTimestamp()
 						.setFooter("메시지 ID : " + interaction.message.id);
-						if (interaction.channel == channelsId.jp_static_pve || interaction.channel == channelsId.jp_party_pve || interaction.channel == channelsId.jp_party_pvp ||
-							interaction.channel == channelsId.na_static_pve || interaction.channel == channelsId.na_party_pve || interaction.channel == channelsId.na_party_pvp ||
-							interaction.channel == channelsId.eu_static_pve || interaction.channel == channelsId.eu_party_pve || interaction.channel == channelsId.eu_party_pvp ||
+						if (interaction.channel == channelsId.jp_alliance_pve || interaction.channel == channelsId.jp_static_pve || interaction.channel == channelsId.jp_party_pve || interaction.channel == channelsId.jp_party_pvp ||
+							interaction.channel == channelsId.na_alliance_pve || interaction.channel == channelsId.na_static_pve || interaction.channel == channelsId.na_party_pve || interaction.channel == channelsId.na_party_pvp ||
+							interaction.channel == channelsId.eu_alliance_pve || interaction.channel == channelsId.eu_static_pve || interaction.channel == channelsId.eu_party_pve || interaction.channel == channelsId.eu_party_pvp ||
 							(interaction.channel.isThread() &&
-							(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
-							interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
-							interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
+							(interaction.channel.parent.id == channelsId.jp_alliance_pve || interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
+							interaction.channel.parent.id == channelsId.na_alliance_pve || interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
+							interaction.channel.parent.id == channelsId.eu_alliance_pve || interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
 						{
 							Embed.setDescription("<@" + interaction.member.id + ">님이 파티 모집글을 삭제하셨습니다.");
 						}
@@ -1948,13 +1963,13 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case '파티':
 			{
-				if (interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve || interaction.channel.id == channelsId.jp_party_pvp ||
-					interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve || interaction.channel.id == channelsId.na_party_pvp ||
-					interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve || interaction.channel.id == channelsId.eu_party_pvp ||
+				if (interaction.channel.id == channelsId.jp_alliance_pve || interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve || interaction.channel.id == channelsId.jp_party_pvp ||
+					interaction.channel.id == channelsId.na_alliance_pve || interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve || interaction.channel.id == channelsId.na_party_pvp ||
+					interaction.channel.id == channelsId.eu_alliance_pve || interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve || interaction.channel.id == channelsId.eu_party_pvp ||
 					(interaction.channel.isThread() && 
-					(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
-					interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
-					interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
+					(interaction.channel.parent.id == channelsId.jp_alliance_pve || interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
+					interaction.channel.parent.id == channelsId.na_alliance_pve || interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
+					interaction.channel.parent.id == channelsId.eu_alliance_pve || interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
 				{
 					await interaction.deferReply({ ephemeral: true });
 					if (interaction.options.get("제목").value.includes("@everyone"))
@@ -2272,13 +2287,13 @@ client.on("interactionCreate", async (interaction) =>
 							}
 							case 5:
 							{
-								if (interaction.channel.id == channelsId.jp_party_pve ||
-									interaction.channel.id == channelsId.na_party_pve ||
-									interaction.channel.id == channelsId.eu_party_pve ||
+								if (interaction.channel.id == channelsId.jp_alliance_pve ||
+									interaction.channel.id == channelsId.na_alliance_pve ||
+									interaction.channel.id == channelsId.eu_alliance_pve ||
 									(interaction.channel.isThread() &&
-									(interaction.channel.parent.id == channelsId.jp_party_pve ||
-									interaction.channel.parent.id == channelsId.na_party_pve ||
-									interaction.channel.parent.id == channelsId.eu_party_pve)))
+									(interaction.channel.parent.id == channelsId.jp_alliance_pve ||
+									interaction.channel.parent.id == channelsId.na_alliance_pve ||
+									interaction.channel.parent.id == channelsId.eu_alliance_pve)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
@@ -2299,9 +2314,9 @@ client.on("interactionCreate", async (interaction) =>
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
 												.addField("모집자", "<@" + interaction.member.id + ">")
-												.addField("연합 A", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 B", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 C", "탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
+												.addField("연합 A", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 B", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 C", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
 												.setTimestamp();
 												const Button1 = new Discord.MessageButton()
 												.setStyle("PRIMARY")
@@ -2340,13 +2355,13 @@ client.on("interactionCreate", async (interaction) =>
 							}
 							case 6:
 							{
-								if (interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve ||
-									interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve ||
-									interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve ||
+								if (interaction.channel.id == channelsId.jp_alliance_pve ||
+									interaction.channel.id == channelsId.na_alliance_pve ||
+									interaction.channel.id == channelsId.eu_alliance_pve ||
 									(interaction.channel.isThread() &&
-									(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve ||
-									interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve ||
-									interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve)))
+									(interaction.channel.parent.id == channelsId.jp_alliance_pve ||
+									interaction.channel.parent.id == channelsId.na_alliance_pve ||
+									interaction.channel.parent.id == channelsId.eu_alliance_pve)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
@@ -2367,12 +2382,12 @@ client.on("interactionCreate", async (interaction) =>
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
 												.addField("모집자", "<@" + interaction.member.id + ">")
-												.addField("연합 A", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 B", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 C", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 D", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 E", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 F", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
+												.addField("연합 A", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 B", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 C", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 D", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 E", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 F", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
 												.setTimestamp();
 												const Button1 = new Discord.MessageButton()
 												.setStyle("PRIMARY")
@@ -2411,13 +2426,13 @@ client.on("interactionCreate", async (interaction) =>
 							}
 							case 7:
 							{
-								if (interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve ||
-									interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve ||
-									interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve ||
+								if (interaction.channel.id == channelsId.jp_alliance_pve ||
+									interaction.channel.id == channelsId.na_alliance_pve ||
+									interaction.channel.id == channelsId.eu_alliance_pve ||
 									(interaction.channel.isThread() &&
-									(interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve ||
-									interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve ||
-									interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve)))
+									(interaction.channel.parent.id == channelsId.jp_alliance_pve ||
+									interaction.channel.parent.id == channelsId.na_alliance_pve ||
+									interaction.channel.parent.id == channelsId.eu_alliance_pve)))
 								{
 									dataBase.query("SELECT FFXIV_Id FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
 									{
@@ -2438,13 +2453,13 @@ client.on("interactionCreate", async (interaction) =>
 												.setThumbnail(avatarurl)
 												.addField("데이터 센터", dataCenterNames[DataCenterIndex].kor)
 												.addField("모집자", "<@" + interaction.member.id + ">")
-												.addField("연합 A", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 B", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 C", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 D", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 E", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 F", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
-												.addField("연합 G", "탱커\n공석\n\n탱커\n공석\n\n힐러\n공석\n\n힐러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석\n\n딜러\n공석", true)
+												.addField("연합 A", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 B", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 C", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 D", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 E", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 F", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
+												.addField("연합 G", "탱커\n공석\n\n\n힐러\n공석\n\n\n힐러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n\n\n딜러\n공석\n", true)
 												.setTimestamp();
 												const Button1 = new Discord.MessageButton()
 												.setStyle("PRIMARY")
@@ -2670,21 +2685,28 @@ client.on("messageCreate", async (msg) =>
 	}
 	if (msg.channel == channelsId.certification ||
 	msg.channel == channelsId.console ||
+	msg.channel == channelsId.jp_alliance_pve ||
 	msg.channel == channelsId.jp_static_pve ||
 	msg.channel == channelsId.jp_party_pve ||
 	msg.channel == channelsId.jp_party_pvp ||
+	msg.channel == channelsId.na_alliance_pve ||
 	msg.channel == channelsId.na_static_pve ||
 	msg.channel == channelsId.na_party_pve ||
 	msg.channel == channelsId.na_party_pvp ||
+	msg.channel == channelsId.eu_alliance_pve ||
 	msg.channel == channelsId.eu_static_pve ||
 	msg.channel == channelsId.eu_party_pve ||
 	msg.channel == channelsId.eu_party_pvp ||
-	(msg.channel.isThread() && (msg.channel.parent.id == channelsId.jp_static_pve ||
+	(msg.channel.isThread() &&
+	(msg.channel.parent.id == channelsId.jp_alliance_pve ||
+	msg.channel.parent.id == channelsId.jp_static_pve ||
 	msg.channel.parent.id == channelsId.jp_party_pve ||
 	msg.channel.parent.id == channelsId.jp_party_pvp ||
+	msg.channel.parent.id == channelsId.na_alliance_pve ||
 	msg.channel.parent.id == channelsId.na_static_pve ||
 	msg.channel.parent.id == channelsId.na_party_pve ||
 	msg.channel.parent.id == channelsId.na_party_pvp ||
+	msg.channel.parent.id == channelsId.eu_alliance_pve ||
 	msg.channel.parent.id == channelsId.eu_static_pve ||
 	msg.channel.parent.id == channelsId.eu_party_pve ||
 	msg.channel.parent.id == channelsId.eu_party_pvp)) ||
@@ -3969,13 +3991,13 @@ client.on("messageCreate", async (msg) =>
 						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
 						if (channelId)
 						{
-							if (channelId.id == channelsId.jp_static_pve || channelId.id == channelsId.jp_party_pve || channelId.id == channelsId.jp_party_pvp ||
-								channelId.id == channelsId.na_static_pve || channelId.id == channelsId.na_party_pve || channelId.id == channelsId.na_party_pvp ||
-								channelId.id == channelsId.eu_static_pve || channelId.id == channelsId.eu_party_pve || channelId.id == channelsId.eu_party_pvp ||
+							if (channelId.id == channelsId.jp_alliance_pve || channelId.id == channelsId.jp_static_pve || channelId.id == channelsId.jp_party_pve || channelId.id == channelsId.jp_party_pvp ||
+								channelId.id == channelsId.na_alliance_pve || channelId.id == channelsId.na_static_pve || channelId.id == channelsId.na_party_pve || channelId.id == channelsId.na_party_pvp ||
+								channelId.id == channelsId.eu_alliance_pve || channelId.id == channelsId.eu_static_pve || channelId.id == channelsId.eu_party_pve || channelId.id == channelsId.eu_party_pvp ||
 								(channelId.isThread() &&
-								(channelId.parent.id == channelsId.jp_static_pve || channelId.parent.id == channelsId.jp_party_pve || channelId.parent.id == channelsId.jp_party_pvp ||
-								channelId.parent.id == channelsId.na_static_pve || channelId.parent.id == channelsId.na_party_pve || channelId.parent.id == channelsId.na_party_pvp ||
-								channelId.parent.id == channelsId.eu_static_pve || channelId.parent.id == channelsId.eu_party_pve || channelId.parent.id == channelsId.eu_party_pvp)))
+								(channelId.parent.id == channelsId.jp_alliance_pve || channelId.parent.id == channelsId.jp_static_pve || channelId.parent.id == channelsId.jp_party_pve || channelId.parent.id == channelsId.jp_party_pvp ||
+								channelId.parent.id == channelsId.na_alliance_pve || channelId.parent.id == channelsId.na_static_pve || channelId.parent.id == channelsId.na_party_pve || channelId.parent.id == channelsId.na_party_pvp ||
+								channelId.parent.id == channelsId.eu_alliance_pve || channelId.parent.id == channelsId.eu_static_pve || channelId.parent.id == channelsId.eu_party_pve || channelId.parent.id == channelsId.eu_party_pvp)))
 							{
 								cmd = msg.content.slice(prefix.length).split(" ", 2);
 								if(cmd.length == 2)
@@ -4222,13 +4244,13 @@ client.on('raw', async (packet) =>
 				}
 			}
 			const channelId = client.channels.cache.get(packet.d.channel_id);
-			if (packet.d.channel_id == channelsId.jp_static_pve || packet.d.channel_id == channelsId.jp_party_pve || packet.d.channel_id == channelsId.jp_party_pvp ||
-				packet.d.channel_id == channelsId.na_static_pve || packet.d.channel_id == channelsId.na_party_pve || packet.d.channel_id == channelsId.na_party_pvp ||
-				packet.d.channel_id == channelsId.eu_static_pve || packet.d.channel_id == channelsId.eu_party_pve || packet.d.channel_id == channelsId.eu_party_pvp ||
+			if (packet.d.channel_id == channelsId.jp_alliance_pve || packet.d.channel_id == channelsId.jp_static_pve || packet.d.channel_id == channelsId.jp_party_pve || packet.d.channel_id == channelsId.jp_party_pvp ||
+				packet.d.channel_id == channelsId.na_alliance_pve || packet.d.channel_id == channelsId.na_static_pve || packet.d.channel_id == channelsId.na_party_pve || packet.d.channel_id == channelsId.na_party_pvp ||
+				packet.d.channel_id == channelsId.eu_alliance_pve || packet.d.channel_id == channelsId.eu_static_pve || packet.d.channel_id == channelsId.eu_party_pve || packet.d.channel_id == channelsId.eu_party_pvp ||
 				(channelId.isThread() &&
-				(channelId.parent.id == channelsId.jp_static_pve || channelId.parent.id == channelsId.jp_party_pve || channelId.parent.id == channelsId.jp_party_pvp ||
-				channelId.parent.id == channelsId.na_static_pve || channelId.parent.id == channelsId.na_party_pve || channelId.parent.id == channelsId.na_party_pvp ||
-				channelId.parent.id == channelsId.eu_static_pve || channelId.parent.id == channelsId.eu_party_pve || channelId.parent.id == channelsId.eu_party_pvp)))
+				(channelId.parent.id == channelsId.jp_alliance_pve || channelId.parent.id == channelsId.jp_static_pve || channelId.parent.id == channelsId.jp_party_pve || channelId.parent.id == channelsId.jp_party_pvp ||
+				channelId.parent.id == channelsId.na_alliance_pve || channelId.parent.id == channelsId.na_static_pve || channelId.parent.id == channelsId.na_party_pve || channelId.parent.id == channelsId.na_party_pvp ||
+				channelId.parent.id == channelsId.eu_alliance_pve || channelId.parent.id == channelsId.eu_static_pve || channelId.parent.id == channelsId.eu_party_pve || channelId.parent.id == channelsId.eu_party_pvp)))
 			{
 				const emojiId = client.emojis.cache.find(emoji => emoji.name == packet.d.emoji.name);
 				const messageId = await channelId.messages.fetch(packet.d.message_id);
@@ -4264,7 +4286,7 @@ client.on('raw', async (packet) =>
 								const party = parseInt(isAlreadyJoin / 10) - 1;
 								const slot = isAlreadyJoin % 10;
 								const fieldvalue = editEmbed.fields[party].value.split("\n");
-								const fieldname = fieldvalue[slot * 3].split(" ");
+								const fieldname = fieldvalue[slot * 4].split(" ");
 								switch(packet.d.emoji.name)
 								{
 									case "TANK":
@@ -4279,9 +4301,9 @@ client.on('raw', async (packet) =>
 											for(var i = 0; i < 8; i++)
 											{
 												if(i != slot)
-													editEmbed.fields[party].value += fieldvalue[i * 3] + "\n" + fieldvalue[i * 3 + 1]; 
+													editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
 												else
-													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 3 + 1]; 
+													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
 												if(i < 7)
 													editEmbed.fields[party].value += "\n\n";
 											}
@@ -4294,16 +4316,15 @@ client.on('raw', async (packet) =>
 									case "SCH":
 									case "AST":
 									{
-										const fieldname = fieldvalue[slot * 3].split(" ");
 										if(fieldname[0] == "힐러" || fieldname[0] == "공용")
 										{
 											editEmbed.fields[party].value = "";
 											for(var i = 0; i < 8; i++)
 											{
 												if(i != slot)
-													editEmbed.fields[party].value += fieldvalue[i * 3] + "\n" + fieldvalue[i * 3 + 1]; 
+													editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
 												else
-													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 3 + 1]; 
+													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
 												if(i < 7)
 													editEmbed.fields[party].value += "\n\n";
 											}
@@ -4325,16 +4346,15 @@ client.on('raw', async (packet) =>
 									case "SMN":
 									case "RDM":
 									{
-										const fieldname = fieldvalue[slot * 3].split(" ");
 										if(fieldname[0] == "딜러" || fieldname[0] == "공용")
 										{
 											editEmbed.fields[party].value = "";
 											for(var i = 0; i < 8; i++)
 											{
 												if(i != slot)
-													editEmbed.fields[party].value += fieldvalue[i * 3] + "\n" + fieldvalue[i * 3 + 1]; 
+													editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
 												else
-													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 3 + 1]; 
+													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
 												if(i < 7)
 													editEmbed.fields[party].value += "\n\n";
 											}
@@ -4363,7 +4383,7 @@ client.on('raw', async (packet) =>
 										if(fieldname[0] == "탱커" || fieldname[0] == "공용")
 										{
 											editEmbed.fields[isAlreadyJoin].name = fieldname[0] + " " + `${emojiId}`;
-											editEmbed.fields[isAlreadyJoin].value = "<@" + member.id + ">";
+											editEmbed.fields[isAlreadyJoin].value = member.nickname + "\n<@" + member.id + ">";
 											success = true;
 										}
 										break;
@@ -4376,7 +4396,7 @@ client.on('raw', async (packet) =>
 										if(fieldname[0] == "힐러" || fieldname[0] == "공용")
 										{
 											editEmbed.fields[isAlreadyJoin].name = fieldname[0] + " " + `${emojiId}`;
-											editEmbed.fields[isAlreadyJoin].value = "<@" + member.id + ">";
+											editEmbed.fields[isAlreadyJoin].value = member.nickname + "\n<@" + member.id + ">";
 											success = true;
 										}
 										break;
@@ -4398,7 +4418,7 @@ client.on('raw', async (packet) =>
 										if(fieldname[0] == "딜러" || fieldname[0] == "공용")
 										{
 											editEmbed.fields[isAlreadyJoin].name = fieldname[0] + " " + `${emojiId}`;
-											editEmbed.fields[isAlreadyJoin].value = "<@" + member.id + ">";
+											editEmbed.fields[isAlreadyJoin].value = member.nickname + "\n<@" + member.id + ">";
 											success = true;
 										}
 										break;
@@ -4444,16 +4464,18 @@ client.on('raw', async (packet) =>
 										{
 											for(var i=0;i<fieldvalue.length;i++)
 											{
-												if(fieldvalue[i] == "탱커" && fieldvalue[i+1] == "공석")
+												if(fieldvalue[i] == "탱커" && fieldvalue[i + 1] == "공석")
 												{
 													editEmbed.fields[slot].value = "";
 													for(var j=0;j<fieldvalue.length;j++)
 													{
-														if(i == j || i + 1 == j)
+														if(i == j || i + 1 == j || i + 2 == j)
 														{
 															if(i == j)
 																editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}`;
-															else
+															else if (i + 1 == j)
+																editEmbed.fields[slot].value += member.nickname;
+															else if (i + 2 == j)
 																editEmbed.fields[slot].value += "<@" + member.id + ">";
 														}
 														else
@@ -4469,16 +4491,18 @@ client.on('raw', async (packet) =>
 											{
 												for(var i=0;i<fieldvalue.length;i++)
 												{
-													if(fieldvalue[i] == "공용" && fieldvalue[i+1] == "공석")
+													if(fieldvalue[i] == "공용" && fieldvalue[i + 1] == "공석")
 													{
 														editEmbed.fields[slot].value = "";
 														for(var j=0;j<fieldvalue.length;j++)
 														{
-															if(i == j || i + 1 == j)
+															if(i == j || i + 1 == j || i + 2 == j)
 															{
 																if(i == j)
 																	editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}`;
-																else
+																else if (i + 1 == j)
+																	editEmbed.fields[slot].value += member.nickname;
+																else if (i + 2 == j)
 																	editEmbed.fields[slot].value += "<@" + member.id + ">";
 															}
 															else
@@ -4500,16 +4524,18 @@ client.on('raw', async (packet) =>
 										{
 											for(var i=0;i<fieldvalue.length;i++)
 											{
-												if(fieldvalue[i] == "힐러" && fieldvalue[i+1] == "공석")
+												if(fieldvalue[i] == "힐러" && fieldvalue[i + 1] == "공석")
 												{
 													editEmbed.fields[slot].value = "";
 													for(var j=0;j<fieldvalue.length;j++)
 													{
-														if(i == j || i + 1 == j)
+														if(i == j || i + 1 == j || i + 2 == j)
 														{
 															if(i == j)
 																editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}`;
-															else
+															else if (i + 1 == j)
+																editEmbed.fields[slot].value += member.nickname;
+															else if (i + 2 == j)
 																editEmbed.fields[slot].value += "<@" + member.id + ">";
 														}
 														else
@@ -4525,16 +4551,18 @@ client.on('raw', async (packet) =>
 											{
 												for(var i=0;i<fieldvalue.length;i++)
 												{
-													if(fieldvalue[i] == "공용" && fieldvalue[i+1] == "공석")
+													if(fieldvalue[i] == "공용" && fieldvalue[i + 1] == "공석")
 													{
 														editEmbed.fields[slot].value = "";
 														for(var j=0;j<fieldvalue.length;j++)
 														{
-															if(i == j || i + 1 == j)
+															if(i == j || i + 1 == j || i + 2 == j)
 															{
 																if(i == j)
 																	editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}`;
-																else
+																else if (i + 1 == j)
+																	editEmbed.fields[slot].value += member.nickname;
+																else if (i + 2 == j)
 																	editEmbed.fields[slot].value += "<@" + member.id + ">";
 															}
 															else
@@ -4565,16 +4593,18 @@ client.on('raw', async (packet) =>
 										{
 											for(var i=0;i<fieldvalue.length;i++)
 											{
-												if(fieldvalue[i] == "딜러" && fieldvalue[i+1] == "공석")
+												if(fieldvalue[i] == "딜러" && fieldvalue[i + 1] == "공석")
 												{
 													editEmbed.fields[slot].value = "";
 													for(var j=0;j<fieldvalue.length;j++)
 													{
-														if(i == j || i + 1 == j)
+														if(i == j || i + 1 == j || i + 2 == j)
 														{
 															if(i == j)
 																editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}`;
-															else
+															else if (i + 1 == j)
+																editEmbed.fields[slot].value += member.nickname;
+															else if (i + 2 == j)
 																editEmbed.fields[slot].value += "<@" + member.id + ">";
 														}
 														else
@@ -4590,16 +4620,18 @@ client.on('raw', async (packet) =>
 											{
 												for(var i=0;i<fieldvalue.length;i++)
 												{
-													if(fieldvalue[i] == "공용" && fieldvalue[i+1] == "공석")
+													if(fieldvalue[i] == "공용" && fieldvalue[i + 1] == "공석")
 													{
 														editEmbed.fields[slot].value = "";
 														for(var j=0;j<fieldvalue.length;j++)
 														{
-															if(i == j || i + 1 == j)
+															if(i == j || i + 1 == j || i + 2 == j)
 															{
 																if(i == j)
 																	editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}`;
-																else
+																else if (i + 1 == j)
+																	editEmbed.fields[slot].value += member.nickname;
+																else if (i + 2 == j)
 																	editEmbed.fields[slot].value += "<@" + member.id + ">";
 															}
 															else
@@ -4632,7 +4664,7 @@ client.on('raw', async (packet) =>
 											if(editEmbed.fields[i].name == "탱커" && editEmbed.fields[i].value == "공석")
 											{
 												editEmbed.fields[i].name = "탱커 " + `${emojiId}`;
-												editEmbed.fields[i].value = "<@" + member.id + ">";
+												editEmbed.fields[i].value = member.nickname + "\n<@" + member.id + ">";
 												success = true;
 												break;
 											}
@@ -4644,7 +4676,7 @@ client.on('raw', async (packet) =>
 												if(editEmbed.fields[i].name == "공용" && editEmbed.fields[i].value == "공석")
 												{
 													editEmbed.fields[i].name = "공용 " + `${emojiId}`;
-													editEmbed.fields[i].value = "<@" + member.id + ">";
+													editEmbed.fields[i].value = member.nickname + "\n<@" + member.id + ">";
 													success = true;
 													break;
 												}
@@ -4662,7 +4694,7 @@ client.on('raw', async (packet) =>
 											if(editEmbed.fields[i].name == "힐러" && editEmbed.fields[i].value == "공석")
 											{
 												editEmbed.fields[i].name = "힐러 " + `${emojiId}`;
-												editEmbed.fields[i].value = "<@" + member.id + ">";
+												editEmbed.fields[i].value = member.nickname + "\n<@" + member.id + ">";
 												success = true;
 												break;
 											}
@@ -4674,7 +4706,7 @@ client.on('raw', async (packet) =>
 												if(editEmbed.fields[i].name == "공용" && editEmbed.fields[i].value == "공석")
 												{
 													editEmbed.fields[i].name = "공용 " + `${emojiId}`;
-													editEmbed.fields[i].value = "<@" + member.id + ">";
+													editEmbed.fields[i].value = member.nickname + "\n<@" + member.id + ">";
 													success = true;
 													break;
 												}
@@ -4701,7 +4733,7 @@ client.on('raw', async (packet) =>
 											if(editEmbed.fields[i].name == "딜러" && editEmbed.fields[i].value == "공석")
 											{
 												editEmbed.fields[i].name = "딜러 " + `${emojiId}`;
-												editEmbed.fields[i].value = "<@" + member.id + ">";
+												editEmbed.fields[i].value = member.nickname + "\n<@" + member.id + ">";
 												success = true;
 												break;
 											}
@@ -4713,7 +4745,7 @@ client.on('raw', async (packet) =>
 												if(editEmbed.fields[i].name == "공용" && editEmbed.fields[i].value == "공석")
 												{
 													editEmbed.fields[i].name = "공용 " + `${emojiId}`;
-													editEmbed.fields[i].value = "<@" + member.id + ">";
+													editEmbed.fields[i].value = member.nickname + "\n<@" + member.id + ">";
 													success = true;
 													break;
 												}
@@ -4902,13 +4934,13 @@ client.on('raw', async (packet) =>
 				}
 			}
 			const channelId = client.channels.cache.get(packet.d.channel_id);
-			if (packet.d.channel_id == channelsId.jp_static_pve || packet.d.channel_id == channelsId.jp_party_pve || packet.d.channel_id == channelsId.jp_party_pvp ||
-				packet.d.channel_id == channelsId.na_static_pve || packet.d.channel_id == channelsId.na_party_pve || packet.d.channel_id == channelsId.na_party_pvp ||
-				packet.d.channel_id == channelsId.eu_static_pve || packet.d.channel_id == channelsId.eu_party_pve || packet.d.channel_id == channelsId.eu_party_pvp ||
+			if (packet.d.channel_id == channelsId.jp_alliance_pve || packet.d.channel_id == channelsId.jp_static_pve || packet.d.channel_id == channelsId.jp_party_pve || packet.d.channel_id == channelsId.jp_party_pvp ||
+				packet.d.channel_id == channelsId.na_alliance_pve || packet.d.channel_id == channelsId.na_static_pve || packet.d.channel_id == channelsId.na_party_pve || packet.d.channel_id == channelsId.na_party_pvp ||
+				packet.d.channel_id == channelsId.eu_alliance_pve || packet.d.channel_id == channelsId.eu_static_pve || packet.d.channel_id == channelsId.eu_party_pve || packet.d.channel_id == channelsId.eu_party_pvp ||
 				(channelId.isThread() &&
-				(channelId.parent.id == channelsId.jp_static_pve || channelId.parent.id == channelsId.jp_party_pve || channelId.parent.id == channelsId.jp_party_pvp ||
-				channelId.parent.id == channelsId.na_static_pve || channelId.parent.id == channelsId.na_party_pve || channelId.parent.id == channelsId.na_party_pvp ||
-				channelId.parent.id == channelsId.eu_static_pve || channelId.parent.id == channelsId.eu_party_pve || channelId.parent.id == channelsId.eu_party_pvp)))
+				(channelId.parent.id == channelsId.jp_alliance_pve || channelId.parent.id == channelsId.jp_static_pve || channelId.parent.id == channelsId.jp_party_pve || channelId.parent.id == channelsId.jp_party_pvp ||
+				channelId.parent.id == channelsId.na_alliance_pve || channelId.parent.id == channelsId.na_static_pve || channelId.parent.id == channelsId.na_party_pve || channelId.parent.id == channelsId.na_party_pvp ||
+				channelId.parent.id == channelsId.eu_alliance_pve || channelId.parent.id == channelsId.eu_static_pve || channelId.parent.id == channelsId.eu_party_pve || channelId.parent.id == channelsId.eu_party_pvp)))
 			{
 				if (packet.d.emoji.name in emoji_role)
 				{
@@ -4925,16 +4957,16 @@ client.on('raw', async (packet) =>
 								const party = parseInt(index / 10) - 1;
 								const slot = index % 10;
 								const fieldvalue = editEmbed.fields[party].value.split("\n");
-								const fieldname = fieldvalue[slot*3].split(" ");
+								const fieldname = fieldvalue[slot * 4].split(" ");
 								if(fieldname.length >= 2 && fieldname[1].replace(/[^0-9]/g,'') == emojiId.id)
 								{
 									editEmbed.fields[party].value = "";
 									for(var i = 0; i < 8; i++)
 									{
 										if(slot == i)
-											editEmbed.fields[party].value += fieldvalue[i * 3].substr(0,2) + "\n공석";
+											editEmbed.fields[party].value += fieldvalue[i * 4].substr(0,2) + "\n공석\n";
 										else
-											editEmbed.fields[party].value += fieldvalue[i * 3] + "\n" + fieldvalue[i * 3 + 1];
+											editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2];
 										if(i < 7)
 											editEmbed.fields[party].value += "\n\n";
 									}
@@ -5386,12 +5418,6 @@ function getDataCenterColor(user, guild)
 	return null;
 }
 
-function sleep(ms)
-{
-	const wakeUpTime = Date.now() + ms;
-	while (Date.now() < wakeUpTime) {}
-}
-
 async function getAvatarURL(id)
 {
 	const response = await fetch("https://xivapi.com/character/" + id + "?columns=Character.Avatar");
@@ -5409,7 +5435,7 @@ function isAlreadyRole(editEmbed, member)
 			for(var i=0; i<fieldvalue.length;i++)
 			{
 				if(fieldvalue[i] == "<@" + member.id + ">")
-					return parseInt(i / 3) + 10 + 10 * j;
+					return parseInt(i / 4) + 10 + 10 * j;
 			}
 		}
 	}
@@ -5417,7 +5443,8 @@ function isAlreadyRole(editEmbed, member)
 	{
 		for(var i=2; i<editEmbed.fields.length;i++)
 		{
-			if(editEmbed.fields[i].value == "<@" + member.id + ">")
+			const fieldvalue = editEmbed.fields[i].value.split("\n");
+			if(fieldvalue.length == 2 && fieldvalue[1] == "<@" + member.id + ">")
 				return i;
 		}
 	}
