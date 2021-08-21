@@ -4301,9 +4301,14 @@ client.on('raw', async (packet) =>
 											for(var i = 0; i < 8; i++)
 											{
 												if(i != slot)
-													editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
+												{
+													if(i == 7 && fieldvalue.length == 30)
+														editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1];
+													else
+														editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2];
+												}
 												else
-													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
+													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2];
 												if(i < 7)
 													editEmbed.fields[party].value += "\n\n";
 											}
@@ -4322,9 +4327,14 @@ client.on('raw', async (packet) =>
 											for(var i = 0; i < 8; i++)
 											{
 												if(i != slot)
-													editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
+												{
+													if(i == 7 && fieldvalue.length == 30)
+														editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1];
+													else
+														editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2];
+												}
 												else
-													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
+													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2];
 												if(i < 7)
 													editEmbed.fields[party].value += "\n\n";
 											}
@@ -4352,9 +4362,14 @@ client.on('raw', async (packet) =>
 											for(var i = 0; i < 8; i++)
 											{
 												if(i != slot)
-													editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
+												{
+													if(i == 7 && fieldvalue.length == 30)
+														editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1];
+													else
+														editEmbed.fields[party].value += fieldvalue[i * 4] + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2];
+												}
 												else
-													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2]; 
+													editEmbed.fields[party].value += fieldname[0] + " " + `${emojiId}` + "\n" + fieldvalue[i * 4 + 1] + "\n" + fieldvalue[i * 4 + 2];
 												if(i < 7)
 													editEmbed.fields[party].value += "\n\n";
 											}
