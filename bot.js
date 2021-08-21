@@ -4487,14 +4487,12 @@ client.on('raw', async (packet) =>
 														if(i != j)
 														{
 															if(j == 7 && fieldvalue.length == 30)
-																editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1];
+																editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1];
 															else
-																editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1] + "\n" + fieldvalue[j + 2];
+																editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1] + "\n" + fieldvalue[j * 4 + 2];
 														}
 														else
-														{
-															editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
-														}
+															editEmbed.fields[slot].value += fieldvalue[j * 4] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
 														if(j < 7)
 															editEmbed.fields[slot].value += "\n\n";
 													}
@@ -4513,14 +4511,12 @@ client.on('raw', async (packet) =>
 															if(i != j)
 															{
 																if(j == 7 && fieldvalue.length == 30)
-																	editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1];
+																	editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1];
 																else
-																	editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1] + "\n" + fieldvalue[j + 2];
+																	editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1] + "\n" + fieldvalue[j * 4 + 2];
 															}
 															else
-															{
-																editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
-															}
+																editEmbed.fields[slot].value += fieldvalue[j * 4] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
 															if(j < 7)
 																editEmbed.fields[slot].value += "\n\n";
 														}
@@ -4546,14 +4542,12 @@ client.on('raw', async (packet) =>
 														if(i != j)
 														{
 															if(j == 7 && fieldvalue.length == 30)
-																editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1];
+																editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1];
 															else
-																editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1] + "\n" + fieldvalue[j + 2];
+																editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1] + "\n" + fieldvalue[j * 4 + 2];
 														}
 														else
-														{
-															editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
-														}
+															editEmbed.fields[slot].value += fieldvalue[j * 4] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
 														if(j < 7)
 															editEmbed.fields[slot].value += "\n\n";
 													}
@@ -4572,14 +4566,12 @@ client.on('raw', async (packet) =>
 															if(i != j)
 															{
 																if(j == 7 && fieldvalue.length == 30)
-																	editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1];
+																	editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1];
 																else
-																	editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1] + "\n" + fieldvalue[j + 2];
+																	editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1] + "\n" + fieldvalue[j * 4 + 2];
 															}
 															else
-															{
-																editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
-															}
+																editEmbed.fields[slot].value += fieldvalue[j * 4] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
 															if(j < 7)
 																editEmbed.fields[slot].value += "\n\n";
 														}
@@ -4614,14 +4606,12 @@ client.on('raw', async (packet) =>
 														if(i != j)
 														{
 															if(j == 7 && fieldvalue.length == 30)
-																editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1];
+																editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1];
 															else
-																editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1] + "\n" + fieldvalue[j + 2];
+																editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1] + "\n" + fieldvalue[j * 4 + 2];
 														}
 														else
-														{
-															editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
-														}
+															editEmbed.fields[slot].value += fieldvalue[j * 4] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
 														if(j < 7)
 															editEmbed.fields[slot].value += "\n\n";
 													}
@@ -4640,14 +4630,12 @@ client.on('raw', async (packet) =>
 															if(i != j)
 															{
 																if(j == 7 && fieldvalue.length == 30)
-																	editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1];
+																	editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1];
 																else
-																	editEmbed.fields[slot].value += fieldvalue[j] + "\n" + fieldvalue[j + 1] + "\n" + fieldvalue[j + 2];
+																	editEmbed.fields[slot].value += fieldvalue[j * 4] + "\n" + fieldvalue[j * 4 + 1] + "\n" + fieldvalue[j * 4 + 2];
 															}
 															else
-															{
-																editEmbed.fields[slot].value += fieldvalue[j] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
-															}
+																editEmbed.fields[slot].value += fieldvalue[j * 4] + " " + `${emojiId}` + "\n" + member.nickname + "\n<@" + member.id + ">";
 															if(j < 7)
 																editEmbed.fields[slot].value += "\n\n";
 														}
