@@ -198,7 +198,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`App is running on port ${ PORT }`); });
 
 const http = require("http");
-const { Channel } = require("diagnostics_channel");
+//const { Channel } = require("diagnostics_channel");
 setInterval(function () { http.get("http://final-fantasy-xiv-korea.herokuapp.com"); }, 900000);
 
 client.on("ready", async () =>
@@ -2709,12 +2709,12 @@ client.on("messageCreate", async (msg) =>
 	msg.channel.parent.id == channelsId.eu_alliance_pve ||
 	msg.channel.parent.id == channelsId.eu_static_pve ||
 	msg.channel.parent.id == channelsId.eu_party_pve ||
-	msg.channel.parent.id == channelsId.eu_party_pvp)) ||
+	msg.channel.parent.id == channelsId.eu_party_pvp ||
+	msg.channel.parent.parent.id == categorysId.job_battle)) ||
 	msg.channel == channelsId.trade ||
 	(msg.channel != channelsId.fc && msg.channel.parent == categorysId.fc) ||
 	(msg.channel != channelsId.linkshell && msg.channel.parent == categorysId.linkshell) ||
-	msg.channel.parent.id == categorysId.job_battle ||
-	msg.channel.parent.parent.id == categorysId.job_battle)
+	msg.channel.parent.id == categorysId.job_battle)
 	{
 		setTimeout(() => msg.delete(), 1000);
 	}
