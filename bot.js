@@ -4254,7 +4254,7 @@ client.on('raw', async (packet) =>
 			{
 				const emojiId = client.emojis.cache.find(emoji => emoji.name == packet.d.emoji.name);
 				const messageId = await channelId.messages.fetch(packet.d.message_id);
-				if (packet.d.emoji.name in emoji_partyslotcheck && messageId.embeds[0].fields[2].name == "연합 A" && emoji_partyslotcheck[packet.d.emoji.name] < messageId.embeds[0].fields.length)
+				if (packet.d.emoji.name in emoji_partyslotcheck && messageId.embeds[0].fields[2].name == "연합 A" && emoji_partyslotcheck[packet.d.emoji.name] < messageId.embeds[0].fields.length - 2)
 				{
 					for(var i=0;i<emoji_partyslot.length;i++)
 					{
