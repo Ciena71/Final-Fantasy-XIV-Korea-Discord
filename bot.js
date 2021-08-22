@@ -867,14 +867,15 @@ client.on("threadCreate", async (thread) =>
 });
 
 client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
-{
+{/*
+	newMembers.
 	if(newMembers.thread.parent.id == channelsId.dialog)
 	{
 		if(newMembers.guildMember.id != newMembers.thread.name)
 		{
 			newMembers.remove();
 		}
-	}
+	}*/
 	console.log("옛날");
 	console.log(oldMembers);
 	console.log("지금");
