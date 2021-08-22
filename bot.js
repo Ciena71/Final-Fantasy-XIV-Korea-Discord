@@ -879,10 +879,13 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 	var joinMembers = new Map();
 	oldMembers.forEach((value, key, map) =>
 	{
-		if(newMembers[key])
-			console.log(key + " 값이 존재함");
-		else
-			console.log(key + " 값이 존재하지 않음");
+		if(newMembers[key] == null)
+			console.log(key + "이 나감\n" + value);
+	});
+	newMembers.forEach((value, key, map) =>
+	{
+		if(oldMembers[key])
+			console.log(key + "이 들어옴\n" + value);
 	});/*
 	console.log("스레드멤버즈");
 	console.log("옛날");
