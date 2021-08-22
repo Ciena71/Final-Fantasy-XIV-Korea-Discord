@@ -880,12 +880,12 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 	oldMembers.forEach((value, key, map) =>
 	{
 		if(newMembers[key] == null)
-			console.log(key + "이 나감\n" + value);
+			console.log(key + "이 나감\n" + map);
 	});
 	newMembers.forEach((value, key, map) =>
 	{
-		if(oldMembers[key])
-			console.log(key + "이 들어옴\n" + value);
+		if(oldMembers[key] == null)
+			console.log(key + "이 들어옴\n" + map);
 	});/*
 	console.log("스레드멤버즈");
 	console.log("옛날");
