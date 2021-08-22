@@ -868,7 +868,6 @@ client.on("threadCreate", async (thread) =>
 
 client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 {/*
-	newMembers.
 	if(newMembers.thread.parent.id == channelsId.dialog)
 	{
 		if(newMembers.guildMember.id != newMembers.thread.name)
@@ -876,29 +875,35 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 			newMembers.remove();
 		}
 	}*/
+	var leftMembers = new Map();
+	var joinMembers = new Map();
+	oldMembers.forEach((value, key, map) =>
+	{
+		if(newMembers[key])
+			console.log(key + " 값이 존재함");
+		else
+			console.log(key + " 값이 존재하지 않음");
+	});/*
 	console.log("스레드멤버즈");
 	console.log("옛날");
 	console.log(oldMembers);
 	console.log("지금");
-	console.log(newMembers);
+	console.log(newMembers);*/
 });
 
-client.on("threadMemberUpdate", async (oldMember, newMember) =>
-{/*
-	newMembers.
-	if(newMembers.thread.parent.id == channelsId.dialog)
-	{
-		if(newMembers.guildMember.id != newMembers.thread.name)
-		{
-			newMembers.remove();
-		}
-	}*/
-	console.log("스레드멤버");
-	console.log("옛날");
-	console.log(oldMember);
-	console.log("지금");
-	console.log(newMember);
-});
+function compareMaps(map1, map2)
+{
+    var testVal;
+    for (var [key, val] of map1) {
+        testVal = map2.get(key);
+        // in cases of an undefined value, make sure the key
+        // actually exists on the object so there are no false positives
+        if (testVal !== val || (testVal === undefined && !map2.has(key))) {
+            return false;
+        }
+    }
+    return true;
+};
 
 client.on("threadUpdate", async (oldThread, newThread) =>
 {
