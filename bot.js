@@ -879,13 +879,27 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 	var joinMembers = new Map();
 	oldMembers.forEach((value, key, map) =>
 	{
-		if(newMembers[key] == null)
-			console.log(key + "이 나감\n" + oldMembers[key]);
+		try
+		{
+			if(newMembers[key] == null)
+				console.log(key + "이 나감\n" + oldMembers[key]);
+		}
+		catch(error)
+		{
+			console.log(error);
+		}
 	});
 	newMembers.forEach((value, key, map) =>
 	{
-		if(oldMembers[key] == null)
-			console.log(key + "이 들어옴\n" + newMembers[key]);
+		try
+		{
+			if(oldMembers[key] == null)
+				console.log(key + "이 들어옴\n" + newMembers[key]);
+		}
+		catch(error)
+		{
+			console.log(error);
+		}
 	});/*
 	console.log("스레드멤버즈");
 	console.log("옛날");
