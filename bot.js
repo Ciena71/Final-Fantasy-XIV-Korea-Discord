@@ -866,19 +866,19 @@ client.on("threadCreate", async (thread) =>
 	}
 });
 
-client.on("threadMemberUpdate", async (oldMember, newMember) =>
+client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 {
-	if(newMember.thread.parent.id == channelsId.dialog)
+	if(newMembers.thread.parent.id == channelsId.dialog)
 	{
-		if(newMember.guildMember.id != newMember.thread.name)
+		if(newMembers.guildMember.id != newMembers.thread.name)
 		{
-			newMember.remove();
+			newMembers.remove();
 		}
 	}
 	console.log("옛날");
-	console.log(oldMember);
+	console.log(oldMembers);
 	console.log("지금");
-	console.log(newMember);
+	console.log(newMembers);
 });
 
 client.on("threadUpdate", async (oldThread, newThread) =>
