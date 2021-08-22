@@ -1,4 +1,4 @@
-import { buildSdk } from "@rpglogs/api-sdk";
+const { buildSdk } = require("@rpglogs/api-sdk");
 
 const ffSdk = buildSdk(accessToken, 'ff');
 
