@@ -875,14 +875,12 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 			newMembers.remove();
 		}
 	}*/
-	var leftMembers = new Map();
-	var joinMembers = new Map();
 	oldMembers.forEach((value, key, map) =>
 	{
 		try
 		{
-			if(newMembers[key] == null)
-				console.log(key + "이 나감\n" + oldMembers[key]);
+			if(!newMembers.has(key))
+				console.log(key + "이 나감\n" + oldMembers.get(key));
 		}
 		catch(error)
 		{
@@ -893,8 +891,8 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 	{
 		try
 		{
-			if(oldMembers[key] == null)
-				console.log(key + "이 들어옴\n" + newMembers[key]);
+			if(!oldMembers.has(key))
+				console.log(key + "이 들어옴\n" + newMembers.get(key));
 		}
 		catch(error)
 		{
@@ -907,20 +905,6 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 	console.log("지금");
 	console.log(newMembers);*/
 });
-
-function compareMaps(map1, map2)
-{
-    var testVal;
-    for (var [key, val] of map1) {
-        testVal = map2.get(key);
-        // in cases of an undefined value, make sure the key
-        // actually exists on the object so there are no false positives
-        if (testVal !== val || (testVal === undefined && !map2.has(key))) {
-            return false;
-        }
-    }
-    return true;
-};
 
 client.on("threadUpdate", async (oldThread, newThread) =>
 {
