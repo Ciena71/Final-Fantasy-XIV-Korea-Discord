@@ -661,7 +661,7 @@ client.on('guildMemberRemove', async (member) =>
 client.on('messageUpdate', async (oldMessage, newMessage) =>
 {
 	if (newMessage.guild == null) return;
-	if (newMessage.author.bot) return;
+	if (newMessage.author != null && newMessage.author.bot) return;
 	if (oldMessage.partial)
 	{
 		if(newMessage.channel.parent != channelsId.dialog)
