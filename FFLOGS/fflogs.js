@@ -2,7 +2,7 @@ const { buildSdk } = require("@rpglogs/api-sdk");
 
 const ffSdk = buildSdk(accessToken, 'ff');
 
-function getUserZoneRanking(zone_id, character_name, server, region)
+async function getUserZoneRanking(zone_id, character_name, server, region)
 {
     const response = await ffSdk.getCharacterZoneRankings(
     {
