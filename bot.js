@@ -30,6 +30,7 @@ const dataBase = new Pool(
 		rejectUnauthorized: false
 	}
 });
+const fflogs_SDK = require('./FFLOGS/fflogs.js');
 
 dataBase.connect();
 
@@ -1514,6 +1515,8 @@ client.on("interactionCreate", async (interaction) =>
 												getAvatarURL(res.rows[0].ffxiv_id).then((avatarurl) =>
 												{
 													var zone = interaction.options.get("존").value;
+													fflogs_SDK.getUserZoneRanking(parseInt(zone / 100), name[0] + " " + server[0], server[1], dataCenterNames[dataCenter].region).then(data => console.log(data));
+													/*
 													fetch("https://www.fflogs.com/v1/rankings/character/" + name[0] + "%20" + server[0] + "/" + server[1] + "/" + dataCenterNames[dataCenter].region + "/?api_key=" + process.env.FFLOGS + "&zone=" + parseInt(zone / 100) + "&partition=" + (zone % 100) + "&metric=rdps").then(webData =>
 													{
 														webData.json().then(data =>
@@ -1611,7 +1614,7 @@ client.on("interactionCreate", async (interaction) =>
 															interaction.channel.send({ embeds: [Embed] }).then(message => { setTimeout(() => message.delete(), 30000); });
 															interaction.editReply("정상적으로 조회되었습니다.");
 														});
-													});
+													});*/
 												});
 											}
 											else
