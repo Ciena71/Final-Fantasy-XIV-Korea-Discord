@@ -875,6 +875,10 @@ client.on("threadMemberUpdate", async (oldMember, newMember) =>
 			newMember.remove();
 		}
 	}
+	console.log("옛날");
+	console.log(oldMember);
+	console.log("지금");
+	console.log(newMember);
 });
 
 client.on("threadUpdate", async (oldThread, newThread) =>
