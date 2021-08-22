@@ -18,6 +18,8 @@
   "license": "ISC",
   "dependencies":
   {
+    "@rpglogs/api-sdk": "^1.0.0",
+    "simple-oauth2": "^4.2.0",
     "express": "^4.17.1",
     "discord.js": "^13.1.0",
     "node-fetch": "^2.6.1",
