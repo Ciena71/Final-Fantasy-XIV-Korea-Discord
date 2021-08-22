@@ -867,43 +867,35 @@ client.on("threadCreate", async (thread) =>
 });
 
 client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
-{/*
-	if(newMembers.thread.parent.id == channelsId.dialog)
-	{
-		if(newMembers.guildMember.id != newMembers.thread.name)
-		{
-			newMembers.remove();
-		}
-	}*/
+{
 	oldMembers.forEach((value, key, map) =>
 	{
-		try
+		if(oldMembers.get(key).thread.parent.id == channelsId.dialog)
 		{
 			if(!newMembers.has(key))
-				console.log(key + "이 나감\n" + oldMembers.get(key));
-		}
-		catch(error)
-		{
-			console.log(error);
+			{
+				if(oldMembers.get(key).user.id == oldMembers.get(key).thread.name)
+				{
+					oldMembers.get(key).thread.setArchived(false);
+					oldMembers.get(key).thread.members.add(oldMembers.get(key).guildMember);
+					oldMembers.get(key).thread.send("자신의 다이얼로그에서 탈퇴하실 수 없습니다.");
+				}
+			}
 		}
 	});
 	newMembers.forEach((value, key, map) =>
 	{
-		try
+		if(newMembers.get(key).thread.parent.id == channelsId.dialog)
 		{
 			if(!oldMembers.has(key))
-				console.log(key + "이 들어옴\n" + newMembers.get(key));
+			{
+				if(newMembers.get(key).user.id != newMembers.get(key).thread.name)
+				{
+					newMembers.get(key).remove();
+				}
+			}
 		}
-		catch(error)
-		{
-			console.log(error);
-		}
-	});/*
-	console.log("스레드멤버즈");
-	console.log("옛날");
-	console.log(oldMembers);
-	console.log("지금");
-	console.log(newMembers);*/
+	});
 });
 
 client.on("threadUpdate", async (oldThread, newThread) =>
