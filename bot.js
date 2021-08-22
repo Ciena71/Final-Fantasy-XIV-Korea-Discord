@@ -1157,7 +1157,7 @@ client.on("interactionCreate", async (interaction) =>
 			}
 			case 'inquire':
 			{
-				if(interaction.guild.channels.cache.filter(channel => channel.parent.id === categorysId.inquire && channel.name === interaction.member.id).size == 0)
+				if(interaction.guild.channels.cache.filter(channel => channel.parent != null && channel.parent.id === categorysId.inquire && channel.name === interaction.member.id).size == 0)
 				{
 					interaction.guild.channels.create(interaction.member.id,
 					{
