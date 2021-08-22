@@ -1,7 +1,44 @@
 const { buildSdk } = require("@rpglogs/api-sdk");
 
-const ffSdk = buildSdk(accessToken, 'ff');
+const ffSdk = buildSdk(getAccessToken(), 'ff');
 
+async function getAccessToken()
+{
+    const authHeader = 'Basic ' +
+    btoa
+    (
+        process.env.FFLOGSID + ':' +
+        process.env.FFLOGSPW
+    );
+
+    const response = await fetch(
+    'https://www.fflogs.com' +
+    '/oauth/token',
+    {
+        method: 'POST',
+        headers:
+        {
+            Authorization: authHeader,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'grant_type=client_credentials'
+    });
+
+    const json = await response.json();
+
+    if (response.status === 200)
+    {
+        return json.access_token;
+    }
+    else
+    {
+        throw new Error(
+            '토큰을 불러오지 못함: ' +
+            JSON.stringify(json ?? {})
+        );
+    }
+}
+  
 async function getUserZoneRanking(zone_id, character_name, server, region)
 {
     const response = await ffSdk.getCharacterZoneRankings(
