@@ -32,6 +32,8 @@ async function getAccessToken()
     }
     else
     {
+        console.log('토큰을 불러오지 못함: ' + JSON.stringify(json ?? {}));
+        return null;
         throw new Error(
             '토큰을 불러오지 못함: ' +
             JSON.stringify(json ?? {})
