@@ -876,10 +876,28 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 			newMembers.remove();
 		}
 	}*/
+	console.log("스레드멤버즈");
 	console.log("옛날");
 	console.log(oldMembers);
 	console.log("지금");
 	console.log(newMembers);
+});
+
+client.on("threadMemberUpdate", async (oldMember, newMember) =>
+{/*
+	newMembers.
+	if(newMembers.thread.parent.id == channelsId.dialog)
+	{
+		if(newMembers.guildMember.id != newMembers.thread.name)
+		{
+			newMembers.remove();
+		}
+	}*/
+	console.log("스레드멤버");
+	console.log("옛날");
+	console.log(oldMember);
+	console.log("지금");
+	console.log(newMember);
 });
 
 client.on("threadUpdate", async (oldThread, newThread) =>
