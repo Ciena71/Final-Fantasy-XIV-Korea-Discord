@@ -877,11 +877,18 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 		{
 			if(!newMembers.has(key))
 			{
-				if(oldMembers.get(key).user.id == oldMembers.get(key).thread.name)
+				if(newMembers.get(key).guildMember != null)
 				{
-					oldMembers.get(key).thread.setArchived(false);
-					oldMembers.get(key).thread.members.add(oldMembers.get(key).guildMember);
-					oldMembers.get(key).thread.send("자신의 다이얼로그에서 탈퇴하실 수 없습니다.");
+					if(oldMembers.get(key).guildMember.id == oldMembers.get(key).thread.name)
+					{
+						oldMembers.get(key).thread.setArchived(false);
+						oldMembers.get(key).thread.members.add(oldMembers.get(key).guildMember);
+						oldMembers.get(key).thread.send("자신의 다이얼로그에서 탈퇴하실 수 없습니다.");
+					}
+				}
+				else
+				{
+					
 				}
 			}
 		}
@@ -892,9 +899,9 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 		{
 			if(!oldMembers.has(key))
 			{
-				if(newMembers.get(key).user != null)
+				if(newMembers.get(key).guildMember != null)
 				{
-					if(newMembers.get(key).user.id != newMembers.get(key).thread.name)
+					if(newMembers.get(key).guildMember.id != newMembers.get(key).thread.name)
 					{
 						newMembers.get(key).remove();
 					}
