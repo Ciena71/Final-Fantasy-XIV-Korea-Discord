@@ -870,6 +870,10 @@ client.on("threadCreate", async (thread) =>
 
 client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 {
+	console.log("구별 111111111111");
+	console.log(oldMembers);
+	console.log("구별 222222222222");
+	console.log(newMembers);
 	if(oldMembers.size > newMembers.size)
 	{
 		oldMembers.forEach((value, key, map) =>
