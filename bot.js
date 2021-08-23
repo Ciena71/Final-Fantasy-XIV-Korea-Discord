@@ -3769,7 +3769,7 @@ client.on("messageCreate", async (msg) =>
 						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
 						if (channelId)
 						{
-							if (channelId != channelsId.fc && channelId.parent == categorysId.fc)
+							if (channelId != channelsId.fc && channelId.parent != null && channelId.parent.id == categorysId.fc)
 							{
 								cmd = msg.content.slice(prefix.length).split(" ", 2);
 								if(cmd.length == 2)
@@ -3835,7 +3835,7 @@ client.on("messageCreate", async (msg) =>
 						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
 						if (channelId)
 						{
-							if (channelId != channelsId.fc && channelId.parent == categorysId.fc)
+							if (channelId != channelsId.fc && channelId.parent != null && channelId.parent.id == categorysId.fc)
 							{
 								cmd = msg.content.slice(prefix.length).split(" ", 2);
 								if(cmd.length == 2)
@@ -3900,7 +3900,7 @@ client.on("messageCreate", async (msg) =>
 						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
 						if (channelId)
 						{
-							if (channelId != channelsId.linkshell && channelId.parent == categorysId.linkshell)
+							if (channelId != channelsId.linkshell && channelId.parent != null && channelId.parent.id == categorysId.linkshell)
 							{
 								cmd = msg.content.slice(prefix.length).split(" ", 2);
 								if(cmd.length == 2)
@@ -3966,7 +3966,7 @@ client.on("messageCreate", async (msg) =>
 						const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
 						if (channelId)
 						{
-							if (channelId.id != channelsId.linkshell && channelId.parent.id == categorysId.linkshell)
+							if (channelId.id != channelsId.linkshell && channelId.parent != null && channelId.parent.id == categorysId.linkshell)
 							{
 								cmd = msg.content.slice(prefix.length).split(" ", 2);
 								if(cmd.length == 2)
