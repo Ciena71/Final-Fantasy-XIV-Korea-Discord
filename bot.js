@@ -872,12 +872,16 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 {
 	oldMembers.forEach((value, key, map) =>
 	{
+		console.log(key + " 0번임");
 		if(value.thread.parent.id == channelsId.dialog)
 		{
+			console.log(key + " 1번임");
 			if(!newMembers.has(key))
 			{
+				console.log(key + " 2번임");
 				if(key == value.thread.name)
 				{
+					console.log(key + " 3번임");
 					value.thread.setArchived(false);
 					if(value.guildMember == null)
 					{
