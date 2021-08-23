@@ -870,7 +870,6 @@ client.on("threadCreate", async (thread) =>
 
 client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 {
-	console.log(newMembers);
 	oldMembers.forEach((value, key, map) =>
 	{
 		if(oldMembers.get(key).thread.parent.id == channelsId.dialog)
@@ -888,7 +887,8 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 				}
 				else
 				{
-					
+					console.log(key);
+					console.log(oldMembers.get(key));
 				}
 			}
 		}
@@ -908,7 +908,8 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 				}
 				else
 				{
-					
+					console.log(key);
+					console.log(newMembers.get(key));
 				}
 			}
 		}
