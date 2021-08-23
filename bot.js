@@ -876,7 +876,7 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 		{
 			if(!newMembers.has(key))
 			{
-				if(key != value.thread.name && '819561839838232607' != value.thread.name)
+				if(key == value.thread.name)
 				{
 					value.thread.setArchived(false);
 					if(value.guildMember == null)
