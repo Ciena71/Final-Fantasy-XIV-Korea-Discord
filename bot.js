@@ -870,24 +870,16 @@ client.on("threadCreate", async (thread) =>
 
 client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 {
-	console.log("구별 111111111111");
-	console.log(oldMembers);
-	console.log("구별 222222222222");
-	console.log(newMembers);
 	if(oldMembers.size > newMembers.size)
 	{
 		oldMembers.forEach((value, key, map) =>
 		{
-			console.log(key + " 0번임");
 			if(value.thread.parent.id == channelsId.dialog)
 			{
-				console.log(key + " 1번임");
 				if(!newMembers.has(key))
 				{
-					console.log(key + " 2번임");
 					if(key == value.thread.name)
 					{
-						console.log(key + " 3번임");
 						value.thread.setArchived(false);
 						if(value.guildMember == null)
 						{
