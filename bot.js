@@ -870,6 +870,7 @@ client.on("threadCreate", async (thread) =>
 
 client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 {
+	console.log(newMembers);
 	oldMembers.forEach((value, key, map) =>
 	{
 		if(oldMembers.get(key).thread.parent.id == channelsId.dialog)
@@ -891,9 +892,16 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 		{
 			if(!oldMembers.has(key))
 			{
-				if(newMembers.get(key).user.id != newMembers.get(key).thread.name)
+				if(newMembers.get(key).user != null)
 				{
-					newMembers.get(key).remove();
+					if(newMembers.get(key).user.id != newMembers.get(key).thread.name)
+					{
+						newMembers.get(key).remove();
+					}
+				}
+				else
+				{
+					
 				}
 			}
 		}
@@ -2791,7 +2799,7 @@ client.on("messageCreate", async (msg) =>
 						else
 						{
 							const channelId = client.channels.cache.get(res.rows[0].dialog_channel_id);
-							if (channelId != channelsId.fc && channelId.parent == categorysId.fc)
+							if (channelId != channelsId.fc && channelId.parent != null && channelId.parent.id == categorysId.fc)
 							{
 								try
 								{
