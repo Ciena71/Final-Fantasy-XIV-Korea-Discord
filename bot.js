@@ -881,8 +881,10 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 					value.thread.setArchived(false);
 					if(value.guildMember == null)
 					{
-						const member = await FFXIV_Guild.members.fetch(key);
-						value.thread.members.add(member);
+						FFXIV_Guild.members.fetch(key).then(member =>
+						{
+							value.thread.members.add(member);
+						});
 					}
 					else
 						value.thread.members.add(value.guildMember);
