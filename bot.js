@@ -877,7 +877,7 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 		{
 			if(!newMembers.has(key))
 			{
-				if(newMembers.get(key).guildMember != null)
+				if(oldMembers.get(key).guildMember != null)
 				{
 					if(oldMembers.get(key).guildMember.id == oldMembers.get(key).thread.name)
 					{
