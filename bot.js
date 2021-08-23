@@ -872,44 +872,34 @@ client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 {
 	oldMembers.forEach((value, key, map) =>
 	{
-		if(oldMembers.get(key).thread.parent.id == channelsId.dialog)
+		if(value.thread.parent.id == channelsId.dialog)
 		{
 			if(!newMembers.has(key))
 			{
-				if(oldMembers.get(key).guildMember != null)
+				if(key != value.thread.name && '819561839838232607' != value.thread.name)
 				{
-					if(oldMembers.get(key).guildMember.id == oldMembers.get(key).thread.name)
+					value.thread.setArchived(false);
+					if(value.guildMember == null)
 					{
-						oldMembers.get(key).thread.setArchived(false);
-						oldMembers.get(key).thread.members.add(oldMembers.get(key).guildMember);
-						oldMembers.get(key).thread.send("자신의 다이얼로그에서 탈퇴하실 수 없습니다.");
+						const member = await FFXIV_Guild.members.fetch(key);
+						value.thread.members.add(member);
 					}
-				}
-				else
-				{
-					console.log(key);
-					console.log(oldMembers.get(key));
+					else
+						value.thread.members.add(value.guildMember);
+					value.thread.send("자신의 다이얼로그에서 탈퇴하실 수 없습니다.");
 				}
 			}
 		}
 	});
 	newMembers.forEach((value, key, map) =>
 	{
-		if(newMembers.get(key).thread.parent.id == channelsId.dialog)
+		if(value.thread.parent.id == channelsId.dialog)
 		{
 			if(!oldMembers.has(key))
 			{
-				if(newMembers.get(key).guildMember != null)
+				if(key != value.thread.name && '819561839838232607' != value.thread.name)
 				{
-					if(newMembers.get(key).guildMember.id != newMembers.get(key).thread.name)
-					{
-						newMembers.get(key).remove();
-					}
-				}
-				else
-				{
-					console.log(key);
-					console.log(newMembers.get(key));
+					value.remove();
 				}
 			}
 		}
