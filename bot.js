@@ -4828,7 +4828,7 @@ client.on('raw', async (packet) =>
 					catch (error)
 					{
 						console.log(error);
-						messageId.reply("<@" + member.id + ">, 공대 입장에 실패했습니다.\n관리자에게 보고하십시오.").then(message => { setTimeout(() => message.delete(), 10000); });
+						messageId.reply("<@" + member.id + ">,파티 입장에 실패했습니다.\n관리자에게 보고하십시오.").then(message => { setTimeout(() => message.delete(), 10000); });
 					}
 				}
 				else
