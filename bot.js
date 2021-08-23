@@ -870,46 +870,52 @@ client.on("threadCreate", async (thread) =>
 
 client.on("threadMembersUpdate", async (oldMembers, newMembers) =>
 {
-	oldMembers.forEach((value, key, map) =>
+	if(oldMembers.size > newMembers.size)
 	{
-		console.log(key + " 0번임");
-		if(value.thread.parent.id == channelsId.dialog)
+		oldMembers.forEach((value, key, map) =>
 		{
-			console.log(key + " 1번임");
-			if(!newMembers.has(key))
+			console.log(key + " 0번임");
+			if(value.thread.parent.id == channelsId.dialog)
 			{
-				console.log(key + " 2번임");
-				if(key == value.thread.name)
+				console.log(key + " 1번임");
+				if(!newMembers.has(key))
 				{
-					console.log(key + " 3번임");
-					value.thread.setArchived(false);
-					if(value.guildMember == null)
+					console.log(key + " 2번임");
+					if(key == value.thread.name)
 					{
-						FFXIV_Guild.members.fetch(key).then(member =>
+						console.log(key + " 3번임");
+						value.thread.setArchived(false);
+						if(value.guildMember == null)
 						{
-							value.thread.members.add(member);
-						});
+							FFXIV_Guild.members.fetch(key).then(member =>
+							{
+								value.thread.members.add(member);
+							});
+						}
+						else
+							value.thread.members.add(value.guildMember);
+						value.thread.send("자신의 다이얼로그에서 탈퇴하실 수 없습니다.");
 					}
-					else
-						value.thread.members.add(value.guildMember);
-					value.thread.send("자신의 다이얼로그에서 탈퇴하실 수 없습니다.");
 				}
 			}
-		}
-	});
-	newMembers.forEach((value, key, map) =>
+		});
+	}
+	else if(oldMembers.size < newMembers.size)
 	{
-		if(value.thread.parent.id == channelsId.dialog)
+		newMembers.forEach((value, key, map) =>
 		{
-			if(!oldMembers.has(key))
+			if(value.thread.parent.id == channelsId.dialog)
 			{
-				if(key != value.thread.name && '819561839838232607' != value.thread.name)
+				if(!oldMembers.has(key))
 				{
-					value.remove();
+					if(key != value.thread.name && '819561839838232607' != value.thread.name)
+					{
+						value.remove();
+					}
 				}
 			}
-		}
-	});
+		});
+	}
 });
 
 client.on("threadUpdate", async (oldThread, newThread) =>
