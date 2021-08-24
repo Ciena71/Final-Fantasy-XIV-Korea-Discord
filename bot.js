@@ -31,7 +31,7 @@ const dataBase = new Pool(
 	}
 });
 
-//const fflogs_SDK = require('./FFLOGS/fflogs.js');
+const fflogs_SDK = require('./FFLOGS/fflogs.js');
 
 dataBase.connect();
 
@@ -677,7 +677,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 				.setDescription("<@" + newMessage.author.id + ">님이 <#" + newMessage.channel + ">채널에 있는 [해당 메시지](" + newMessage.url + ") 를 수정했습니다. ")
 				.addFields(
 					{ name : "수정 전" , value : "~~캐시되지 않음~~" },
-					{ name : "수정 후" , value : newMessage.content })
+					{ name : "수정 후" , value : newMessage.content.substr(0, 1024) })
 				.setTimestamp()
 				.setFooter("메시지 ID : " + newMessage.id);
 				client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
@@ -690,7 +690,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 				.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
 				.addFields(
 					{ name : "수정 전" , value : "~~캐시되지 않음~~" },
-					{ name : "수정 후" , value : newMessage.content })
+					{ name : "수정 후" , value : newMessage.content.substr(0, 1024) })
 				.setTimestamp();
 				const logChannelId = newMessage.channel.topic.split("-");
 				client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
@@ -709,8 +709,8 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 				.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
 				.setDescription("<@" + newMessage.author.id + ">님이 <#" + newMessage.channel + ">채널에 있는 [해당 메시지](" + newMessage.url + ") 를 수정했습니다. ")
 				.addFields(
-					{ name : "수정 전" , value : oldMessage.content },
-					{ name : "수정 후" , value : newMessage.content })
+					{ name : "수정 전" , value : oldMessage.content.substr(0, 1024) },
+					{ name : "수정 후" , value : newMessage.content.substr(0, 1024) })
 				.setTimestamp()
 				.setFooter("메시지 ID : " + newMessage.id);
 				client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
@@ -722,8 +722,8 @@ client.on('messageUpdate', async (oldMessage, newMessage) =>
 				.setTitle("수정")
 				.setAuthor(newMessage.author.tag, newMessage.author.displayAvatarURL())
 				.addFields(
-					{ name : "수정 전" , value : oldMessage.content },
-					{ name : "수정 후" , value : newMessage.content })
+					{ name : "수정 전" , value : oldMessage.content.substr(0, 1024) },
+					{ name : "수정 후" , value : newMessage.content.substr(0, 1024) })
 				.setTimestamp();
 				const logChannelId = newMessage.channel.topic.split("-");
 				client.channels.cache.get(logChannelId[0]).send({ embeds: [Embed] });
@@ -2786,6 +2786,11 @@ client.on("messageCreate", async (msg) =>
 		}
 		else
 		{
+			if(msg.channel.name != msg.member.id)
+			{
+				msg.delete();
+				return;
+			}
 			if(msg.attachments.size == 1)
 			{
 				const image = msg.attachments.first().url;
