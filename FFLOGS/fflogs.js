@@ -4,8 +4,6 @@ const ffSdk = buildSdk(getAccessToken(), 'ff');
 
 async function getAccessToken()
 {
-    console.log(process.env.FFLOGSID);
-    console.log(process.env.FFLOGSPW);
     const authHeader = 'Basic ' +
     btoa
     (
