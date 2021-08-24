@@ -40,8 +40,8 @@ async function getAccessToken()
         );
     }
 }
-  
-async function getUserZoneRanking(zone_id, character_name, server, region)
+
+exports.getUserZoneRanking = async function (zone_id, character_name, server, region)
 {
     const response = await ffSdk.getCharacterZoneRankings(
     {
@@ -54,7 +54,7 @@ async function getUserZoneRanking(zone_id, character_name, server, region)
         partition: -1,
     });
     return response.characterData.character.zoneRankings;
-}
+};
 
 /*
 function request_code(req, res, next)
