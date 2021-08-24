@@ -1530,7 +1530,8 @@ client.on("interactionCreate", async (interaction) =>
 												getAvatarURL(res.rows[0].ffxiv_id).then((avatarurl) =>
 												{
 													var zone = interaction.options.get("존").value;
-													fflogs_SDK.getUserZoneRanking(parseInt(zone / 100), name[0] + " " + server[0], server[1], dataCenterNames[dataCenter].region).then(data => console.log(data));
+													const data = fflogs_SDK.getUserZoneRanking(parseInt(zone / 100), name[0] + " " + server[0], server[1], dataCenterNames[dataCenter].region);
+													console.log(data);
 													/*
 													fetch("https://www.fflogs.com/v1/rankings/character/" + name[0] + "%20" + server[0] + "/" + server[1] + "/" + dataCenterNames[dataCenter].region + "/?api_key=" + process.env.FFLOGS + "&zone=" + parseInt(zone / 100) + "&partition=" + (zone % 100) + "&metric=rdps").then(webData =>
 													{
