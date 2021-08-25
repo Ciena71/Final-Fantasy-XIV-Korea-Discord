@@ -433,6 +433,46 @@ client.on("ready", async () =>
 					type: 'STRING',
 					description: '아이템의 이름을 적습니다. [자신의 언어설정에 맞는 아이템명을 적으셔야 합니다.]',
 					required: true
+				},
+				{
+					name: '데이터센터',
+					type: 'INTEGER',
+					description: '데이터 센터를 정합니다. [사용하지 않으면 자신의 데이터센터를 기본으로 적용합니다.]',
+					choices:
+					[
+						{
+							name: '마나',
+							value: 0,
+						},
+						{
+							name: '엘레멘탈',
+							value: 1,
+						},
+						{
+							name: '가이아',
+							value: 2,
+						},
+						{
+							name: '에테르',
+							value: 3,
+						},
+						{
+							name: '프라이멀',
+							value: 4,
+						},
+						{
+							name: '크리스탈',
+							value: 5,
+						},
+						{
+							name: '카오스',
+							value: 6,
+						},
+						{
+							name: '라이트',
+							value: 7,
+						}
+					]
 				}
 			]
 		},
@@ -1660,12 +1700,18 @@ client.on("interactionCreate", async (interaction) =>
 					await interaction.deferReply({ ephemeral: true });
 					const itemName = interaction.options.get("아이템").value;
 					var dataCenter;
-					for(var i = 0; i < dataCenterNames.length; i++)
+					const dataCenterOption = interaction.options.get("데이터센터");
+					if(dataCenterOption)
+						dataCenter = dataCenterOption.value;
+					else
 					{
-						if(interaction.member.roles.cache.has(dataCenterNames[i].id))
+						for(var i = 0; i < dataCenterNames.length; i++)
 						{
-							dataCenter = i;
-							break;
+							if(interaction.member.roles.cache.has(dataCenterNames[i].id))
+							{
+								dataCenter = i;
+								break;
+							}
 						}
 					}
 					dataBase.query("SELECT Language FROM UserSaveData WHERE User_Id='" + interaction.member.id +"'", (err, res) =>
