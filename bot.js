@@ -41,6 +41,7 @@ var FFXIV_Guild;
 
 const channelsId = {
 	log:'857670522601996298',
+	log_connect:'880116506581663785',
 	certification:'856918824627732500',
 	console:'857695133700325437',
 	role:'857691161116278824',
@@ -666,7 +667,7 @@ client.on('guildMemberAdd', async (member) =>
 	.setThumbnail(member.user.displayAvatarURL())
 	.setTimestamp()
 	.setFooter("유저 ID : " + member.id);
-	client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });	
+	client.channels.cache.get(channelsId.log_connect).send({ embeds: [Embed] });	
 	dataBase.query("SELECT Warning_Reason FROM UserSaveData WHERE User_Id = '" + member.id +"'", (err, res) =>
 	{
 		if (err)
@@ -697,7 +698,7 @@ client.on('guildMemberRemove', async (member) =>
 	.setThumbnail(member.user.displayAvatarURL())
 	.setTimestamp()
 	.setFooter("유저 ID : " + member.id);
-	client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });	
+	client.channels.cache.get(channelsId.log_connect).send({ embeds: [Embed] });	
 });
 
 client.on('messageUpdate', async (oldMessage, newMessage) =>
@@ -778,6 +779,7 @@ client.on('messageDelete', async (message) =>
 	if (message.partial)
 	{
 		if (message.channel.id === channelsId.log ||
+		message.channel.id === channelsId.log_connect ||
 		message.channel.id === channelsId.certification ||
 		message.channel.id === channelsId.console ||
 		message.channel.id === channelsId.jp_alliance_pve ||
@@ -830,6 +832,7 @@ client.on('messageDelete', async (message) =>
 	{
 		if (message.author.bot) return;
 		if (message.channel.id === channelsId.log ||
+		message.channel.id === channelsId.log_connect ||
 		message.channel.id === channelsId.certification ||
 		message.channel.id === channelsId.console ||
 		message.channel.id === channelsId.jp_alliance_pve ||
@@ -1019,7 +1022,11 @@ client.on("interactionCreate", async (interaction) =>
 						{
 							FFXIV_Guild.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(thread => 
 							{
-								thread.send("<@" + interaction.member.id + "> 님의 다이얼로그가 활성화 되었습니다.");
+								thread.setArchived(false).then(() =>
+								{
+									thread.members.add(interaction.member);
+									thread.send("<@" + interaction.member.id + "> 님의 다이얼로그가 활성화 되었습니다.");
+								});
 							});
 						}
 					}
@@ -1044,37 +1051,41 @@ client.on("interactionCreate", async (interaction) =>
 								{
 									client.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(ChannelId => 
 									{
-										dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = " + interaction.channel.id + ", Dialog_Message_Id = " + interaction.message.id + " WHERE User_Id = '" + interaction.member.id +"'");
-										ChannelId.send("<@" + interaction.member.id + ">, <#" + interaction.channel.id + "> 의 글을 수정하시려면 아래의 명령어를 따라주세요.");
-										ChannelId.send({ embeds: [interaction.message.embeds[0]] });
-										if(interaction.channel.parent == categorysId.fc && interaction.channel != channelsId.fc)
+										thread.setArchived(false).then(() =>
 										{
-											ChannelId.send("```!fc설명 [설명]" +
-											"\n!fc문의 [@맨션]" +
-											"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
-										}
-										else
-										if(interaction.channel.parent == categorysId.linkshell && interaction.channel != channelsId.linkshell)
-										{
-											ChannelId.send("```!링크쉘설명 [설명] " +
-											"\n!링크쉘문의 [@맨션]```");
-										}
-										else
-										if (interaction.channel.id == channelsId.jp_alliance_pve || interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve || interaction.channel.id == channelsId.jp_party_pvp ||
-											interaction.channel.id == channelsId.na_alliance_pve || interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve || interaction.channel.id == channelsId.na_party_pvp ||
-											interaction.channel.id == channelsId.eu_alliance_pve || interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve || interaction.channel.id == channelsId.eu_party_pvp ||
-											(interaction.channel.isThread() &&
-											(interaction.channel.parent.id == channelsId.jp_alliance_pve || interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
-											interaction.channel.parent.id == channelsId.na_alliance_pve || interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
-											interaction.channel.parent.id == channelsId.eu_alliance_pve || interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
-										{
-											ChannelId.send("```!파티설명 [설명]```");
-										}
-										else
-										if(interaction.channel == channelsId.trade)
-										{
-											ChannelId.send("```!거래설명 [설명]```");
-										}
+											thread.members.add(interaction.member);
+											dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = " + interaction.channel.id + ", Dialog_Message_Id = " + interaction.message.id + " WHERE User_Id = '" + interaction.member.id +"'");
+											ChannelId.send("<@" + interaction.member.id + ">, <#" + interaction.channel.id + "> 의 글을 수정하시려면 아래의 명령어를 따라주세요.");
+											ChannelId.send({ embeds: [interaction.message.embeds[0]] });
+											if(interaction.channel.parent == categorysId.fc && interaction.channel != channelsId.fc)
+											{
+												ChannelId.send("```!fc설명 [설명]" +
+												"\n!fc문의 [@맨션]" +
+												"\n사진 1장을 업로드 하여 사진을 추가할 수 있습니다.```");
+											}
+											else
+											if(interaction.channel.parent == categorysId.linkshell && interaction.channel != channelsId.linkshell)
+											{
+												ChannelId.send("```!링크쉘설명 [설명] " +
+												"\n!링크쉘문의 [@맨션]```");
+											}
+											else
+											if (interaction.channel.id == channelsId.jp_alliance_pve || interaction.channel.id == channelsId.jp_static_pve || interaction.channel.id == channelsId.jp_party_pve || interaction.channel.id == channelsId.jp_party_pvp ||
+												interaction.channel.id == channelsId.na_alliance_pve || interaction.channel.id == channelsId.na_static_pve || interaction.channel.id == channelsId.na_party_pve || interaction.channel.id == channelsId.na_party_pvp ||
+												interaction.channel.id == channelsId.eu_alliance_pve || interaction.channel.id == channelsId.eu_static_pve || interaction.channel.id == channelsId.eu_party_pve || interaction.channel.id == channelsId.eu_party_pvp ||
+												(interaction.channel.isThread() &&
+												(interaction.channel.parent.id == channelsId.jp_alliance_pve || interaction.channel.parent.id == channelsId.jp_static_pve || interaction.channel.parent.id == channelsId.jp_party_pve || interaction.channel.parent.id == channelsId.jp_party_pvp ||
+												interaction.channel.parent.id == channelsId.na_alliance_pve || interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
+												interaction.channel.parent.id == channelsId.eu_alliance_pve || interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
+											{
+												ChannelId.send("```!파티설명 [설명]```");
+											}
+											else
+											if(interaction.channel == channelsId.trade)
+											{
+												ChannelId.send("```!거래설명 [설명]```");
+											}
+										});
 									});
 								}
 							}
@@ -1103,22 +1114,22 @@ client.on("interactionCreate", async (interaction) =>
 							interaction.channel.parent.id == channelsId.na_alliance_pve || interaction.channel.parent.id == channelsId.na_static_pve || interaction.channel.parent.id == channelsId.na_party_pve || interaction.channel.parent.id == channelsId.na_party_pvp ||
 							interaction.channel.parent.id == channelsId.eu_alliance_pve || interaction.channel.parent.id == channelsId.eu_static_pve || interaction.channel.parent.id == channelsId.eu_party_pve || interaction.channel.parent.id == channelsId.eu_party_pvp)))
 						{
-							Embed.setDescription("<@" + interaction.member.id + ">님이 파티 모집글을 삭제하셨습니다.");
+							Embed.setDescription("<@" + interaction.member.id + ">님이 파티 모집글을 종료하셨습니다.");
 						}
 						else
 						if (interaction.channel != channelsId.fc && interaction.channel.parent == categorysId.fc)
 						{
-							Embed.setDescription("<@" + interaction.member.id  + ">님이 FC 홍보글을 삭제하셨습니다.");
+							Embed.setDescription("<@" + interaction.member.id  + ">님이 FC 홍보글을 종료하셨습니다.");
 						}
 						else
 						if (interaction.channel != channelsId.linkshell && interaction.channel.parent == categorysId.linkshell)
 						{
-							Embed.setDescription("<@" + interaction.member.id + ">님이 링크쉘 홍보글을 삭제하셨습니다.");
+							Embed.setDescription("<@" + interaction.member.id + ">님이 링크쉘 홍보글을 종료하셨습니다.");
 						}
 						else
 						if (interaction.channel == channelsId.trade)
 						{
-							Embed.setDescription("<@" + interaction.member.id + ">님이 해당 거래를 삭제하셨습니다.");
+							Embed.setDescription("<@" + interaction.member.id + ">님이 해당 거래를 종료하셨습니다.");
 						}
 						client.channels.cache.get(channelsId.log).send({ embeds: [Embed] });
 						interaction.message.delete();
@@ -1854,7 +1865,7 @@ client.on("interactionCreate", async (interaction) =>
 													const Button2 = new Discord.MessageButton()
 													.setStyle("DANGER")
 													.setCustomId("delete_message")
-													.setLabel("제거하기");
+													.setLabel("종료하기");
 													const row = new Discord.MessageActionRow().addComponents(Button1, Button2);
 													interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 													{
@@ -1941,7 +1952,7 @@ client.on("interactionCreate", async (interaction) =>
 												const Button2 = new Discord.MessageButton()
 												.setStyle("DANGER")
 												.setCustomId("delete_message")
-												.setLabel("제거하기");
+												.setLabel("종료하기");
 												const row = new Discord.MessageActionRow().addComponents(Button1, Button2);
 												interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 												{
@@ -2012,7 +2023,7 @@ client.on("interactionCreate", async (interaction) =>
 												const Button2 = new Discord.MessageButton()
 												.setStyle("DANGER")
 												.setCustomId("delete_message")
-												.setLabel("제거하기");
+												.setLabel("종료하기");
 												const row = new Discord.MessageActionRow().addComponents(Button1, Button2);
 												interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 												{
@@ -2114,7 +2125,7 @@ client.on("interactionCreate", async (interaction) =>
 												const Button2 = new Discord.MessageButton()
 												.setStyle("DANGER")
 												.setCustomId("delete_message")
-												.setLabel("제거하기");
+												.setLabel("종료하기");
 												const row = new Discord.MessageActionRow().addComponents(Button1, Button2);
 												interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 												{
@@ -2186,7 +2197,7 @@ client.on("interactionCreate", async (interaction) =>
 												const Button2 = new Discord.MessageButton()
 												.setStyle("DANGER")
 												.setCustomId("delete_message")
-												.setLabel("제거하기");
+												.setLabel("종료하기");
 												const row = new Discord.MessageActionRow().addComponents(Button1, Button2);
 												interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 												{
@@ -2264,7 +2275,7 @@ client.on("interactionCreate", async (interaction) =>
 												const Button2 = new Discord.MessageButton()
 												.setStyle("DANGER")
 												.setCustomId("delete_message")
-												.setLabel("제거하기");
+												.setLabel("종료하기");
 												const row = new Discord.MessageActionRow().addComponents(Button1, Button2);
 												interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 												{
@@ -2341,7 +2352,7 @@ client.on("interactionCreate", async (interaction) =>
 												const Button2 = new Discord.MessageButton()
 												.setStyle("DANGER")
 												.setCustomId("delete_message")
-												.setLabel("제거하기");
+												.setLabel("종료하기");
 												const row = new Discord.MessageActionRow().addComponents(Button1, Button2);
 												interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 												{
@@ -2409,7 +2420,7 @@ client.on("interactionCreate", async (interaction) =>
 												const Button2 = new Discord.MessageButton()
 												.setStyle("DANGER")
 												.setCustomId("delete_message")
-												.setLabel("제거하기");
+												.setLabel("종료하기");
 												const row = new Discord.MessageActionRow().addComponents(Button1, Button2);
 												interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 												{
@@ -2480,7 +2491,7 @@ client.on("interactionCreate", async (interaction) =>
 												const Button2 = new Discord.MessageButton()
 												.setStyle("DANGER")
 												.setCustomId("delete_message")
-												.setLabel("제거하기");
+												.setLabel("종료하기");
 												const row = new Discord.MessageActionRow().addComponents(Button1, Button2);
 												interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 												{
@@ -2552,7 +2563,7 @@ client.on("interactionCreate", async (interaction) =>
 												const Button2 = new Discord.MessageButton()
 												.setStyle("DANGER")
 												.setCustomId("delete_message")
-												.setLabel("제거하기");
+												.setLabel("종료하기");
 												const row = new Discord.MessageActionRow().addComponents(Button1, Button2);
 												interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 												{
@@ -2621,7 +2632,7 @@ client.on("interactionCreate", async (interaction) =>
 					const Button3 = new Discord.MessageButton()
 					.setStyle("DANGER")
 					.setCustomId("delete_message")
-					.setLabel("제거하기");
+					.setLabel("종료하기");
 					const row = new Discord.MessageActionRow().addComponents(Button1, Button2, Button3);
 					interaction.channel.send({ embeds: [Embed] ,components: [row] }).then(message =>
 					{
@@ -4219,7 +4230,7 @@ client.on("messageCreate", async (msg) =>
 					const Button3 = new Discord.MessageButton()
 					.setStyle("DANGER")
 					.setCustomId("delete_message")
-					.setLabel("제거하기");
+					.setLabel("종료하기");
 					const row = new Discord.MessageActionRow().addComponents(Button1, Button2, Button3);
 					message.edit({ embeds: [message.embeds[0]] ,components: [row] });
 				});
@@ -4531,7 +4542,7 @@ client.on('raw', async (packet) =>
 								if(success)
 								{
 									const oldEmojiName = fieldname[1].split(":", 2);
-									messageId.reactions.cache.find(reaction => reaction.emoji.name == oldEmojiName[1]).users.remove(member.id);
+									messageId.reactions.cache.find(reaction => reaction.emoji.name == oldEmojiName[1]).users.remove(member.id);// users 여기서 문제가 생김
 								}
 							}
 						}
@@ -5116,7 +5127,7 @@ async function sendMessage(msg, channel, text)
 {
 	try
 	{
-		if(channel != channelsId.log)
+		if(channel != channelsId.log && channel != channelsId.log_connect)
 		{
 			const channelId = client.channels.cache.get(channel);
 			channelId.send(text).then(message =>
@@ -5147,7 +5158,7 @@ async function editMessage(msg, channel, message, text)
 {
 	try
 	{
-		if(channel != channelsId.log)
+		if(channel != channelsId.log && channel != channelsId.log_connect)
 		{
 			const channelId = client.channels.cache.get(channel);
 			const messageId = await channelId.messages.fetch(message);
@@ -5180,7 +5191,7 @@ async function sendFile(msg, channel, file)
 {
 	try
 	{
-		if(channel != channelsId.log)
+		if(channel != channelsId.log && channel != channelsId.log_connect)
 		{
 			const channelId = client.channels.cache.get(channel);
 			channelId.send({ files:[file] }).then(message =>
@@ -5211,7 +5222,7 @@ async function removeMessage(msg, channel, message)
 {
 	try
 	{
-		if(channel != channelsId.log)
+		if(channel != channelsId.log && channel != channelsId.log_connect)
 		{
 			const channelId = client.channels.cache.get(channel);
 			const messageId = await channelId.messages.fetch(message);
@@ -5267,7 +5278,7 @@ async function addButton(msg, channel, message)
 {
 	try
 	{
-		if(channel != channelsId.log)
+		if(channel != channelsId.log && channel != channelsId.log_connect)
 		{
 			const channelId = client.channels.cache.get(channel);
 			const messageId = await channelId.messages.fetch(message);
@@ -5321,7 +5332,7 @@ async function addMenu(msg, channel, message)
 {
 	try
 	{
-		if(channel != channelsId.log)
+		if(channel != channelsId.log && channel != channelsId.log_connect)
 		{
 			const channelId = client.channels.cache.get(channel);
 			const messageId = await channelId.messages.fetch(message);
@@ -5497,9 +5508,12 @@ async function loadFile(msg, url)
 			}
 			else
 			{
-				msg.editReply({ content: "당신의 DM으로 인증코드가 전송되었습니다." });
 				msg.user.send("```당신의 인증코드는\n" + msg.user.id + "\n입니다.\n로드스톤에서 해당 캐릭터 프로필란에 입력 후 5분에서 10분 사이에 해당 디스코드 서버에서 다시 인증하십시오.```")
-				.then(message => { setTimeout(() => message.delete(), 60000); })
+				.then(message =>
+				{
+					msg.editReply({ content: "당신의 DM으로 인증코드가 전송되었습니다." });
+					setTimeout(() => message.delete(), 60000);
+				})
 				.catch(() => msg.editReply({ content: "DM을 허용하지 않으셨습니다.\n개인 DM을 먼저 허용을 해주세요." }));
 			}
 		}
