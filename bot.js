@@ -1051,9 +1051,9 @@ client.on("interactionCreate", async (interaction) =>
 								{
 									client.channels.cache.get(channelsId.dialog).threads.fetch(res.rows[0].dialog).then(ChannelId => 
 									{
-										thread.setArchived(false).then(() =>
+										ChannelId.setArchived(false).then(() =>
 										{
-											thread.members.add(interaction.member);
+											ChannelId.members.add(interaction.member);
 											dataBase.query("UPDATE UserSaveData SET Dialog_Channel_Id = " + interaction.channel.id + ", Dialog_Message_Id = " + interaction.message.id + " WHERE User_Id = '" + interaction.member.id +"'");
 											ChannelId.send("<@" + interaction.member.id + ">, <#" + interaction.channel.id + "> 의 글을 수정하시려면 아래의 명령어를 따라주세요.");
 											ChannelId.send({ embeds: [interaction.message.embeds[0]] });
